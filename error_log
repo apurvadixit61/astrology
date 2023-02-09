@@ -1,0 +1,92 @@
+[13-Jan-2023 13:05:15 UTC] PHP Fatal error:  Cannot declare class AstrologyApiClient, because the name is already in use in /home4/democdyb/public_html/astrologer/app/Http/Controllers/src/AstrologyApiClient.php on line 13
+[20-Jan-2023 07:44:31 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Apicontroller::user_chatlist() in /home4/democdyb/public_html/astrologer/app/Http/Controllers/Apicontroller.php on line 912
+[20-Jan-2023 09:43:25 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Apicontroller::user_chatlist() in /home4/democdyb/public_html/astrologer/app/Http/Controllers/Apicontroller.php on line 5174
+[20-Jan-2023 09:43:46 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Apicontroller::user_chatlist_old() in /home4/democdyb/public_html/astrologer/app/Http/Controllers/Apicontroller.php on line 5174
+[20-Jan-2023 11:00:21 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 400560128 bytes) in /home4/democdyb/public_html/astrologer/app/Http/Controllers/Front_end/UserController.php on line 73
+[20-Jan-2023 12:03:06 UTC] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Support\Collection::offsetExists($key) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php:1459
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(13): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Return type of ...', '/home4/democdyb...', 1459)
+#1 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(571): include('/home4/democdyb...')
+#2 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(428): Composer\Autoload\includeFile('/home4/democdyb...')
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php(15): Composer\Autoload\ClassLoader->loadClass('Illuminate\\Supp...')
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(130): collect(Array)
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(106): Illuminate\Foundation\PackageManifest->build()
+#6 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(89): Illuminate\Foundation\PackageManifest->getManifest()
+#7 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(78): Illuminate\Foundation\PackageManifest->config('aliases')
+#8 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate\Foundation\PackageManifest->aliases()
+#9 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(237): Illuminate\Foundation\Bootstrap\RegisterFacades->bootstrap(Object(Illuminate\Foundation\Application))
+#10 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(310): Illuminate\Foundation\Application->bootstrapWith(Array)
+#11 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(127): Illuminate\Foundation\Console\Kernel->bootstrap()
+#12 /home4/democdyb/public_html/astrologer/artisan(37): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 {main} in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php on line 13
+[20-Jan-2023 12:03:06 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Collection" not found in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php:15
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(24): collect(Array)
+#1 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(44): Illuminate\Foundation\Exceptions\ReportableHandler->closureParameterTypes(Object(Closure))
+#2 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/ReportableHandler.php(62): Illuminate\Foundation\Exceptions\ReportableHandler->firstClosureParameterType(Object(Closure))
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(234): Illuminate\Foundation\Exceptions\ReportableHandler->handles(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(88): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(130): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#6 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#7 {main}
+  thrown in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php on line 15
+[20-Jan-2023 12:09:24 UTC] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Support\Collection::offsetExists($key) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php:1459
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(13): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Return type of ...', '/home4/democdyb...', 1459)
+#1 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(571): include('/home4/democdyb...')
+#2 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(428): Composer\Autoload\includeFile('/home4/democdyb...')
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php(15): Composer\Autoload\ClassLoader->loadClass('Illuminate\\Supp...')
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(130): collect(Array)
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(106): Illuminate\Foundation\PackageManifest->build()
+#6 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(89): Illuminate\Foundation\PackageManifest->getManifest()
+#7 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(78): Illuminate\Foundation\PackageManifest->config('aliases')
+#8 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate\Foundation\PackageManifest->aliases()
+#9 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(237): Illuminate\Foundation\Bootstrap\RegisterFacades->bootstrap(Object(Illuminate\Foundation\Application))
+#10 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(310): Illuminate\Foundation\Application->bootstrapWith(Array)
+#11 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(127): Illuminate\Foundation\Console\Kernel->bootstrap()
+#12 /home4/democdyb/public_html/astrologer/artisan(37): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 {main} in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php on line 13
+[20-Jan-2023 12:09:24 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Collection" not found in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php:15
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(24): collect(Array)
+#1 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(44): Illuminate\Foundation\Exceptions\ReportableHandler->closureParameterTypes(Object(Closure))
+#2 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/ReportableHandler.php(62): Illuminate\Foundation\Exceptions\ReportableHandler->firstClosureParameterType(Object(Closure))
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(234): Illuminate\Foundation\Exceptions\ReportableHandler->handles(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(88): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(130): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#6 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#7 {main}
+  thrown in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php on line 15
+[20-Jan-2023 12:10:05 UTC] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Support\Collection::offsetExists($key) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php:1459
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(13): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8192, 'Return type of ...', '/home4/democdyb...', 1459)
+#1 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(571): include('/home4/democdyb...')
+#2 /home4/democdyb/public_html/astrologer/vendor/composer/ClassLoader.php(428): Composer\Autoload\includeFile('/home4/democdyb...')
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php(15): Composer\Autoload\ClassLoader->loadClass('Illuminate\\Supp...')
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(130): collect(Array)
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(106): Illuminate\Foundation\PackageManifest->build()
+#6 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(89): Illuminate\Foundation\PackageManifest->getManifest()
+#7 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(78): Illuminate\Foundation\PackageManifest->config('aliases')
+#8 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate\Foundation\PackageManifest->aliases()
+#9 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(237): Illuminate\Foundation\Bootstrap\RegisterFacades->bootstrap(Object(Illuminate\Foundation\Application))
+#10 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(310): Illuminate\Foundation\Application->bootstrapWith(Array)
+#11 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(127): Illuminate\Foundation\Console\Kernel->bootstrap()
+#12 /home4/democdyb/public_html/astrologer/artisan(37): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 {main} in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/Collection.php on line 13
+[20-Jan-2023 12:10:05 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Collection" not found in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php:15
+Stack trace:
+#0 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(24): collect(Array)
+#1 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Support/Traits/ReflectsClosures.php(44): Illuminate\Foundation\Exceptions\ReportableHandler->closureParameterTypes(Object(Closure))
+#2 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/ReportableHandler.php(62): Illuminate\Foundation\Exceptions\ReportableHandler->firstClosureParameterType(Object(Closure))
+#3 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(234): Illuminate\Foundation\Exceptions\ReportableHandler->handles(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#4 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(88): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#5 /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(130): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Symfony\Component\ErrorHandler\Error\FatalError))
+#6 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#7 {main}
+  thrown in /home4/democdyb/public_html/astrologer/vendor/laravel/framework/src/Illuminate/Collections/helpers.php on line 15
+[20-Jan-2023 13:03:19 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24
+[20-Jan-2023 13:03:38 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24
+[20-Jan-2023 13:03:56 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24
+[20-Jan-2023 13:04:01 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24
+[20-Jan-2023 13:04:28 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24
+[20-Jan-2023 13:04:35 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.27. in /home4/democdyb/public_html/astrologer/vendor/composer/platform_check.php on line 24

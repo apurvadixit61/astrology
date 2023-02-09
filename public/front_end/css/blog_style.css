@@ -1,0 +1,458 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400;1,500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.body {
+  background-image: url(https://collabdoor.com/astrology/back-img.png);
+  background-size: contain;
+}
+
+
+a:link,a:visited {
+    text-decoration: none !important;
+    color:black;
+}
+a:hover {
+    color:#fe870a  !important;
+}
+
+
+nav {
+  height: 100px;
+  top: 0;
+  left: 0;
+  padding: 15px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  margin: 5px 25px;
+  color: light rgb(171, 166, 166);
+  font-family: "Lato", sans-serif;
+  color: rgb(192, 187, 187);
+  font-weight: 600;
+  font-size: 18px;
+  font-style: normal;
+  line-height: 22px;
+  text-decoration: none;
+}
+ul {
+  margin: 5px 25px;
+  right: 190px;
+  top: 6%;
+  width: 100%;
+  text-decoration: none;
+}
+
+nav img {
+  height: 80px;
+  width: 80px;
+}
+
+nav button {
+  height: 55px;
+  width: 170px;
+  background-color: #fe870a;
+  border: none;
+  border-radius: 8px;
+  font-family: "Poppins" sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+}
+.img-one {
+  position: absolute;
+  right: 0px;
+  bottom: 210px;
+}
+
+.img-two {
+  position: absolute;
+  right: 0px;
+  bottom: 113px;
+}
+.img-three {
+  position: absolute;
+  right: 40px;
+  left: 769px;
+  bottom: 1px;
+}
+.left-one {
+  position: absolute;
+  left: -80px;
+  top: 47px;
+  height: 200px;
+}
+.left-two {
+  position: absolute;
+  left: -94px;
+  height: 289px;
+}
+.left-three {
+  position: absolute;
+  left: -11px;
+  top: 141px;
+}
+
+.first-sec {
+  height: 200px;
+  background-image: url(https://collabdoor.com/astrology/page-title.png);
+  background-size: contain;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.first-sec h1 {
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 50px;
+}
+.first-sec button {
+  width: 180px;
+  height: 45px;
+
+  background: rgba(255, 255, 255, 0.235);
+  border-radius: 100px;
+  border: none;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.first-sec button p {
+  font-weight: bold;
+  color: #fe870a;
+  margin-top: 10px;
+}
+.first-sec button h6 {
+  color: white;
+  margin-top: 10px;
+  font-size: 18px;
+}
+.blog-containe {
+  height: 600px;
+  margin-top: 50px;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.card-blog-con {
+  height: 60%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card-blog {
+  width: 492px;
+
+  border: 1px solid #efefef;
+  background: #ffffff;
+}
+
+.card-blog a {
+  margin-left: 30%;
+  font-size: 14px;
+  color: #fe870a;
+  text-decoration: none;
+  border-bottom: 1.06px solid coral;
+  font-family: "Lato", sans-serif;
+}
+.blog-heading {
+  height: 50%;
+  text-align: center;
+}
+.blog-heading h1 {
+  align-items: center;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 120%;
+  /* or 72px */
+
+  text-align: center;
+
+  color: #000000;
+}
+.blog-heading p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 180%;
+
+  margin-top: 50px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  font-family: "Lato", sans-serif;
+  color: #000000;
+}
+.card-text {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-family: "poppins", sans-serif;
+  font-style: normal;
+  font-weight: 200;
+  font-size: 14px;
+}
+.card-title-div p {
+  margin-left: 200px;
+}
+.card-title {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.card-img-top {
+  height: 180px;
+  margin-left: 9px;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+.free-kundli-input {
+  height: 958px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+.free-kundli-heading {
+  height: 230px;
+}
+.input input[type="text"]::placeholder {
+  text-align: center;
+  margin-left: 30px;
+}
+.free-kundli-heading img {
+  margin-left: 250px;
+}
+.free-kundli-heading h1 {
+  width: 615px;
+  height: 63px;
+  margin-left: 61px;
+  margin-top: 20px;
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 120%;
+  text-align: center;
+  color: #000000;
+}
+.free-kundli-res {
+  height: 600px;
+  width: 100%;
+  display: none;
+}
+
+.input input {
+  height: 50px;
+  width: 170px;
+  margin-top: 116px;
+  margin-left: 63px;
+  border: none;
+}
+
+form h1 {
+  position: absolute;
+  top: 90px;
+  left: 143px;
+  font-size: 20px;
+}
+form h2 {
+  position: absolute;
+  top: 90px;
+  left: 380px;
+  font-size: 20px;
+}
+form h3 {
+  position: absolute;
+  top: 90px;
+  left: 620px;
+  font-size: 20px;
+}
+form h4 {
+  position: absolute;
+  top: 90px;
+  left: 860px;
+  font-size: 20px;
+}
+
+.free-kundli-input p {
+  width: 738.96px;
+  height: 64px;
+  left: 349px;
+  top: 205px;
+  font-family: "Poppins'" sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 180%;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+.input button {
+  margin-left: 50px;
+  width: 170px;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  background: #fe870a;
+  color: white;
+  margin-top: 115px;
+}
+.img-div-input {
+  width: 240px;
+  height: 15px;
+  left: 599px;
+  top: 171px;
+  background-image: url(https://collabdoor.com/astrology/1-2-1\ 1.png);
+}
+
+.input {
+  height: 250px;
+  width: 95%;
+  background: #fff0e0;
+  display: flex;
+
+  justify-content: center;
+}
+.footer-dark {
+  padding: 50px 0;
+  color: #f0f9ff;
+  background-color: #282d32;
+}
+
+.footer-dark h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.footer-dark ul {
+  padding: 0;
+  list-style: none;
+  line-height: 1.6;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.footer-dark ul a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+.footer-dark ul a:hover {
+  opacity: 0.8;
+}
+.footers {
+  height: 500px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.footer-first-div {
+  width: 434px;
+  height: 128px;
+}
+.footer-first-div p {
+  color: white;
+}
+.footer-second-div {
+  width: 115px;
+  height: 259px;
+}
+.ul-head {
+  font-family: "Lato" sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+}
+.footers img {
+  margin-top: -300px;
+  margin-right: -200px;
+}
+.footers ul li {
+  color: white;
+  list-style: none;
+  margin-left: -50px;
+  margin-top: 22px;
+}
+.footer-third-div {
+  width: 105px;
+  height: 216px;
+  margin-top: -35px;
+}
+.footer-four-div {
+  width: 272px;
+  height: 203px;
+  margin-top: -35px;
+}
+.our-ul {
+  margin-left: -50px;
+  width: 64px;
+  height: 2px;
+  border-bottom: 2px solid red;
+  border: 2px solid #fe870a;
+  background-color: #fe870a;
+}
+@media (max-width: 991px) {
+  nav ul li {
+    display: none;
+  }
+  .first-sec {
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: auto;
+  }
+  .first-sec :no-button .img-one {
+    display: none;
+  }
+
+  .img-two {
+    display: none;
+  }
+  .img-three {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}

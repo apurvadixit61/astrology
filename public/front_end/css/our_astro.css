@@ -1,0 +1,534 @@
+/* Cosmetics styles */
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400;1,500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a:link,a:visited {
+    text-decoration: none !important;
+    color:black;
+}
+a:hover {
+    color:#fe870a  !important;
+}
+
+nav {
+  height: 100px;
+  top: 0;
+  left: 0;
+  padding: 15px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  margin: 5px 25px;
+  color: light rgb(171, 166, 166);
+  font-family: "Lato", sans-serif;
+  color: rgb(192, 187, 187);
+  font-weight: 600;
+  font-size: 18px;
+  font-style: normal;
+  line-height: 22px;
+}
+ul {
+  margin: 5px 25px;
+  right: 190px;
+  top: 6%;
+  width: 100%;
+}
+
+nav img {
+  height: 80px;
+  width: 80px;
+}
+
+nav button {
+  height: 55px;
+  width: 170px;
+  background-color: #fe870a;
+  border: none;
+  border-radius: 8px;
+  font-family: "Poppins" sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+}
+.img-one {
+  position: absolute;
+  right: 0px;
+  bottom: 210px;
+}
+
+.img-two {
+  position: absolute;
+  right: 0px;
+  bottom: 113px;
+}
+.img-three {
+  position: absolute;
+  right: 40px;
+  left: 769px;
+  bottom: 1px;
+}
+.left-one {
+  position: absolute;
+  left: -80px;
+  top: 47px;
+  height: 200px;
+}
+.left-two {
+  position: absolute;
+  left: -94px;
+  height: 289px;
+}
+.left-three {
+  position: absolute;
+  left: -11px;
+  top: 141px;
+}
+
+.first-sec {
+  height: 200px;
+  background-image: url('https://collabdoor.com/astrology/public/front_imgS/page-title\ 1.png');
+  background-size: contain;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.first-sec h1 {
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 50px;
+}
+.first-sec button {
+  width: 208px;
+  height: 45px;
+  margin-bottom: 100px;
+  background: rgba(255, 255, 255, 0.235);
+  border-radius: 100px;
+  border: none;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.first-sec button p {
+  font-weight: bold;
+  color: #fe870a;
+  margin-top: 12px;
+}
+.first-sec button h6 {
+  color: white;
+  margin-top: 8px;
+}
+
+.cards {
+  display: flex;
+  margin-top: 50px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 445px;
+  height: 183px;
+
+  background: #ffffff;
+  border: 1px solid #efefef;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+.card-one img {
+  height: 130px;
+}
+.card-img-sec {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.second-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.card-one {
+  position: relative;
+}
+.rate {
+  width: 200px;
+}
+.btn-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blue {
+  display: flex;
+  margin-left: 40px;
+  width: 240px;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-div p {
+  margin-left: 20px;
+  margin-top: 10px;
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+
+  color: #272640;
+}
+.second-div input {
+  width: 400px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(204, 204, 204, 0.8);
+  box-shadow: 0px 2px 48px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+.second-div button {
+  width: 120px;
+  height: 45px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  box-shadow: 0px 2px 48px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  margin-left: 30px;
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  text-decoration: none;
+  letter-spacing: 0.5px;
+
+  color: #272640;
+}
+.card-one {
+  width: 415px;
+  height: 183px;
+
+  background: #ffffff;
+  border: 1px solid #efefef;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+
+  background-size: contain;
+}
+.card-title-div {
+  display: flex;
+  flex-direction: column;
+  margin-left: -10px;
+}
+.sort-btn {
+  width: 60px;
+  height: 22px;
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  margin-left: 200px;
+}
+.icon {
+  display: flex;
+
+  width: 130px;
+  height: 50px;
+  margin-left: 60px;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: -10px;
+  position: absolute;
+  bottom: 3px;
+  right: 10px;
+}
+.icon button {
+  width: 35px;
+  height: 35px;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 50%;
+  border: none;
+  margin-left: 2px;
+}
+.card-title-div h1 {
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  text-align: center;
+  color: #000000;
+  margin-left: -30px;
+}
+.card-title-div p {
+  font-family: "Poppins" sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  /* identical to box height */
+  margin-left: 20px;
+  text-align: center;
+  margin-top: 40px;
+  color: #979797;
+}
+.card-title-div h5 {
+  margin-left: 85px;
+  font-family: "Poppins" sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.card-title-div p,
+p {
+  font-family: "Poppins" sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 160%;
+  /* or 26px */
+  margin-top: -10px;
+
+  color: #979797;
+}
+
+.card-one h1 {
+  margin-left: 50px;
+}
+
+.Our-astro {
+  background-image: url('https://collabdoor.com/astrology/public/front_img/New-Project\ copy\ 3.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.Services-heading {
+  height: 50%;
+  width: 100%;
+}
+.Services-heading h1 {
+  align-items: center;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 120%;
+  /* or 72px */
+
+  text-align: center;
+  margin: revert;
+  margin-top: 100px;
+  color: #000000;
+}
+.Services-heading img {
+  margin-bottom: 30px;
+}
+.s .Service {
+  background-image: url('https://collabdoor.com/astrology/public/front_img/New-Project\ copy\ 3.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 700px;
+}
+.Service h1 {
+  /* Free Kundli Online */
+
+  align-items: center;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 120%;
+  /* or 72px */
+
+  text-align: center;
+  margin: revert;
+  margin-top: 100px;
+  color: #000000;
+}
+.Service p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 180%;
+  margin-top: 30px;
+  /* or 32px */
+
+  text-align: center;
+  letter-spacing: 0.02em;
+
+  color: #000000;
+}
+.img-div-input {
+  width: 240px;
+  height: 15px;
+  left: 599px;
+  top: 171px;
+  background-image: url('https://collabdoor.com/astrology/public/front_img/1-2-1\ 1.png');
+}
+.Services {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 52px;
+  height: 50%;
+}
+
+.first-serv {
+  height: 380px;
+  width: 90%;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.serv-one {
+  box-sizing: border-box;
+
+  flex-direction: column;
+  width: 294px;
+  height: 374px;
+
+  background: #ffffff;
+
+  border-radius: 10px;
+}
+.star-div {
+  height: 20px;
+  width: 100px;
+  margin-top: 139px;
+  margin-left: -141px;
+  background-color: white;
+}
+
+.first-sec {
+  height: 300px;
+  background-image: url('https://collabdoor.com/astrology/public/front_img/page-title.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.checked {
+  color: orange;
+}
+
+.footers {
+  height: 500px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 300px;
+}
+.footer-first-div {
+  width: 434px;
+  height: 128px;
+}
+.footer-first-div p {
+  color: white;
+}
+.footer-second-div {
+  width: 115px;
+  height: 259px;
+}
+.footers img {
+  margin-top: -300px;
+  margin-right: -200px;
+}
+.footers ul li {
+  color: white;
+  list-style: none;
+  margin-left: -50px;
+  margin-top: 22px;
+}
+.footer-third-div {
+  width: 105px;
+  height: 216px;
+  margin-top: -35px;
+}
+.footer-four-div {
+  width: 272px;
+  height: 203px;
+  margin-top: -35px;
+}
+.our-ul {
+  margin-left: -50px;
+  width: 64px;
+  height: 2px;
+  border-bottom: 2px solid red;
+  border: 2px solid #fe870a;
+}
+::placeholder {
+  text-align: center;
+  margin-left: 240px;
+}
+@media (max-width: 991px) {
+  nav ul li {
+    display: none;
+  }
+  .first-sec {
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: auto;
+  }
+  .first-sec :no-button .img-one {
+    display: none;
+  }
+
+  .img-two {
+    display: none;
+  }
+  .img-three {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}

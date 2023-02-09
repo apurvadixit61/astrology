@@ -1,0 +1,516 @@
+/*mobile-view*/
+@media only screen and (max-width:767px){
+    #search_panel .search-background {
+    padding: 10px 10px;
+    }
+.mobile_nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.mobile_nav a img {
+    width: 100px;
+    margin-top: 10px;
+}
+.destop_logo {
+    display: none;
+}
+
+.search_bar {
+    float: left;
+    width: 300px;
+    position: relative;
+    margin: 0px 0 0;
+}
+.top_header {
+  
+    padding: 10px 0;
+}
+#main_nav ul li a {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+.mobile_nav {
+    display: block;
+}
+span.navbar-toggler-icon img {
+    padding: 18px 0;
+}
+
+.search_bar {
+    width: 100%;
+    margin: 10px 0 0;
+}
+.top_header ul {
+    float: left;
+    width: 100%;
+}
+.carousel-caption .btn.primary-btn {
+    font-size: 18px;
+    padding: 10px 30px;
+}
+
+.carousel-caption p {
+    font-size: 15px;
+    padding: 0;
+    line-height: 22px;
+    margin: 10px 0;
+}
+.carousel-caption h3 {
+    font-size: 25px;
+    
+}
+.carousel-caption {
+    bottom: 25px;
+}
+
+#about_panel .tt-title {
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#about_panel .sub_title {
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+#about_panel .btn.btn-secondry {
+    margin-top: 10px;
+    padding: 10px 35px;
+}
+.tt-title {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+.tt-title a {
+    font-size: 14px;
+
+    top: 5px;
+ 
+}
+
+.btn.default-btn {
+    background: #fff;
+    color: #ED1C24;
+    padding: 10px 35px;
+}
+.product_card img {
+    width: auto;
+    max-width: 100%;
+}
+.product_card a {
+    text-align: center;
+}
+#about_panel p {
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.add-logo {
+    width: 110px;
+    position: static;
+    bottom: 0;
+    left: 0;
+    display: block;
+    text-align: center;
+    margin: auto;
+}
+.add-title {
+    font-size: 14px;
+    line-height: 38px;
+}
+
+.add-title span {
+    font-size: 18px;
+    letter-spacing: 0px;
+    margin: 0 4px;
+}
+
+.client-img a {
+    border-radius: 15px;
+    margin-top: 10px;
+}
+
+.sidebar h3 {
+    font-size: 30px;
+    color: #ED1C24;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+    
+}
+
+@media only screen and (max-width:580px){
+    .mobile_nav {
+    display: block;
+    padding: 0 15px;
+}
+
+section#banner_outer img {
+    height: 300px;
+  
+}
+.carousel-item:before {
+  height: 300px;
+     background-size: cover;
+         background-position: center;
+}
+
+img.footer-logo {
+    width: 100px;
+}
+
+    
+}
+
+@media only screen and (max-width:480px){
+    
+    .top_header li a {
+   
+    font-size: 12px;
+ 
+}
+
+.carousel-caption p {
+    font-size: 12px;
+    padding: 0;
+    line-height: 18px;
+    margin: 10px 0;
+}
+.carousel-caption {
+    bottom: 40px;
+}
+.carousel-caption h3 {
+    font-size: 20px;
+}
+
+#about_panel .tt-title {
+   
+    font-size: 18px;
+   
+}
+
+#about_panel .sub_title {
+    margin-bottom: 0;
+    font-size: 20px;
+}
+#about_panel .btn.btn-secondry {
+    margin-top: 10px;
+    padding: 7px 30px;
+    font-size: 15px;
+}
+.product_card.primary-bg h3 {
+    font-size: 20px;
+}
+.add-title {
+    font-size: 14px;
+  
+    text-align: center;
+    line-height: 23px;
+    padding: 5px 0;
+}
+
+.footer-bottom p {
+    text-align: center;
+}
+.footer-bottom {
+   
+    padding: 10px 0;
+   
+}
+
+.footer-bottom .text-right {
+    text-align: center !important;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -77px;
+}
+.owl-carousel .owl-nav button.owl-next {
+    left: auto;
+    right: 0;
+}
+
+.inner_page_banner .carousel-caption .btn.primary-btn {
+  
+    font-size: 15px;
+   
+    padding: 10px 40px;
+}
+.single_page_title h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+#team {
+    padding: 15px 0;
+    background: #F0F0F0;
+}
+
+.single_page_title p {
+    text-align: center;
+    text-transform: capitalize;
+    margin: 0px 0 15px;
+}
+.trainer-content h3 {
+    font-size: 22px;
+}
+.thankyou-content {
+    padding: 0 0 0 0px;
+}
+.top_header ul li::before {
+   display:none;
+}
+.top_header ul li {
+    margin-left: 15px;
+    border: none !important;
+}
+
+.form-book .input-group {
+    display: inline-block;
+    width: 115px;
+    float: right;
+}
+
+.form-book .form-control {
+    width: 45px;
+    display: inline-block;
+    margin: 0px 6px;
+}
+
+
+
+}
+@media only screen and (max-width:320px){
+    .tt-title {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+    
+}
+/*large-laptop-screen-start*/
+@media only screen and (min-width: 1400px) and (max-width: 1600px){
+
+}
+/*large-laptop-screen-end*/
+
+
+/*laptop-screen-start*/
+@media only screen and (min-width: 1200px) and (max-width: 1399px){
+
+}
+/*laptop-screen-end*/
+
+
+/*mini-laptop-screen-start*/
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+#main_nav .nav-item {
+    position: relative;
+    border-radius: 0;
+    margin-left: 35px !important;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.carousel-caption .btn.primary-btn {
+
+    padding: 10px 40px;
+}
+.btn.default-btn {
+   
+    padding: 10px 40px;
+   
+}
+.tt-title {
+   
+    margin-bottom: 7px;
+   
+}
+#about_panel .sub_title {
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+#about_panel p {
+    font-size: 15px;
+    line-height: 29px;
+}
+#about_panel .btn.btn-secondry {
+    margin-top: 13px;
+    padding: 10px 40px;
+}
+.product-price {
+    
+    margin-bottom: 5px;
+}
+.course_content h2, .product_card h3 {
+  
+    font-size: 15px;
+  
+}
+.course_content h3, .product_card h4 {
+   
+    font-size: 11px;
+   
+}
+.add-title {
+   
+    font-size: 16px;
+   
+}
+.add-title span {
+    font-size: 20px;
+    letter-spacing: -1px;
+   
+}
+.search_bar {
+    float: right;
+    width: 280px;
+    position: relative;
+    margin: 12px 0 0;
+}
+}
+/*mini-laptop-screen*/
+
+
+/*tablet-start*/
+@media only screen and (min-width: 768px) and (max-width: 991px){
+.mobile_nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.mobile_nav a img {
+    width: 100px;
+    margin-top: 10px;
+}
+.destop_logo {
+    display: none;
+}
+
+.search_bar {
+    float: left;
+    width: 300px;
+    position: relative;
+    margin: 0px 0 0;
+}
+.top_header {
+  
+    padding: 10px 0;
+}
+#main_nav ul li a {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+.mobile_nav {
+    display: block;
+}
+span.navbar-toggler-icon img {
+    padding: 18px 0;
+}
+
+.carousel-caption .btn.primary-btn {
+   
+    padding: 10px 35px;
+}
+.carousel-caption p {
+    font-size: 15px;
+    padding: 0 5%;
+    line-height: 20px;
+    margin: 15px 0;
+}
+.search_bar {
+   
+    width: 270px;
+    
+}
+#about_panel .tt-title {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 20px;
+     font-size: 25px;
+}
+#about_panel .btn.btn-secondry {
+    margin-top: 10px;
+    padding: 10px 35px;
+}
+.tt-title {
+   
+    font-size: 25px;
+}
+#about_panel .sub_title {
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+#about_panel p {
+    font-size: 15px;
+    line-height: 25px;
+}
+
+ .btn.default-btn {
+  
+    padding: 10px 35px;
+}
+.add-logo {
+    width: 100px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+}
+.add-title {
+    font-size: 12px;
+    margin-top: 6px;
+    line-height: inherit;
+}
+
+.add-title span {
+    font-size: 15px;
+    letter-spacing: 0px;
+    margin: 0 4px;
+}
+
+.add-panel .btn.primary-btn {
+  
+    padding: 15px 10px;
+    width: 135px;
+}
+
+.client-img a {
+     border-radius: 15px;
+       margin-top: 15px;
+}
+.client-img {
+    margin-top: 20px;
+}
+
+.pricing-table .ptable-item {
+    width: 50% !important;
+}
+
+.sidebar h3 {
+    font-size: 30px;
+    color: #ED1C24;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+}
+/*tablet-end*/
+
+
+/*mobile-screen-start*/
+@media only screen and (min-width: 300px) and (max-width: 767px){
+
+}
+/*mobile-screen-end*/

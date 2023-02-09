@@ -1,0 +1,437 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400;1,500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+nav {
+  height: 100px;
+  top: 0;
+  left: 0;
+  padding: 15px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+a:link,a:visited {
+    text-decoration: none !important;
+    color:black;
+}
+a:hover {
+    color:#fe870a  !important;
+}
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  margin: 5px 25px;
+  color: light rgb(171, 166, 166);
+  font-family: "Lato", sans-serif;
+  color: rgb(192, 187, 187);
+  font-weight: 600;
+  font-size: 18px;
+  font-style: normal;
+  line-height: 22px;
+}
+ul {
+  margin: 5px 25px;
+  right: 190px;
+  top: 6%;
+  width: 100%;
+}
+
+nav img {
+  height: 80px;
+  width: 80px;
+}
+
+nav button {
+  height: 55px;
+  width: 170px;
+  background-color: #fe870a;
+  border: none;
+  border-radius: 8px;
+  font-family: "Poppins" sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+}
+
+.img-one {
+  position: absolute;
+  right: 0px;
+  bottom: 210px;
+}
+
+.img-two {
+  position: absolute;
+  right: 0px;
+  bottom: 113px;
+}
+.img-three {
+  position: absolute;
+  right: 40px;
+  left: 769px;
+  bottom: 1px;
+}
+.left-one {
+  position: absolute;
+  left: -103px;
+  top: 70px;
+  height: 200px;
+}
+
+.left-two {
+  position: absolute;
+  left: -72px;
+  height: 289px;
+}
+.left-three {
+  position: absolute;
+  left: -48px;
+  top: 49px;
+}
+.first-sec {
+  height: 200px;
+  background-image: url(https://collabdoor.com/astrology/public//front_img/page-title.png);
+  background-size: contain;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.first-sec h1 {
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 50px;
+}
+.first-sec button {
+  width: 200px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.235);
+  border-radius: 100px;
+  border: none;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.first-sec button p {
+  font-weight: bold;
+  color: #fe870a;
+  margin-top: 12px;
+}
+.first-sec button h6 {
+  color: white;
+  margin-top: 8px;
+}
+
+.serv-one img {
+  height: 80px;
+  margin-left: 86px;
+  margin-top: 48px;
+}
+.serv-one h5 {
+  margin-left: 46px;
+  margin-top: 40px;
+  font-style: normal;
+  font-family: "Poppins" sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.serv-one p {
+  font-family: "poppins" sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  margin: 20px;
+
+  color: #918a84;
+}
+.serv-one {
+  width: 264px;
+  height: 374px;
+
+  background: #ffffff;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+}
+.Services {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 52px;
+  height: 50%;
+}
+.first-serv {
+  height: 380px;
+  width: 90%;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.Client-sec {
+  height: 771px;
+}
+.Client-sec-second {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 100px;
+}
+.testm {
+  display: flex;
+  margin-top: 45px;
+  margin-left: 70px;
+}
+
+.testm h3 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin-left: 10px;
+}
+.testm h4 {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-top: 27px;
+  margin-left: -111px;
+}
+.testmsecond h3 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin-top: -75px;
+  margin-left: 60px;
+}
+.testmsecond h4 {
+  font-family: "poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  margin-top: 7 px;
+  margin-left: 60px;
+}
+.testmsecond {
+  margin-left: -100px;
+  margin-top: -160px;
+}
+
+.Client-sec h1 {
+  font-family: "Lato" sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 120%;
+  /* or 72px */
+
+  text-align: center;
+
+  color: #000000;
+}
+.Client-sec p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 180%;
+  /* or 32px */
+
+  text-align: center;
+  letter-spacing: 0.02em;
+
+  color: #000000;
+}
+.img-div-input {
+  width: 240px;
+  height: 15px;
+  margin-left: 599px;
+  margin-top: 171px;
+  background-image: url(./IMAGE/1-2-1\ 1.png);
+}
+.client-div-first {
+  box-sizing: border-box;
+
+  /* Auto layout */
+
+  flex-direction: row;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  width: 465px;
+  height: 319px;
+
+  background: #ffffff;
+
+  box-shadow: 0px 13.0963px 43px rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+}
+
+.client-div-first p {
+  margin-top: 40px;
+
+  margin-left: -60px;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 180%;
+  /* or 32px */
+
+  color: #979797;
+}
+.client-img-div {
+  width: 81px;
+  height: 81px;
+  margin-left: -60px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+  margin-left: -30px;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://collabdoor.com/astrology/public/front_img/Ellipse 4.png');
+}
+.client-img-div-second {
+  width: 81px;
+  height: 81px;
+  margin-left: -30px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://collabdoor.com/astrology/public/front_img/Ellipse 5.png');
+}
+.star-div {
+  height: 20px;
+  width: 120px;
+  margin-top: 139px;
+  margin-left: -141px;
+  background-color: white;
+}
+.star-div-client {
+  height: 20px;
+  width: 100px;
+  background-color: white;
+  margin-left: 60px;
+}
+.checked {
+  color: orange;
+}
+.footers {
+  height: 500px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.footer-first-div {
+  width: 434px;
+  height: 128px;
+}
+.footer-first-div p {
+  color: white;
+}
+.footer-second-div {
+  width: 115px;
+  height: 259px;
+}
+.footers img {
+  margin-top: -300px;
+  margin-right: -200px;
+}
+.footers ul li {
+  color: white;
+  list-style: none;
+  margin-left: -50px;
+  margin-top: 22px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+}
+.footer-third-div {
+  width: 105px;
+  height: 216px;
+  margin-top: -35px;
+}
+.footer-four-div {
+  width: 272px;
+  height: 203px;
+  margin-top: -35px;
+}
+.our-ul {
+  margin-left: -50px;
+  width: 64px;
+  height: 2px;
+  border-bottom: 2px solid red;
+  border: 2px solid #fe870a;
+}
+.footer-first-div p {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+@media (max-width: 991px) {
+  nav ul li {
+    display: none;
+  }
+  .first-sec {
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: auto;
+  }
+  .first-sec :no-button .img-one {
+    display: none;
+  }
+
+  .img-two {
+    display: none;
+  }
+  .img-three {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .first-sec {
+    width: 100%;
+  }
+}
+
+.link a{
+    color:#fe870a !important;
+    
+}
