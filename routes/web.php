@@ -61,7 +61,7 @@ Route::get('/getHoroChartImage', 'App\Http\Controllers\Front_end\HomeController@
 Route::get('/getAntarDasha/{major_dasha}', 'App\Http\Controllers\Front_end\HomeController@getAntarDasha');
 Route::get('/getPratyantarDasha/{major_dasha}/{antar_dasha}', 'App\Http\Controllers\Front_end\HomeController@getPratyantarDasha');
 Route::get('/getSookshmadasha/{major_dasha}/{antar_dasha}/{prantar_dasha}', 'App\Http\Controllers\Front_end\HomeController@getSookshmadasha');
-Route::get('/dailyHoroscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@dailyHoroscope');
+Route::get('/dailyHoroscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@dailyHoroscope')->name('dailyHoroscope');
 Route::get('/chat-with-astrologer','App\Http\Controllers\Front_end\HomeController@chatWithAstrologer');
 Route::get('/call-with-astrologer','App\Http\Controllers\Front_end\HomeController@callWithAstrologer');
 Route::match(array('GET', 'POST'), 'getKundli', 'App\Http\Controllers\Front_end\HomeController@getKundli')->name('getKundli');

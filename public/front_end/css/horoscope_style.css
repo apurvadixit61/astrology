@@ -178,6 +178,10 @@ nav button {
   border-radius: 10px;
 }
 
+.box-one:hover{
+border: 2px solid #fe870a;
+color:#fe870a;
+}
 .box-one-div {
   width: 59.92px;
   height: 60px;
@@ -188,8 +192,12 @@ nav button {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom:1rem;
 }
+.box-one:hover + .box-one-div{
 
+border: 2px solid #fe870a;
+}
 .box-one h1 {
   width: 48.93px;
   height: 27px;

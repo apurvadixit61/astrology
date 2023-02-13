@@ -91,7 +91,7 @@
                 <div class="row  mx-2">
                     <div class="col-md-6">
                         <p style="margin-top: 30px;">Basic Details</p>
-
+    
                         <div class="Basic-details">
 
                             <table style="width:100%">
@@ -99,7 +99,8 @@
 
                                     <td class="td_style" style="border-top-left-radius: 12px;" colspan="2">Name</td>
                                     <td class="td_style" style="border-top-right-radius: 12px;" colspan="2">
-                                        {{ $responseData1->Karan }}</td>
+                                    {{$input['full_name']}}
+                                        </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Date</td>

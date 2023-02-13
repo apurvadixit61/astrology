@@ -624,7 +624,7 @@
  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js"></script>
     <script>
-var base_url = location.protocol+'//'+location.host+'/astrology'
+var base_url = location.protocol+'//'+location.host
 
 console.log(base_url)
     const firebaseConfig = {
@@ -696,7 +696,7 @@ console.log(base_url)
     src='https://maps.google.com/maps/api/js?key=AIzaSyCZOsCzOOTKFoXCDI9e1yZvVCOTvDonerg&libraries=places'></script>
 
 <script>
-var base_url = location.protocol+'//'+location.host+'/astrology'
+var base_url = location.protocol+'//'+location.host
 
 $(document).on('keyup', '#front-search-field', function() {
     autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field"));

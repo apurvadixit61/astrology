@@ -352,6 +352,12 @@ class AstrologyApiClient  extends Controller
         return $this->callSunSignDailyPrediction($resourceName, $timezone);
     }
 
+    public function getConsolidatedPrediction($zodiacSign, $timezone)
+    {
+        $resourceName = 'sun_sign_consolidated/daily/'.$zodiacSign;
+        return $this->callSunSignDailyPrediction($resourceName, $timezone);
+    }
+
     public function getDailyNakshatraPrediction($date, $month, $year, $hour, $minute, $latitude, $longitude, $timezone)
     {
         $resourceName = 'daily_nakshatra_prediction';

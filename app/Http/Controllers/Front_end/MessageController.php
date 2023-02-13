@@ -38,7 +38,11 @@ class MessageController extends Controller
 
     public function chat($id)
     {
-      
+      return view('front_end.users.chats');
+    }
+
+    public function chats($id,$user_id)
+    {
         $current_user=Auth::guard('users')->user();
     //     $id=Auth::guard('users')->user()->id;
     //  $current_user=DB::table('users')->where('id',$user_id)->first();
@@ -65,11 +69,6 @@ class MessageController extends Controller
            print_r(Auth::guard('users')->user());
            print_r($id);
         return view('front_end.users.chats');
-    }
-
-    public function chats($id,$user_id)
-    {
-        echo "in mesage controller";
 
     }
 

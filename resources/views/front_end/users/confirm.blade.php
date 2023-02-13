@@ -192,7 +192,7 @@ var intervalId = window.setInterval(function() {
 }, 5000);
 
 function checkIsaccepted() {
-    var base_url = location.protocol+'//'+location.host+'/astrology'
+    var base_url = location.protocol+'//'+location.host
 
     var url = base_url+'/user/chat-accepted'
 
@@ -211,7 +211,7 @@ function checkIsaccepted() {
                 if(result !=0)
                 {
                   console.log(result.to_user_id)
-                    location.href = 'http://collabdoor.com/astrology/user/chat/'+result.to_user_id;
+                    location.href = 'http://collabdoor.com/user/chat/'+result.to_user_id;
 
                 }
 
