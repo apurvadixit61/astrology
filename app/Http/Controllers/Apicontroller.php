@@ -4510,7 +4510,7 @@ return response()->json($data, 200);
 
         $fields = array
         (
-           'to'=>$device_token,
+             'to'=>$device_token,
             'notification'    => $msg,
             'priority' => 'high'
         );
@@ -5963,6 +5963,138 @@ $data=array('data'=>$url,'status'=>true,'message'=>"Kundali Inserted successfull
 // var_dump($resp);
     
 }
+
+
+
+// chat accpet reqquest
+
+public function send_request(Request $request)
+{
+
+ $current_user=$request->user_id;
+ $user_id=$request->to_user_id;
+ $to_user_id=$request->to_user_id;
+ $available_balance=DB::table('wallet_system')->where('user_id',$user_id)->first();
+ $astrologer = DB::table('users')->where('id',$request->to_user_id)->first();
+ $device_token=$astrologer->device_id;
+ $serverKey = 'AAAAATwqS-8:APA91bEaQYb6gSYWm1sGhuNYOkb9Srw4R1vaj5pLNtYjOTsYf3T7ZcJrMDoy2ew-pjTANJ2pEIhyzMQeWgr0bEzoleQPnLBIpsy1QuC7qvs0ku0fd_ZPd71ImS0rTlArb3U9C1mznmpS';
+if($astrologer)
+{
+    $astro_charge=$astrologer->per_minute * 5;
+    if($astro_charge <= $available_balance->wallet_amount )
+    {
+       
+        $insert= ['from_user_id'=>$request->from_user_id,'to_user_id'=>$request->to_user_id,'status'=>'Pending'];
+        $response= DB::table('chat_requests')->insert($insert);  
+
+        if(!defined( 'API_ACCESS_KEY')){
+            define( 'API_ACCESS_KEY',$serverKey );
+        }
+
+        $msg = array
+            (
+            'body'  =>'Chat request',
+            'title' => 'New chat request',
+            'icon'  => 'astro.png',
+            'image' =>''
+
+        );
+
+
+
+        $fields = array
+        (
+             'to'=>$device_token,
+             'notification'    => $msg,
+             'priority' => 'high'
+        );
+        $headers = array
+        (
+        'Authorization: key=' . API_ACCESS_KEY,
+        'Content-Type: application/json'
+        );
+        #Send Reponse To FireBase Server
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode($fields));
+        $result = curl_exec($ch);
+        curl_close( $ch );
+   
+        $data['data'] = 'Send request successfully';
+        $data['status'] = true;
+        //     $data['message'] = "list";
+    
+    }else{
+
+   $message ='Minimum balance of 5 minutes (INR '.$astro_charge.') is required to start chat with '.$astrologer->name;
+   $response =['status'=>false,'message'=>$message];   
+   //return json_encode($response);
+
+         $data['data'] =$response;
+      //   $data['status'] = false;
+       //  $data['message'] = "No data found";
+        // return json_encode($data);
+
+    }
+
+    return json_encode($data);
+
+
+
+
+}
+
+
+    
+}
+
+public function chat_accept(Request $request)
+{
+     $status=[];
+     $id= $request->id;
+
+    //   return $request->data;
+   $status= DB::table('chat_requests')->where(['from_user_id'=>$id,'to_user_id'=>$request->to_user_id,'status'=>'Approve'])->orderBy('id', 'DESC')->first();
+   if(!empty($status)){
+    $data['data'] = $status;
+    $data['status'] = true;
+    $data['message'] = "list";
+    }else{
+
+     $data['data'] ="Astrologer does not found while you contact active astrologer";
+     $data['status'] = false;
+     $data['message'] = "No data found";
+    }
+
+    return json_encode($data);
+
+}
+
+    public function approve_request(Request $request)
+    {
+    $update= ['status'=>'Approve'];
+    $user= DB::table('chat_requests')->where('id',$request->id)->first();
+    DB::table('chat_requests')->where(['id'=>$request->id,'status'=>'Pending'])->update($update);
+    if($user){
+    $data['data'] = $user;
+    $data['status'] = true;
+    $data['message'] = "list";
+    }else{
+
+     $data['data'] = 'Does not data found';
+     $data['status'] = false;
+     $data['message'] = "No data found";
+    }
+
+    return json_encode($data);
+   // return $user;
+
+}
+
 
 
 }

@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 .body {
-  background-image: url(https://collabdoor.com/astrology/public//front_img/back-img.png);
+  background-image: url(https://collabdoor.com/public//front_img/back-img.png);
   background-size: contain;
 }
 a:link,a:visited {
@@ -74,7 +74,7 @@ nav button {
   height: 702px;
 
   background-image: linear-gradient(rgb(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url(https://collabdoor.com/astrology/public//front_img/astrology-horoscope-pattern-texture-background-graphic-design_41691-2670\ 1.png);
+    url(https://collabdoor.com/public//front_img/astrology-horoscope-pattern-texture-background-graphic-design_41691-2670\ 1.png);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -421,7 +421,7 @@ nav button {
   height: 15px;
   left: 599px;
   top: 171px;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/1-2-1\ 1.png);
+  background-image: url(https://collabdoor.com/public//front_img/1-2-1\ 1.png);
 }
 .Services {
   display: flex;
@@ -490,7 +490,7 @@ nav button {
   margin-left: 30px;
 }
 .div-img {
-  background-image: url(https://collabdoor.com/astrology/public//front_img/back.png);
+  background-image: url(https://collabdoor.com/public//front_img/back.png);
   background-size: cover;
 }
 .icon {
@@ -721,7 +721,7 @@ p {
   height: 537px;
   margin-left: 60px;
   margin-top: 100px;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/about-atrology\ 1.png);
+  background-image: url(https://collabdoor.com/public//front_img/about-atrology\ 1.png);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1082,7 +1082,7 @@ p {
   height: 15px;
   margin-left: 599px;
   margin-top: 171px;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/1-2-1\ 1.png);
+  background-image: url(https://collabdoor.com/public//front_img/1-2-1\ 1.png);
 }
 .client-div-first {
   box-sizing: border-box;
@@ -1126,7 +1126,7 @@ p {
   margin-left: -30px;
   align-items: center;
   justify-content: center;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/Ellipse\ 4.png);
+  background-image: url(https://collabdoor.com/public//front_img/Ellipse\ 4.png);
 }
 .client-img-div-second {
   width: 81px;
@@ -1138,7 +1138,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/Ellipse\ 5.png);
+  background-image: url(https://collabdoor.com/public//front_img/Ellipse\ 5.png);
 }
 .blog-containe {
   height: 600px;
@@ -1344,7 +1344,7 @@ p {
   height: 15px;
   left: 599px;
   top: 171px;
-  background-image: url(https://collabdoor.com/astrology/public//front_img/1-2-1\ 1.png);
+  background-image: url(https://collabdoor.com/public//front_img/1-2-1\ 1.png);
 }
 
 .input {

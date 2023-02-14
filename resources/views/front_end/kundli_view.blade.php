@@ -1360,7 +1360,7 @@ getPlanetaryReport();
 getRudhraksSuggest()
 
 function getRudhraksSuggest() {
-    var url = 'https://collabdoor.com/astrology/getRudhraksSuggest'
+    var url = 'https://collabdoor.com/getRudhraksSuggest'
 
     $.ajax({
         headers: {
@@ -1389,7 +1389,7 @@ function getRudhraksSuggest() {
 
 
 function getKundlidata() {
-    var url = 'https://collabdoor.com/astrology/getKundliImagesdata'
+    var url = 'https://collabdoor.com/getKundliImagesdata'
 
     $.ajax({
         headers: {
@@ -1417,7 +1417,7 @@ function getKundlidata() {
 }
 
 function getyoginidata() {
-    var url = 'https://collabdoor.com/astrology/getMajorYoginiDasha'
+    var url = 'https://collabdoor.com/getMajorYoginiDasha'
 
     $.ajax({
         headers: {
@@ -1466,7 +1466,7 @@ function retriveTable() {
     $('#antardasha').removeClass('active1')
     $('#pratyantardasha').removeClass('active1')
     $('#sookshmadasha').removeClass('active1')
-    var url = 'https://collabdoor.com/astrology/getMahaDasha'
+    var url = 'https://collabdoor.com/getMahaDasha'
 
     $.ajax({
         headers: {
@@ -1515,7 +1515,7 @@ function retriveTable() {
 
 
 function getPlanetaryReport() {
-    var url = 'https://collabdoor.com/astrology/getPlanetaryReport'
+    var url = 'https://collabdoor.com/getPlanetaryReport'
 
     $.ajax({
         headers: {
@@ -1570,7 +1570,7 @@ function getAntarDasha(planet_name) {
     $('#sookshmadasha').removeClass('active1')
 
 
-    var url = 'https://collabdoor.com/astrology/getAntarDasha/' + planet_name
+    var url = 'https://collabdoor.com/getAntarDasha/' + planet_name
 
     $.ajax({
         headers: {
@@ -1622,7 +1622,7 @@ function getPratyantardasha(planet_name, sub_planet) {
     document.getElementById('antardasha').onclick = function() {
         getAntarDasha(planet_name);
     };
-    var url = 'https://collabdoor.com/astrology/getPratyantarDasha/' + planet_name + '/' + sub_planet
+    var url = 'https://collabdoor.com/getPratyantarDasha/' + planet_name + '/' + sub_planet
 
     $.ajax({
         headers: {
@@ -1676,7 +1676,7 @@ function getSookshmadasha(planet_name, sub_planet, sub_sub_planet) {
     };
 
 
-    var url = 'https://collabdoor.com/astrology/getSookshmadasha/' + planet_name + '/' + sub_planet + '/' +
+    var url = 'https://collabdoor.com/getSookshmadasha/' + planet_name + '/' + sub_planet + '/' +
         sub_sub_planet
 
     $.ajax({

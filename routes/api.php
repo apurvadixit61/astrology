@@ -130,3 +130,7 @@ Route::post('call_in_queue_save','App\Http\Controllers\Apicontroller@call_in_que
 Route::post('get_call_status','App\Http\Controllers\Apicontroller@get_call_status');
 Route::post('chat_status_update ','App\Http\Controllers\Apicontroller@chat_status_update');
 Route::post('get_chat_status','App\Http\Controllers\Apicontroller@get_chat_status');
+
+Route::post('send_request','App\Http\Controllers\Apicontroller@send_request');
+Route::post('chat_accept','App\Http\Controllers\Apicontroller@chat_accept');
+Route::post('approve_request','App\Http\Controllers\Apicontroller@approve_request');

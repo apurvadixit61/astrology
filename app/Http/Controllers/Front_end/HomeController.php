@@ -357,13 +357,14 @@ return redirect()->back();
 }
 
 
-public function dailyHoroscope($zodiacSign)
+public function dailyHoroscope($zodiacSign,Request $request)
 {
     
     $userId = "621874";
     $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->getTodaysPrediction($zodiacSign,'5.5');
+
 print_r($responseData);
 }
 

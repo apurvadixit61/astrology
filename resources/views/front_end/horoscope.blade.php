@@ -68,81 +68,90 @@
 
         <div class="rashi-box">
             <div class="first-box">
-                <div class="box-one">
+                <a href="{{url('horoscope/?zodic=aries')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//1.png') }}" alt=""></div>
                     <h1>Aries</h1>
                     <p>Mar 21- Apr 19</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=taurus')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//2.png') }}" alt=""></div>
                     <h1>Taurus</h1>
                     <p>Apr 20- May 20</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=gemini')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//3.png') }}" alt=""></div>
                     <h1>Gemini</h1>
                     <p>May 21- June 20</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=cancer')}}"><div class="box-one">
                     <div class="box-one-div"><img src="{{ asset('public/front_img//4.png') }}" alt=""></div>
                     <h1>Cancer</h1>
                     <p>June 21- July 22</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=leo')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//5.png') }}" alt=""></div>
                     <h1>Leo</h1>
                     <p>July 22- Aug 22</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=virgo')}}"><div class="box-one">
                     <div class="box-one-div"><img src="{{ asset('public/front_img//6.png') }}" alt=""></div>
                     <h1>Virgo</h1>
                     <p>Aug 23- Sep 22</p>
-                </div>
+                </div></a>
 
 
             </div>
             <div class="first-box">
-                <div class="box-one">
+                <a href="{{url('horoscope/?zodic=libra')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//7.png') }}" alt=""></div>
                     <h1>Libra</h1>
                     <p>Sep 23- Oct 22</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=scorpio')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//8.png') }}" alt=""></div>
                     <h1>Scorpio</h1>
                     <p>Oct 23- Nov 21</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=sagittarius')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//9.png') }}" alt=""></div>
                     <h1>Sagittarius</h1>
                     <p>Nov 22- Dec 21</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=capricorn')}}"><div class="box-one">
                     <div class="box-one-div"><img src="{{ asset('public/front_img//10.png') }}" alt=""></div>
                     <h1>Capricorn</h1>
                     <p>Dec 22- Jan 19</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=aquarius')}}"><div class="box-one">
                     <div class="box-one-div"> <img src="{{ asset('public/front_img//32.png') }}" alt=""></div>
                     <h1>Aquarius</h1>
                     <p>Jan 20- Feb 18</p>
-                </div>
-                <div class="box-one">
+                </div></a>
+                <a href="{{url('horoscope/?zodic=pisces')}}"><div class="box-one">
                     <div class="box-one-div"><img src="{{ asset('public/front_img//33.png') }}" alt=""></div>
                     <h1>Pisces</h1>
                     <p>Feb 19- Mar 20</p>
-                </div>
+                </div></a>
 
 
             </div>
 
-            <div class="container">
+           
+            </div>      
+
+    </section>
+    <section>
+    <div class="m-5" style="margin-left:10rem  !important;margin-right:10rem !important;" id="adscent_prediction">
+                
+            </div>
+
+            <div class="container" id="main_container">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('public/front_img//1.png') }}" class="rounded-circle" alt="...">
+                                    <img src="{{ asset('public/front_img//Mask group.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -156,11 +165,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-1.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -173,11 +182,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-11.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -190,11 +199,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-10.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -205,11 +214,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-9.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -221,11 +230,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-8.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -236,11 +245,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-7.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -251,11 +260,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-6.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -266,11 +275,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-5.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -281,11 +290,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-4.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -296,11 +305,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-3.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -311,11 +320,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="..." class="card-img" alt="...">
+                                    <img  src="{{ asset('public/front_img//Mask group-2.png') }}" class="rounded-circle" width="150" height="150" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -330,8 +339,6 @@
 
 
                 </div>
-            </div>
-
     </section>
     <section class="footers">
         <img src="{{ asset('public/front_img//Logo-removebg-preview 1.png') }}" alt="">
@@ -388,10 +395,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
-var base_url = location.protocol + '//' + location.host
 
-get_horoscrope()
+    console.log(location.search)
+var base_url = location.protocol + '//' + location.host
 var maxLength = 100;
+var Zodic='aries'
+var time='today'
+get_horoscrope()
 
 function get_horoscrope() {
 
@@ -412,6 +422,7 @@ function get_horoscrope() {
             type: 'GET',
             dataType: 'json',
             success: function(result) {
+                
                 content =  result.prediction.personal_life.substring(0, maxLength) +'  <span style="color:#fe870a;font-weight:500;">...Read more</span>'
                 $('#'+data[i]+'').append(content)
 

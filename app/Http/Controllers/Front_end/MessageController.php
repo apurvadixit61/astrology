@@ -41,34 +41,28 @@ class MessageController extends Controller
       return view('front_end.users.chats');
     }
 
-    public function chats($id,$user_id)
+    public function chats($from,$to)
     {
-        $current_user=Auth::guard('users')->user();
-    //     $id=Auth::guard('users')->user()->id;
-    //  $current_user=DB::table('users')->where('id',$user_id)->first();
-     if($current_user->user_type==1)
-     {
-        $details=$current_user;
-        $other= DB::table('users')->where('id',$id)->first();
-     }else{
-       $details= DB::table('users')->where('id',$id)->first();
-       $other=$details;
+        $wallet_amount=[];
+        $astro_charge='';
+        $from_user=DB::table('users')->where('users.id',$from)->first();
+        $to_user=DB::table('users')->where('users.id',$to)->first();
 
-     }
+        if($from_user->user_type==1){
+            $wallet_amount=DB::table('wallet_system')->where('user_id',$from)->first();
+        }else{
 
-    $astrologer = DB::table('users')->where('id',$id)->first();
-    if($astrologer)
-    {
-            return view('front_end.users.chats',compact('id','details','other'));
-       
+            $astro_charge=$from_user->per_minute;
 
-    }else{
-        return redirect('/');
+        }
+        if($to_user->user_type==1){
+            $wallet_amount=DB::table('wallet_system')->where('user_id',$to)->first();           
+        }else{
+            $astro_charge=$to_user->per_minute;
 
-    }
-           print_r(Auth::guard('users')->user());
-           print_r($id);
-        return view('front_end.users.chats');
+        }
+
+        return view('front_end.users.chats',compact('from_user','to_user','wallet_amount','astro_charge'));
 
     }
 
@@ -226,12 +220,12 @@ class MessageController extends Controller
 
         $user= DB::table('chat_requests')->where('id',$request)->first();
 
-        $users=  DB::table('chat_requests')->where(['id'=>$request,'status'=>'Pending'])->update($update);
+        DB::table('chat_requests')->where(['id'=>$request,'status'=>'Pending'])->update($update);
       
-        // $url="http://134.209.229.112/astrology/user/chat/".$user->from_user_id."/".$user->to_user_id;
-        $url="http://collabdoor.com/astrology/user/chat/".$user->from_user_id;
+        // $url="http://134.209.229.112/astrology/user/chat/".$user->to_user_id."/".$user->from_user_id;
+        // $url="http://collabdoor.com/astrology/user/chat/".$user->from_user_id;
 
-        return $user->from_user_id;
+        return $user;
 
     }
 

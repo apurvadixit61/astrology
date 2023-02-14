@@ -219,7 +219,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"> </script>
 <script>
-var base_url = location.protocol+'//'+location.host+'/astrology'
+var base_url = location.protocol+'//'+location.host
 
 function approve_request(request_id)
 {
@@ -233,11 +233,11 @@ function approve_request(request_id)
         type: 'GET',
         dataType: 'json',
         success: function(result) {
-         console.log(result)
+         console.log(result.from_user_id)
          if(result !=0)
                 {
                   console.log(result)
-                    location.href = 'http://collabdoor.com/astrology/user/chat/'+result;
+                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.to_user_id+'/'+result.from_user_id;
 
                 }
         }

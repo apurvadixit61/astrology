@@ -98,7 +98,7 @@ nav button {
 
 .first-sec {
   height: 200px;
-  background-image: url(https://collabdoor.com/astrology/public/front_img/page-title.png);
+  background-image: url(https://collabdoor.com/public/front_img/page-title.png);
   background-size: contain;
   position: relative;
   width: 100%;
@@ -139,7 +139,7 @@ nav button {
 }
 .new-kundli {
   width: 100%;
-  background-image: url(https://collabdoor.com/astrology/public/front_img/Horoscope-back.png);
+  background-image: url(https://collabdoor.com/public/front_img/Horoscope-back.png);
   background-size: cover;
   position: relative;
 }

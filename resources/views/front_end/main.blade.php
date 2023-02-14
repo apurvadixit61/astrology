@@ -693,9 +693,10 @@ console.log(base_url)
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript"
-    src='https://maps.google.com/maps/api/js?key=AIzaSyCZOsCzOOTKFoXCDI9e1yZvVCOTvDonerg&libraries=places'></script>
+    src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
 
 <script>
+
 var base_url = location.protocol+'//'+location.host
 
 $(document).on('keyup', '#front-search-field', function() {

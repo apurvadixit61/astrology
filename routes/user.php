@@ -15,7 +15,7 @@ Route::get('/approve_request/{request_id}','App\Http\Controllers\Front_end\Messa
 Route::get('/notification/{id}','App\Http\Controllers\Front_end\MessageController@notification')->name('users.notification');
 Route::get('/chat-accepted','App\Http\Controllers\Front_end\MessageController@chat_accept')->name('users.chat_accept');
 
-Route::get('/chats/{id}/{user_id}','App\Http\Controllers\Front_end\MessageController@chats');
+Route::get('/chats/{from}/{to}','App\Http\Controllers\Front_end\MessageController@chats');
 Route::get('/get_notification_count/{id}','App\Http\Controllers\Front_end\MessageController@get_notification_count');
 
     Route::get('dashboard', [UserController::class, 'dashboard'] )->name('dashboard');

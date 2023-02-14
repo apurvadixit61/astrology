@@ -211,7 +211,7 @@ function checkIsaccepted() {
                 if(result !=0)
                 {
                   console.log(result.to_user_id)
-                    location.href = 'http://collabdoor.com/user/chat/'+result.to_user_id;
+                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.from_user_id+'/'+result.to_user_id;
 
                 }
 
