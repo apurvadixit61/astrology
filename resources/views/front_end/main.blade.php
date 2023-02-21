@@ -8,7 +8,6 @@
     <title>Astrology</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{ asset('public/front_end/css/main.css?v=').time() }}">
-    <link rel="stylesheet" href="{{ asset('public/front_end/css/main_responsive.css?v=').time() }}">
     <link rel="stylesheet" href="{{ asset('public/front_end/css/main_popup.css?v=').time() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -34,15 +33,20 @@
                 <li><a href="{{ url('/services')}}"> Services </a></li>
                 <li><a href="{{ url('/kundli')}}"> Kundli </a></li>
                 <li><a href="{{ url('/horoscope')}}"> Horoscope </a> </li>
-                <li><a href="{{ url('/blog')}}"> Blog </a> </li>
+                <li><a href="{{ url('/blog')}}"> Blog </a> </li>  
+                <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
+             <a href="{{url('/user/dashboard')}}"> <li style="margin-left:1rem;"> <img  class="rounded" style="width:50px;height:50px;"; src="{{asset('images/user.jpg')}}" alt="">
+       <span class="text-dark">{{Auth::guard('users')->user()->name}}</span>  <a href="{{url('/user/notification')}}/{{Auth::guard('users')->user()->id}}"><i class="fa fa-bell mx-4"><span id="count" style="margin-top:-10rem;"></span></i> </a>  
+
+     </li></a>  
+
+        <?php } else{ ?>
+        <li><a class="login-btn text-light" href="{{url('/signin')}}">Sign In</a></li>
+        <?php } ?>      
 
             </ul>
         </div>
-        <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
-        {{Auth::guard('users')->user()->name}}  <a href='{{url("/user/notification/$id")}}'><i class="fa fa-bell fa-x" aria-hidden="true"></i><span id="count" style="margin-top:1rem;"></span></a>
-        <?php } else{ ?>
-        <a class="login-btn text-light" href="{{url('/signin')}}">Sing In</a>
-        <?php } ?>
+
     </nav>
 
     <section class="Home-sec">

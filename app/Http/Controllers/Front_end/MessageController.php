@@ -41,8 +41,15 @@ class MessageController extends Controller
       return view('front_end.users.chats');
     }
 
-    public function chats($from,$to)
+    public function chats($from,$to,Request $request)
     {
+        $key_exists= DB::table('chat_requests')->where(['from_user_id'=>$from,'to_user_id'=>$to,'status'=>'Approve','key'=>$request->get('key')])->first();
+        // if(empty($key_exists))
+        // {
+        //     return redirect('/');
+
+        // }else{
+
         $wallet_amount=[];
         $astro_charge='';
         $from_user=DB::table('users')->where('users.id',$from)->first();
@@ -61,9 +68,11 @@ class MessageController extends Controller
             $astro_charge=$to_user->per_minute;
 
         }
-
+         
+        DB::table('users')->where('id',$from)->update(['is_busy'=>1]);
+        DB::table('users')->where('id',$to)->update(['is_busy'=>1]);
         return view('front_end.users.chats',compact('from_user','to_user','wallet_amount','astro_charge'));
-
+    //    }
     }
 
     public function load_request_chat()
@@ -99,7 +108,10 @@ class MessageController extends Controller
         $astro_charge=$astrologer->per_minute * 5;
         if($astro_charge <= $available_balance->wallet_amount )
         {
-            $insert= ['from_user_id'=>$request->from_user_id,'to_user_id'=>$request->to_user_id,'status'=>'Pending'];
+
+            $bytes = random_bytes(6);
+
+            $insert= ['from_user_id'=>$request->from_user_id,'to_user_id'=>$request->to_user_id,'status'=>'Pending','key'=>bin2hex($bytes)];
 
         DB::table('chat_requests')->insert($insert);  
         $url = 'https://fcm.googleapis.com/fcm/send';
@@ -219,8 +231,9 @@ class MessageController extends Controller
         $update= ['status'=>'Approve'];
 
         $user= DB::table('chat_requests')->where('id',$request)->first();
+         DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
 
-        DB::table('chat_requests')->where(['id'=>$request,'status'=>'Pending'])->update($update);
+        DB::table('chat_requests')->where(['id'=>$request])->update($update);
       
         // $url="http://134.209.229.112/astrology/user/chat/".$user->to_user_id."/".$user->from_user_id;
         // $url="http://collabdoor.com/astrology/user/chat/".$user->from_user_id;
@@ -242,8 +255,7 @@ class MessageController extends Controller
         $status=[];
          $id= Auth::guard('users')->user()->id;
 
-        //   return $request->data;
-       $status= DB::table('chat_requests')->where(['from_user_id'=>$id,'to_user_id'=>$request->data,'status'=>'Approve'])->orderBy('id', 'DESC')->first();
+         $status= DB::table('chat_requests')->where(['from_user_id'=>$id,'to_user_id'=>$request->data])->orderBy('id', 'DESC')->first();
        if(!empty($status))
        {
         return $status;

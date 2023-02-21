@@ -1,18 +1,22 @@
 <html>
 
-<head>Confirm</head>
+<head></head>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
     body {
   font-family: sans-serif;
   display: grid;
   height: 100vh;
   place-items: center;
+  background:url('https://collabdoor.com/public//front_img/back.png');
+  background-size: cover;
+  opacity: 0.8;
 }
 
 .base-timer {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 .base-timer__svg {
@@ -53,8 +57,8 @@
 
 .base-timer__label {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   top: 0;
   display: flex;
   align-items: center;
@@ -64,9 +68,19 @@
 </style>
 
 <body>
-    
-<div id="app"></div>
-    wait for astrologer to connect we will redirect you shortly
+    <div class="row">
+        <div class="col-md-4"><img src="{{url('/')}}/images/profile_image{{Auth::guard('users')->user()->profile_image}}"  style="border-radius:50px;" alt="">
+      <p style="font-size:20px;font-weight:600;margin-left:40px;padding:20px;">{{Auth::guard('users')->user()->name}}</p>
+    </div>
+        <div class="col-md-4"><div id="app"></div></div>
+        <div class="col-md-4">
+            <img src="{{url('/')}}/images/profile_image{{$user->profile_image}}" style="border-radius:50px;margin-left:50px;" alt="">
+      <p  style="font-size:20px;font-weight:600;margin-top:10px;margin-left:50px;padding:20px;">{{$user->name}}</p>
+        </div>
+    </div>
+
+    <p style="font-size:22px;font-weight:600;"> Wait for astrologer to connect we will redirect you shortly </p> 
+      <span>Do not refresh or back</span>  
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -207,11 +221,17 @@ function checkIsaccepted() {
         },
         dataType: 'json',
         success: function(result) {
-         
+         console.log(result)
                 if(result !=0)
                 {
-                  console.log(result.to_user_id)
-                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.from_user_id+'/'+result.to_user_id;
+
+                    if(result.status=='Approve')
+                    {
+                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.from_user_id+'/'+result.to_user_id +'?key='+result.key;
+
+                    }
+                //   console.log(result.to_user_id)
+                //   console.log(result.key)
 
                 }
 

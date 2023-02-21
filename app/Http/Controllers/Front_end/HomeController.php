@@ -356,17 +356,62 @@ session()->put('locale', $request->lang);
 return redirect()->back();
 }
 
-
+//horoscope search
 public function dailyHoroscope($zodiacSign,Request $request)
 {
     
-    $userId = "621874";
-    $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$userId = "621874";
+$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->getTodaysPrediction($zodiacSign,'5.5');
-
 print_r($responseData);
 }
+
+public function tomorrow_horoscope($zodiacSign,Request $request)
+{
+    
+$userId = "621874";
+$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$astrologyApi = new AstrologyApiClient($userId, $apiKey);
+$responseData = $astrologyApi->getTomorrowsPrediction($zodiacSign,'5.5');
+print_r($responseData);
+}
+
+
+public function weekly_horoscope($zodiacSign,Request $request)
+{
+    
+$userId = "621874";
+$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$astrologyApi = new AstrologyApiClient($userId, $apiKey);
+//$responseData = $astrologyApi->getConsolidatedPrediction($zodiacSign,'5.5');
+$responseData = $astrologyApi->getYesterdaysPrediction($zodiacSign,'5.5');
+print_r($responseData);
+}
+
+
+public function monthly_horoscope($zodiacSign,Request $request)
+{
+    
+$userId = "621874";
+$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$astrologyApi = new AstrologyApiClient($userId, $apiKey);
+$responseData = $astrologyApi->gethoroscopeMonthly($zodiacSign,'5.5');
+print_r($responseData);die;
+}
+
+public function yearly_horoscope($zodiacSign,Request $request)
+{
+    
+$userId = "621874";
+$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$astrologyApi = new AstrologyApiClient($userId, $apiKey);
+$responseData = $astrologyApi->getConsolidatedPrediction($zodiacSign,'5.5');
+print_r($responseData);
+}
+
+/// horoscope end
+
 
 
 public function chatWithAstrologer()
@@ -393,7 +438,8 @@ public function login()
 
 public function confirmrequest($id)
 {
-    return view('front_end.users.confirm',compact('id'));
+    $user=DB::table('users')->where('id',$id)->first();
+    return view('front_end.users.confirm',compact('id','user'));
 
 }
 

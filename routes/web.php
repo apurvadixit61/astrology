@@ -61,7 +61,15 @@ Route::get('/getHoroChartImage', 'App\Http\Controllers\Front_end\HomeController@
 Route::get('/getAntarDasha/{major_dasha}', 'App\Http\Controllers\Front_end\HomeController@getAntarDasha');
 Route::get('/getPratyantarDasha/{major_dasha}/{antar_dasha}', 'App\Http\Controllers\Front_end\HomeController@getPratyantarDasha');
 Route::get('/getSookshmadasha/{major_dasha}/{antar_dasha}/{prantar_dasha}', 'App\Http\Controllers\Front_end\HomeController@getSookshmadasha');
+
+//horoscope
 Route::get('/dailyHoroscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@dailyHoroscope')->name('dailyHoroscope');
+Route::get('/tomorrow_horoscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@tomorrow_horoscope')->name('tomorrow_horoscope');
+Route::get('/weekly_horoscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@weekly_horoscope')->name('weekly_horoscope');
+Route::get('/monthly_horoscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@monthly_horoscope')->name('monthly_horoscope');
+Route::get('/yearly_horoscope/{zodiacSign}','App\Http\Controllers\Front_end\HomeController@yearly_horoscope')->name('yearly_horoscope');
+
+//horoscope end
 Route::get('/chat-with-astrologer','App\Http\Controllers\Front_end\HomeController@chatWithAstrologer');
 Route::get('/call-with-astrologer','App\Http\Controllers\Front_end\HomeController@callWithAstrologer');
 Route::match(array('GET', 'POST'), 'getKundli', 'App\Http\Controllers\Front_end\HomeController@getKundli')->name('getKundli');
@@ -436,114 +444,63 @@ Route::group(['middleware' => ['customer']], function () {
 });
 
 Route::get('/product_detail/{id}', 'Webcontroller@product_detail');
-
 Route::get('/registration', 'Webcontroller@registration');
-
 Route::post('/post_registration', 'Webcontroller@post_registration');
-
 Route::get('/product_listing', 'Productlistcontroller@index');
-
 Route::get('/product_listing', 'Productlistcontroller@index');
-
 Route::get('/cart', 'Cartcontroller@index');
-
 Route::post('/add_cart', 'Cartcontroller@addcart');
-
 Route::get('/contact_us', 'Webcontroller@contact_us');
-
 Route::post('/contact_us', 'Webcontroller@post_contact_us');
-
 Route::get('/courses_list', 'Courseslistcontroller@index');
-
 Route::get('/courses_detail/{id}', 'Courseslistcontroller@courses_detail');
 Route::post('/courses_booking', 'Courseslistcontroller@courses_booking');
-
 Route::post('/post_review', 'Courseslistcontroller@reviews');
-
 Route::get('/tour_list', 'Tourlistcontroller@index');
-
 Route::get('/tour_detail/{id}', 'Tourlistcontroller@tour_detail');
-
 Route::post('/tour_booking', 'Tourlistcontroller@tour_booking');
-
 Route::post('/tour_inquery', 'Tourlistcontroller@tour_inquery');
-
 Route::get('/delete_cart/{id}', 'Cartcontroller@delete_cart');
-
 Route::post('/check_out', 'Cartcontroller@check_out');
-
 Route::post('/getmembership', 'Cartcontroller@get_membership');
-
 Route::get('/mambership_status', 'Cartcontroller@mambership_status');
-
 Route::post('/mambership_status', 'Cartcontroller@plan_status');
-
 Route::post('/checkcoupan', 'Cartcontroller@checkcoupan');
-
 Route::get('/payment_status', 'Cartcontroller@payment_status');
 Route::get('/success', 'Cartcontroller@success');
 Route::get('/failed', 'Cartcontroller@failed');
-
 Route::post('/updatecart', 'Cartcontroller@updatecart');
-
 Route::post('/search_courses', 'Courseslistcontroller@search');
-
 Route::post('/search_tour', 'Tourlistcontroller@search');
-
 Route::post('/search_product', 'Productlistcontroller@search');
-
 Route::get('/team', 'Webcontroller@ourteam');
-
 Route::get('/addfav/{id}', 'Webcontroller@addfav');
-
 Route::get('/addfav_course/{id}', 'Webcontroller@addfav_course');
-
 Route::get('/forgot_password', 'Forgotcontroller@forgot_password');
-
 Route::post('/forgot_password', 'Forgotcontroller@send_emil');
-
 Route::get('/rest_password/{code}', 'Forgotcontroller@rest_password');
-
 Route::post('/post_rest_password', 'Forgotcontroller@post_rest_password');
-
 Route::get('/boat_list', 'Boatlistcontroller@index');
-
 Route::post('/book_boat', 'Boatlistcontroller@book_boat');
-
 Route::get('/boat_detail/{id}', 'Boatlistcontroller@boat_detail');
-
 Route::get('/my_account', 'Webcontroller@my_account');
-
 Route::post('/my_account', 'Webcontroller@update_my_account');
-
 Route::get('/change_password', 'Webcontroller@change_password');
-
 Route::post('/change_password', 'Webcontroller@post_change_password');
-
 Route::get('/my_wish_list', 'Webcontroller@my_wish_list');
-
 Route::get('/delete_wishlist/{id}', 'Webcontroller@delete_wishlist');
-
 Route::get('/my_order', 'Webcontroller@my_order');
-
 Route::get('/about_us', 'Webcontroller@about_us');
 
 // Route::get('/gallery','Webcontroller@gallery');
 
 Route::get('/membership_plan', 'Webcontroller@membership_plan');
-
 Route::get('/terms', 'Webcontroller@terms');
-
 Route::get('/privacy_policy', 'Webcontroller@privacy_policy');
-
 Route::get('/return_policy', 'Webcontroller@return_policy');
-
 Route::post('/subscribe', 'Webcontroller@subscribe');
-
 Route::get('/search_tours/{id}', 'Tourlistcontroller@search_tours');
-
 Route::get('/search_rent', 'Productlistcontroller@search_rent');
-
 Route::post('/purchase_courses', 'Paymentcontroller@purchasecorse');
-
-
+Route::get('/horoscope_list', 'App\Http\Controllers\HoroscopeController@horoscope_list');
+Route::get('/horoscope_details/{star}', 'App\Http\Controllers\HoroscopeController@horoscope_details');

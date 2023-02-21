@@ -846,6 +846,7 @@ img.shadow {
                                                         class="la  mr-1"></i>Time left: <span id="timer"></span> </p>
                                                 <p class="sub-caption text-muted text-small mb-0"><i
                                                         class="la  mr-1"></i>Chat in progress</p>
+                                                        
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0 margin-auto">
@@ -929,60 +930,6 @@ img.shadow {
     
 <script>
 
-var from_user_id = {{$from_user->id}};
-var to_user_id = {{$to_user->id}};
-var user_type = {{$from_user->user_type}};
-var astro_charge ={{$astro_charge}}
-var wallet_amount ={{$wallet_amount->wallet_amount}}
-var saved_countdown = localStorage.getItem('saved_countdown');
-
-    if(localStorage.getItem('saved_countdown') == null)
-    {
-
-        saved_countdown= localStorage.setItem('saved_countdown', 04 + ":" + 59);
-    }
-    console.log(saved_countdown)
-
-//     console.log(saved_countdown)
-
-document.getElementById('timer').innerHTML =localStorage.getItem('saved_countdown')
-//   ;
-
-  function startTimer() {
-  var presentTime = document.getElementById('timer').innerHTML;
-  var timeArray = presentTime.split(/[:]+/);
-  var m = timeArray[0];
-  var s = checkSecond((timeArray[1] - 1));
-  if(s==59){m=m-1
-console.log(m)
-}
-  if(m<0){
-    console.log('times up')
-    localStorage.clear();
-    end_chat()
-    location.href = 'https://collabdoor.com';
-    
-    return
-  }
-  
-  localStorage.setItem('saved_countdown', m + ":" + s);
-
-  document.getElementById('timer').innerHTML =
-    m + ":" + s;
-//   console.log(saved_countdown)
-
-  setTimeout(startTimer, 1000);
-  
-}
-
-function checkSecond(sec) {
-  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-  if (sec < 0) {sec = "59"};
-  return sec;
-}
-
-
-
 var urlString='http://134.209.229.112:8090';   
 
 var socket = io(urlString, {secure: false});
@@ -997,6 +944,70 @@ socket.on('connect', function() {
   socket.emit("chat_history",user_data)
   startTimer()
 });
+
+
+
+var from_user_id = {{$from_user->id}};
+var to_user_id = {{$to_user->id}};
+var user_type = {{$from_user->user_type}};
+var astro_charge ={{$astro_charge}}
+var wallet_amount ={{$wallet_amount->wallet_amount}}
+var saved_countdown = sessionStorage.getItem('saved_countdown');
+
+    if(sessionStorage.getItem('saved_countdown') == null)
+    {
+
+        saved_countdown= sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
+    }
+    console.log(saved_countdown)
+
+//     console.log(saved_countdown)
+
+document.getElementById('timer').innerHTML =sessionStorage.getItem('saved_countdown')
+//   ;
+
+  function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){
+    m=m-1
+
+if(user_type == 1)
+{
+   var data={user_id:from_user_id,astro_charge:astro_charge}
+    socket.emit("deduct_amount",data)
+}    
+    
+sessionStorage.setItem('count', m);
+console.log(sessionStorage.getItem('count'))
+    
+}
+
+  if(m<0){
+    end_chat()
+    location.href = 'https://collabdoor.com';
+    
+    return
+  }
+  
+  sessionStorage.setItem('saved_countdown', m + ":" + s);
+
+  document.getElementById('timer').innerHTML =m + ":" + s;
+//   console.log(saved_countdown)
+
+  setTimeout(startTimer, 1000);
+  
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+
 
 socket.on('user_status', function(data) {
 
@@ -1108,10 +1119,9 @@ send_button.addEventListener("keydown", function (e) {
 
 function end_chat()
 {
-    // alert('Chat End')
-
     socket.emit('forceDisconnect',to_user_id);
-    localStorage.clear();
+
+    sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
     location.href = 'https://collabdoor.com';
 
 }
@@ -1121,8 +1131,8 @@ socket.on('end_chat_data', function(data) {
 
     if(data == from_user_id )
     {
-      localStorage.clear();
-     socket.emit('forceDisconnect',data);
+    socket.emit('forceDisconnect',data);
+    sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
         
     location.href = 'https://collabdoor.com';
     }
@@ -1220,6 +1230,8 @@ var formattedDate = nDate.split(', ')[1].split(':')[0] + ':' + nDate.split(', ')
 
 return formattedDate
 }
+
+
 </script>
 
 </body>

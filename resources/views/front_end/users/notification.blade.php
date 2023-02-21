@@ -237,7 +237,7 @@ function approve_request(request_id)
          if(result !=0)
                 {
                   console.log(result)
-                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.to_user_id+'/'+result.from_user_id;
+                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.to_user_id+'/'+result.from_user_id+'?key='+result.key;
 
                 }
         }

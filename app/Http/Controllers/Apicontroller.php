@@ -5971,77 +5971,127 @@ $data=array('data'=>$url,'status'=>true,'message'=>"Kundali Inserted successfull
 public function send_request(Request $request)
 {
 
- $current_user=$request->user_id;
- $user_id=$request->to_user_id;
- $to_user_id=$request->to_user_id;
- $available_balance=DB::table('wallet_system')->where('user_id',$user_id)->first();
- $astrologer = DB::table('users')->where('id',$request->to_user_id)->first();
+ $current_user=$request->sender_id;
+ $receiver_id=$request->receiver_id; // login id user ki 
+ $sender_id=$request->sender_id;
+ $available_balance=DB::table('wallet_system')->where('user_id',$sender_id)->first();
+ $astrologer = DB::table('users')->where('id',$request->receiver_id)->first();
+ $user_name = DB::table('users')->where('id',$request->sender_id)->first();
  $device_token=$astrologer->device_id;
- $serverKey = 'AAAAATwqS-8:APA91bEaQYb6gSYWm1sGhuNYOkb9Srw4R1vaj5pLNtYjOTsYf3T7ZcJrMDoy2ew-pjTANJ2pEIhyzMQeWgr0bEzoleQPnLBIpsy1QuC7qvs0ku0fd_ZPd71ImS0rTlArb3U9C1mznmpS';
-if($astrologer)
+ $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
+ $url1 = 'https://fcm.googleapis.com/fcm/send';
+ if($astrologer)
 {
     $astro_charge=$astrologer->per_minute * 5;
     if($astro_charge <= $available_balance->wallet_amount )
     {
        
-        $insert= ['from_user_id'=>$request->from_user_id,'to_user_id'=>$request->to_user_id,'status'=>'Pending'];
-        $response= DB::table('chat_requests')->insert($insert);  
+        $insert= ['from_user_id'=>$request->receiver_id,'to_user_id'=>$request->sender_id,'status'=>'Pending'];
+        $response= DB::table('chat_requests')->insertGetId($insert);  
 
         if(!defined( 'API_ACCESS_KEY')){
             define( 'API_ACCESS_KEY',$serverKey );
         }
 
-        $msg = array
-            (
-            'body'  =>'Chat request',
-            'title' => 'New chat request',
-            'icon'  => 'astro.png',
-            'image' =>''
-
-        );
 
 
+        $headers = array (
+            'Authorization:key=' . $serverKey,
+            'Content-Type:application/json'
+          );
+            // Add notification content to a variable for easy reference
+          $notifData = [
+            'title' => 'Incoming chat request from '. $user_name->name,
+            'body' =>'Incoming chat request from '. $user_name->name,
+            'priority' => "high",
+            'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
+          ];
+          $dataPayload = [
+           'id'=> $response, 
+           'sender_id'=>$request->sender_id,
+           'receiver_id'=>$request->receiver_id,
+           'user_name'=> $user_name->name, 
+           'per_minute'=>$astrologer->per_minute,
+           'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           'type'=>'astrologer',
+           'notification_type'=>'send_request',
+           'title' => 'Incoming chat request from '. $user_name->name,
+          'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+          'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+          ];
+         // echo $tokens;
+          $apiBody = array(
+            'notification' => $notifData,
+            'data' => $dataPayload,
+            'to' =>$device_token
+         
+          );
+          $ch = curl_init();
+          curl_setopt ($ch, CURLOPT_URL, $url1);
+          curl_setopt ($ch, CURLOPT_POST, true);
+          curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
+          curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt ($ch, CURLOPT_POSTFIELDS, json_encode($apiBody));
+          $result = curl_exec($ch);
+          return $result;
 
-        $fields = array
-        (
-             'to'=>$device_token,
-             'notification'    => $msg,
-             'priority' => 'high'
-        );
-        $headers = array
-        (
-        'Authorization: key=' . API_ACCESS_KEY,
-        'Content-Type: application/json'
-        );
-        #Send Reponse To FireBase Server
-        $ch = curl_init();
-        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
-        curl_setopt( $ch,CURLOPT_POST, true );
-        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
-        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        curl_close( $ch );
+
+        // $msg = array
+        //     (
+        //     'body'  =>'Chat request from ' . $user_name->name,
+        //     'title' => 'Incoming chat request from '. $user_name->name,
+        //     'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+        //     'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+        //  //   'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+
+        //     )
+
+
+
+        // $fields = array
+        // (
+        //      'to'=>$device_token,
+        //      'notification'    => $msg,
+        //      'priority' => 'high'
+        // );
+        // $headers = array
+        // (
+        // 'Authorization: key=' . API_ACCESS_KEY,
+        // 'Content-Type: application/json'
+        // );
+        // #Send Reponse To FireBase Server
+        // $ch = curl_init();
+        // curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+        // curl_setopt( $ch,CURLOPT_POST, true );
+        // curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        // curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        // curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        // curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode($fields));
+        // $result = curl_exec($ch);
+        // curl_close( $ch );
    
-        $data['data'] = 'Send request successfully';
+        $data['message'] = 'Send request successfully';
         $data['status'] = true;
+        $data['did']=$device_token;
         //     $data['message'] = "list";
     
     }else{
 
    $message ='Minimum balance of 5 minutes (INR '.$astro_charge.') is required to start chat with '.$astrologer->name;
-   $response =['status'=>false,'message'=>$message];   
+ //  $response =['status'=>false,'message'=>$message];   
    //return json_encode($response);
 
-         $data['data'] =$response;
-      //   $data['status'] = false;
-       //  $data['message'] = "No data found";
-        // return json_encode($data);
+        // $data['data'] =$response;
+        $data['status'] = false;
+        $data['message'] =$message;
+        $data['did']=$device_token;
+       // return json_encode($data);
 
     }
 
-    return json_encode($data);
+   return json_encode($data);
 
 
 
@@ -6055,11 +6105,60 @@ if($astrologer)
 public function chat_accept(Request $request)
 {
      $status=[];
-     $id= $request->id;
-
+     $sender_id= $request->sender_id;
+     $receiver_id= $request->receiver_id;
     //   return $request->data;
-   $status= DB::table('chat_requests')->where(['from_user_id'=>$id,'to_user_id'=>$request->to_user_id,'status'=>'Approve'])->orderBy('id', 'DESC')->first();
+    $url1 = 'https://fcm.googleapis.com/fcm/send';
+   $status= DB::table('chat_requests')->where(['from_user_id'=>$sender_id,'to_user_id'=>$receiver_id,'status'=>'Pending'])->orderBy('id', 'DESC')->first();
+   $user_name = DB::table('users')->where('id',$request->sender_id)->first();
+   $astro_name = DB::table('users')->where('id',$request->receiver_id)->first();
+   $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
+
    if(!empty($status)){
+
+    if(!defined( 'API_ACCESS_KEY')){
+        define( 'API_ACCESS_KEY',$serverKey );
+    }
+
+    $headers = array (
+        'Authorization:key=' . $serverKey,
+        'Content-Type:application/json'
+      );
+        // Add notification content to a variable for easy reference
+      $notifData = [
+        'title' => 'Incoming chat request from '. $astro_name->name,
+        'body' =>'Incoming chat request from '. $astro_name->name,
+        'priority' => "high",
+        'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
+      ];
+      $dataPayload = [
+       'id'=> $response, 
+       'user_name'=> $astro_name->name, 
+       'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'type'=>'customer',
+       'notification_type'=>'accept',
+       'title' => 'Your chat request accpeted from '. $astro_name->name,
+      'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+      'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+      ];
+     // echo $tokens;
+      $apiBody = array(
+        'notification' => $notifData,
+        'data' => $dataPayload,
+        'to' =>$device_token
+     
+      );
+      $ch = curl_init();
+      curl_setopt ($ch, CURLOPT_URL, $url1);
+      curl_setopt ($ch, CURLOPT_POST, true);
+      curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt ($ch, CURLOPT_POSTFIELDS, json_encode($apiBody));
+      $result = curl_exec($ch);
+      return $result;
+
     $data['data'] = $status;
     $data['status'] = true;
     $data['message'] = "list";
@@ -6074,11 +6173,61 @@ public function chat_accept(Request $request)
 
 }
 
-    public function approve_request(Request $request)
-    {
-    $update= ['status'=>'Approve'];
-    $user= DB::table('chat_requests')->where('id',$request->id)->first();
-    DB::table('chat_requests')->where(['id'=>$request->id,'status'=>'Pending'])->update($update);
+
+public function cancle_request(Request $request)
+{
+
+
+
+    $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
+    
+    $user_id = DB::table('users')->where('id',$request->receiver_id)->first();
+    $astro_name = DB::table('users')->where('id',$request->sender_id)->first();
+    if(!defined( 'API_ACCESS_KEY')){
+        define( 'API_ACCESS_KEY',$serverKey );
+    }
+
+
+    $headers = array (
+        'Authorization:key=' . $serverKey,
+        'Content-Type:application/json'
+      );
+        // Add notification content to a variable for easy reference
+      $notifData = [
+        'title' => 'Your request has been cancelled from'. $astro_name->name,
+        'body' =>'Your request has been cancelled '. $astro_name->name,
+        'priority' => "high",
+        'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
+      ];
+      $dataPayload = [
+       'id'=> '', 
+       'user_name'=> $astro_name->name, 
+       'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'type'=>'customer',
+       'notification_type'=>'cancle',
+       'title' => 'Your chat request accpeted from '. $astro_name->name,
+      'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+      'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+      ];
+     // echo $tokens;
+      $apiBody = array(
+        'notification' => $notifData,
+        'data' => $dataPayload,
+        'to' =>$user_id->device_id
+     
+      );
+      $ch = curl_init();
+      curl_setopt ($ch, CURLOPT_URL, $url1);
+      curl_setopt ($ch, CURLOPT_POST, true);
+      curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt ($ch, CURLOPT_POSTFIELDS, json_encode($apiBody));
+      $result = curl_exec($ch);
+      return $result;
+
+
     if($user){
     $data['data'] = $user;
     $data['status'] = true;
@@ -6088,6 +6237,116 @@ public function chat_accept(Request $request)
      $data['data'] = 'Does not data found';
      $data['status'] = false;
      $data['message'] = "No data found";
+    }
+
+    return json_encode($data);
+
+
+}
+
+
+    public function approve_request(Request $request)
+    {
+
+    $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
+    $update= ['status'=>'Approve'];
+    $url1 = 'https://fcm.googleapis.com/fcm/send';
+    $user= DB::table('chat_requests')->where('id',$request->id)->first();
+    DB::table('chat_requests')->where(['id'=>$request->id,'status'=>'Pending'])->update($update);
+    $user_name = DB::table('users')->where('id',$request->receiver_id)->first();
+
+    //print_r($user_name);die;
+    $astro_name = DB::table('users')->where('id',$request->sender_id)->first();
+
+    if(!defined( 'API_ACCESS_KEY')){
+        define( 'API_ACCESS_KEY',$serverKey );
+    }
+
+
+    $headers = array (
+        'Authorization:key=' . $serverKey,
+        'Content-Type:application/json'
+      );
+        // Add notification content to a variable for easy reference
+      $notifData = [
+        'title' => 'Your request has been accpeted from '. $astro_name->name,
+        'body' =>'Your request has been accpeted from '. $astro_name->name,
+        'priority' => "high",
+        'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
+      ];
+      $dataPayload = [
+       'id'=> '', 
+       'user_name'=> $astro_name->name, 
+       'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'type'=>'customer',
+       'notification_type'=>'accept',
+       'title' => 'Your chat request accpeted from '. $astro_name->name,
+      'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+       'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+      'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+      ];
+     // echo $tokens;
+      $apiBody = array(
+        'notification' => $notifData,
+        'data' => $dataPayload,
+        'to' =>$user_name->device_id
+     
+      );
+      $ch = curl_init();
+      curl_setopt ($ch, CURLOPT_URL, $url1);
+      curl_setopt ($ch, CURLOPT_POST, true);
+      curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt ($ch, CURLOPT_POSTFIELDS, json_encode($apiBody));
+      $result = curl_exec($ch);
+      return $result;
+
+
+    // $msg = array
+    //     (
+    //     'body'  =>'Chat request from accpeted',
+    //     'title' => 'Incoming chat request from ',
+    //     'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+    //     'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+    //  //  'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+
+    // );
+    // $fields = array
+    // (
+    //      'to'=>$user_name->device_id,
+    //      'notification'    => $msg,
+    //      'priority' => 'high'
+    // );
+    // $headers = array
+    // (
+    // 'Authorization: key=' . API_ACCESS_KEY,
+    // 'Content-Type: application/json'
+    // );
+    // #Send Reponse To FireBase Server
+    // $ch = curl_init();
+    // curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+    // curl_setopt( $ch,CURLOPT_POST, true );
+    // curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+    // curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+    // curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+    // curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode($fields));
+    // $result = curl_exec($ch);
+    // curl_close( $ch );
+
+    if($user){
+    $data['data'] = $user;
+    $data['status'] = true;
+    $data['sender_id']=$request->sender_id;
+    $data['receiver_id']=$request->receiver_id;
+    $data['message'] = "list";
+    }else{
+
+     $data['data'] = 'Does not data found';
+     $data['status'] = false;
+     $data['message'] = "No data found";
+     $data['sender_id']=$request->sender_id;
+     $data['receiver_id']=$request->receiver_id;
     }
 
     return json_encode($data);

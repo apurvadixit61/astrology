@@ -1,232 +1,399 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kundli</title>
-    <link rel="stylesheet" href="{{ asset('public/front_end/css/free_kundli.css?v=').time() }}">
-</head>
+<style>
+    .fs-10{
+    font-size: 20px;
+    font-weight:600;
+    line-height: 22px;
+    margin-left: 40px;
+    margin-top:1.5rem;
+    }
 
-<body>
-    <nav>
+    .link_active{
+    color: #fe870a !important;
+    border-bottom: 2px solid #fe870a;
+    }
 
-        <img src="{{ asset('public/front_img/Logo-removebg-preview 1.png')}} " alt="">
-        <div>
+.first-div{
+    height: 200px;
+    background-image: url(https://collabdoor.com/public//front_img/page-title.png);
+    background-size: contain;
+    position: relative;
+    width: 100%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.banner_heading{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 50px;
+}  
+.banner_button
+{
+    width: 258px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.235);
+    border-radius: 100px;
+    border: none;
+    margin-top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}  
+.banner_para{
+    font-weight: bold;
+    color: #fe870a;
+    font-size: 18px;
+}
 
-            <ul>
-                <li style="font-family: 'Lato', sans-serif;"> <a href="{{ url('/')}}"> Home </a> </li>
-                <li><a href="{{ url('/all')}}"> Our Astrologer </a> </li>
-                <li><a href="{{ url('/services')}}"> Services </a></li>
-                <li><a href="{{ url('/kundli')}}"> <b   style="color:#fe870a !important;border-bottom: 2px solid #fe870a;" > Kundli </b> </a></li>
-                <li><a href="{{ url('/horoscope')}}"> Horoscope </a> </li>
-                <li><a href="{{ url('/blog')}}"> Blog </a> </li>
-            </ul>
-        </div>
-        <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
-        {{Auth::guard('users')->user()->name}}  <a href='{{url("/user/notification/$id")}}'><i class="fa fa-bell fa-x" aria-hidden="true"></i><span id="count" style="margin-top:1rem;"></span></a>
-        <?php } else{ ?>
-        <a class="login-btn text-light" href="{{url('/signin')}}">Sing In</a>
-        <?php } ?>
-    </nav>
-    <div class="first-sec">
+.kundli_buttton
+{
+    /* margin: 10px;
+    /* padding: 20px; */
+    border-radius: 30px;
+    color: #ffffff;
+    font-family: "Lato" sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    text-transform: capitalize;
+    border: none;
+    color: #fe870a;
+    border: 2px solid #fe870a;
+    background-color: #fff; 
 
-        <h1>Free Kundli</h1>
+}
+.is_active{
+    background: #fe870a;
+    color: #ffffff;
 
-        <button>
-            <p>Home</p> <img src="{{ asset('public/front_img/Vector (1)btn.png')}} " class="" height="20" alt="">
-            <h6>Kundli</h6>
+}
+
+.dropbtn {
+  background-color: #fff;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdowns {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdowns-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdowns-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdowns-content a:hover {background-color: #f1f1f1}
+
+.dropdowns:hover .dropdowns-content {
+  display: block;
+}
+
+.dropdowns:hover .dropbtn {
+  background-color: #fe870a;
+}
+.kundli_div{
+    background-color: #fff0e0;
+    margin: 20px;
+    padding: 4rem;
+    border-radius:30px;
+}
+.login-btn{
+    background-color:#fe870a;
+    border:none;
+
+}
+footer{
+    background-color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 3rem;
+}
+footer a{
+    color: #fff;
+}
+</style>
+
+<nav class="navbar navbar-light navbar-expand-sm">
+        <a href="/" class="navbar-brand">
+            <img src="https://collabdoor.com/public/front_img/Logo-removebg-preview 1.png " alt="">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
         </button>
 
-    </div>
-    <div class="btin-sec">
-            <button class="first-btn" id="new_kundli" onclick="newKundli()">Free Kundli Online</button>
-            <button class="second-btn" id="match_kundli" onclick="matchKundli()">Kundli Matching</button>
-        </div>
-    <section class="new-kundli">
-      
-        <div class="newkundli-input">
-            <form action="{{route('getKundli')}}" method="post" id="register-form" novalidate="novalidate" >
-                @csrf
 
-            <div class="input-one">
-                <h5>Full Name</h5>
-                <input type="text" name="full_name" placeholder="Enter Name">
-                <h5>Gender</h5>
-                <select name="gender" id=""> <option value="">Select Gender</option> <option value="male">Male</option><option value="female">Female</option></select>
-                <!-- <input type="text" name="gender" placeholder="Select Gender"> -->
-                <h5>Birth Date</h5>
-                <input type="date" name="birth_date" placeholder="Select Birth " value="{{date('d-m-Y')}}">
-                <h5>Birth Time</h5>
-                <input type="time" name="birth_time" placeholder="Select Birth time ">
-                <h5>Birth Place</h5>
-                <input type="text" name="birth_place" placeholder="Select Place " id="front-search-field">
-                <button type="submit" style="margin-bottom:0.5rem;">FIND KUNDLI</button>
-            </div>
-            </form>
-            <h3>Saved Matches</h3>
-            <div class="input-two">
-                <input type="text" placeholder="Search Name">
-                <p>Recently Opened</p>
-            </div>
-        </div>
-    </section>
-    <section class="matching-kundli" style="display:none;">
-        <div class="newkundli-input-matching">
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-3 px-5">
+                <li class="nav-item">
+                    <a href="" class="nav-link text-dark fs-10">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/all')}}" class="nav-link text-dark fs-10">
+                        Our Astrologer
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/services')}}" class="nav-link text-dark fs-10">
+                        Services
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/kundli')}}" class="nav-link text-dark fs-10 link_active">
+                        Kundli
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/horoscope')}}" class="nav-link text-dark fs-10">
+                        Horoscope
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/blog')}}" class="nav-link text-dark fs-10">
+                        Blog
+                    </a>
+                </li>
 
-            <div class="input-one-matching">
-                <div class="div-matching">
-                    <div class="input-one-one">
-                        <h5>Full Name</h5>
-                        <input type="text" placeholder="Enter Name">
-                        <h5>Gender</h5>
-                        <input type="text" placeholder="Select Gender">
-                        <h5>Birth Date</h5>
-                        <input type="date" placeholder="Select Birth ">
-                        <h5>Birth Time</h5>
-                        <input type="text" placeholder="Select Birth time ">
-                        <h5>Birth Place</h5>
-                        <input type="text" placeholder="Select Place ">
-                    </div>
-                    <div style="width: 2px; height: 75%; background-color:#FEAB54; margin-top: 20px;"></div>
-                    <div class="input-one-two">
-                        <h5>Full Name</h5>
-                        <input type="text" placeholder="Enter Name">
-                        <h5>Gender</h5>
-                        <input type="text" placeholder="Select Gender">
-                        <h5>Birth Date</h5>
-                        <input type="date" placeholder="Select Birth ">
-                        <h5>Birth Time</h5>
-                        <input type="text" placeholder="Select Birth time ">
-                        <h5>Birth Place</h5>
-                        <input type="text" placeholder="Select Place ">
-                    </div>
-                    <button>MATCH KUNDLI</button>
+                
+                <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
+
+                <li>
+                <div class="dropdowns" style="margin-left:40px;float:right;">
+                <button class="dropbtn"><img  class="rounded" style="width:50px;height:50px;"; src="{{asset('images/user.jpg')}}" alt=""><span style="margin-left:5px;font-weight:600;">Apurva Dixit</span> </button>
+                <div class="dropdowns-content">
+                <a href="#">Notification</a>
+                <a href="#">Wallet</a>
+                <a href="#">Order History</a>
+                <a href="{{url('user/logout')}}">Logout</a>
                 </div>
+              </div>
+                </li>
 
+                <?php } else{ ?>
+               <li><a href="{{url('/signin')}}" style="margin-left:100px;float:right;"> <button class="btn-lg mt-3 text-light login-btn">Sign In</button> </a></li>
+                   <?php } ?>     
 
-            </div>
-            <h3>Saved Matches</h3>
-            <div class="input-two-matching">
-                <input type="text" placeholder="Search Name">
-                <p>Recently Opened</p>
-            </div>
-        </div>
-    </section>
-    <section class="footers">
-        <img src="{{ asset('public/front_img/Logo-removebg-preview 1.png')}} " alt="">
-        <div class="footer-first-div">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing <br> elit ut aliquam, purus sit amet
-                luctus venenatis,
-                lectus <br> magna fringilla urna, porttitor rhoncus dolor purus <br> non enim praesent
-                elem</p>
-        </div>
-        <div class="footer-second-div">
-
-            <ul>
-
-                <li style="font-family: 'Lato'sans-serif;
-       font-style: normal;
-       font-weight: 700;
-       font-size: 20px;"> Our Service</li>
-                <div class="our-ul"> </div>
-                <li>Horoscope</li>
-                <li>Gemstones</li>
-                <li>Numerology</li>
-                <li>Tarot Cards</li>
-                <li>Birth Journal</li>
             </ul>
-        </div>
-        <div class="footer-third-div">
-            <ul>
-                <li style="font-family: 'Lato'sans-serif;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;"> Quick Links</li>
-                <div class="our-ul"> </div>
-                <li>About Us</li>
-                <li>Blog</li>
-                <li>Services</li>
-                <li>Contact US</li>
-            </ul>
-        </div>
-        <div class="footer-four-div">
-            <ul>
-                <li style="font-family: 'Lato'sans-serif;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;"> Contact</li>
-                <div class="our-ul"> </div>
-                <li>(406) 555-0120</li>
-                <li>mangcoding123@gmail.com</li>
-                <li>2972 Westheimer Rd.</li>
-                <li> Santa Ana, Illinois 85486 </li>
-            </ul>
-        </div>
-    </section>
 
-</body>
+            
+              
+        </div>
 
-<script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"> </script>
-<script>
+        
+  </nav>
+
+<div class="first-div">
+    <span class="banner_heading">Free Kundli</span>    
+    <button class="banner_button">
+        <p class="banner_para">Home</p> <img src="https://collabdoor.com/public/front_img/Vector (1)btn.png " class="" height="20" alt="">
+        <h5 class="text-light">Kundli</h5>
+    </button>
+</div>
+<div class="container mt-4">
+    <div class="row mt-5">
+        <div class="col-md-6"> <button class="btn-lg kundli_buttton  is_active float-right ">Free Kundli Online</button>   </div>
+        <div class="col-md-6 "> <button class="btn-lg kundli_buttton">Kundli Matching</button>    </div>
+    </div>
+       <div class="kundli_div mt-5">
+           <div class="row">
+              <div class="col-md-6">
+
+                <div class="card">
+
+                <div class="card-body">
+                  <form action="{{route('getKundli')}}" method="post" id="register-form" novalidate="novalidate">
+                  @csrf
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                        <label for="inputEmail4">Full Name</label>
+                        <input type="text" class="form-control" name="full_name" id="inputEmail4" placeholder="Full Name">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label for="inputState">Gender</label>
+                        <select id="inputState" name="gender" class="form-control">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                        <label for="inputPassword4">Birth Date</label>
+                        <input type="date" name="birth_date" class="form-control" id="inputPassword4" placeholder="Birth Date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Birth Time</label>
+                        <input type="time"  name="birth_time"  class="form-control" id="inputAddress" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">Birth Place</label>
+                        <input type="text"  name="birth_place" class="form-control"  id="front-search-field" placeholder="Birth Place">
+                    </div>
+                    <button type="submit" class="btn is_active">Find Kundli</button>
+                    </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Saved Kundli</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                    </div>
+              </div>
+           </div>
+       </div>
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer class="page-footer pt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+  
+      <!-- Grid row -->
+      <div class="row mt-5">
+  
+        <!-- Grid column -->
+        <div class="col-md-5 mt-md-0 mt-3">
+  
+          <!-- Content -->
+            <img src="https://collabdoor.com/public/front_img/Logo-removebg-preview 1.png " alt="">
+          <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit ut aliquam, purus sit amet luctus venenatis, lectus
+            magna fringilla urna, porttitor rhoncus dolor purus
+            non enim praesent elem</p>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <hr class="clearfix w-100 d-md-none pb-3">
+  
+        <!-- Grid column -->
+        <div class="col-md-2 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h4 class="text-uppercase text-light">Our Service</h4>
+          <div style="border-bottom: 4px solid #fe870a;width: 80px;" ></div>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Horoscope</a>
+            </li>
+            <li>
+              <a href="#!">Gemstones</a>
+            </li>
+            <li>
+              <a href="#!">Numerology</a>
+            </li>
+            <li>
+              <a href="#!">Tarot Cards</a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-2 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h4 class="text-uppercase  text-light"  >Quick Links</h4>
+          <div style="border-bottom: 4px solid #fe870a;width: 60px;" ></div>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">About Us</a>
+            </li>
+            <li>
+              <a href="#!">Blog</a>
+            </li>
+            <li>
+              <a href="#!">Services</a>
+            </li>
+            <li>
+              <a href="#!">Contact US</a>
+            </li>
+          </ul>
+  
+        </div>
+        <div class="col-md-2 mb-md-0 mb-3">
+  
+            <!-- Links -->
+            <h4 class="text-uppercase  text-light" >Contact Us</h4>
+              <div style="border-bottom: 4px solid #fe870a;width: 40px;" ></div>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#!">(406) 555-0120</a>
+              </li>
+              <li>
+                <a href="#!">mangcoding123@gmail.com</a>
+              </li>
+              <li>
+                <a href="#!">2972 Westheimer Rd.</a>
+              </li>
+              <li>
+                <a href="#!">Santa Ana, Illinois 85486</a>
+              </li>
+            </ul>
     
+          </div>
+        <!-- Grid column -->
+  
+      </div>
+      <!-- Grid row -->
+  
+    </div>
+    <!-- Footer Links -->
+  
+    <!-- Copyright -->
+  
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer -->
+<!-- Footer -->
+<script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+        
 $(document).on('keyup', '#front-search-field', function(){
   autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field")); 
 });
-
-
-function newKundli()
-{
-  $('#new_kundli').addClass('first-btn')  
-  $('.new-kundli').show()
-}
-function matchKundli()
-{
-  $('#match_kundli').addClass('first-btn')  
-  $('.new-kundli').hide()
-
-  $('.matching-kundli').show()
-
-}
-$(document).ready(function($) {
-        
-        $("#register-form").validate({
-        rules: {
-         full_name: "required",                    
-         gender: "required",
-         birth_time: "required",
-         birth_date: "required",
-         birth_place: "required"
-         
-        },
-        messages: {
-            full_name: "Please enter your Name",                   
-            birth_place: "Please enter your Place",
-          birth_date: "Please enter your Date",
-          birth_time: "Please enter your Time",
-          gender: "Please select your Gender",                   
-        
-        },
-         errorPlacement: function(error, element) 
-{
-    if ( element.is(":radio") ) 
-    {
-        error.appendTo( element.parents('.form-group') );
-    }
-    else 
-    { // This is the default behavior 
-        error.insertAfter( element );
-    }
- },
-        submitHandler: function(form) {
-            form.submit();
-        }
-        
-    });
-});
-
 </script>
-</html>
+    </html>

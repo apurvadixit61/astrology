@@ -358,6 +358,15 @@ class AstrologyApiClient  extends Controller
         return $this->callSunSignDailyPrediction($resourceName, $timezone);
     }
 
+    public function gethoroscopeMonthly($zodiacSign, $timezone)
+    {
+        $resourceName = 'horoscope_prediction/monthly/'.$zodiacSign;;
+        return $this->callSunSignDailyPrediction($resourceName, $timezone);
+      
+    }
+
+
+
     public function getDailyNakshatraPrediction($date, $month, $year, $hour, $minute, $latitude, $longitude, $timezone)
     {
         $resourceName = 'daily_nakshatra_prediction';
@@ -391,7 +400,9 @@ class AstrologyApiClient  extends Controller
         return $response;
     }
 
+   
 
+   
     //***************************************** ASTROLOGY FUNCTIONS ****************************************************
 
 

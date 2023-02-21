@@ -134,3 +134,4 @@ Route::post('get_chat_status','App\Http\Controllers\Apicontroller@get_chat_statu
 Route::post('send_request','App\Http\Controllers\Apicontroller@send_request');
 Route::post('chat_accept','App\Http\Controllers\Apicontroller@chat_accept');
 Route::post('approve_request','App\Http\Controllers\Apicontroller@approve_request');
+Route::post('cancle_request','App\Http\Controllers\Apicontroller@cancle_request');
