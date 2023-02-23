@@ -55,7 +55,7 @@ class HomeController extends Controller
         $input = $request->all();
         $location = $request->input('birth_place');
         $address = str_replace(" ", "+", "$location");
-        $map_where = 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyCZOsCzOOTKFoXCDI9e1yZvVCOTvDonerg&address=' . $address . '&sensor=false';
+        $map_where = 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&address=' . $address . '&sensor=false';
         $geocode = $this->content_read($map_where);
         $json = json_decode($geocode);
         $json = json_decode($geocode);
@@ -66,7 +66,7 @@ class HomeController extends Controller
             $loc['lat'] = 0;
             $loc['long'] = 0;
         }
-
+     
         $userId = "621874";
         $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
         $date = explode('-', $input['birth_date']);
@@ -114,6 +114,75 @@ class HomeController extends Controller
    
         return view('front_end.kundli_view', compact('result1','result2','result3','chalit_chart','responseData', 'responseData1', 'responseData2', 'responseData3', 'responseData4','responseData5','responseData6', 'responseData7','responseData8','input', 'kundli_chart', 'nkundli_chart'));
 
+    }
+
+    public function matchmaking(Request $request)
+    {
+        $maleBirthData=[];
+        $femaleBirthData=[];
+        $input=$request->all();
+        $f_date=explode('-',$request->input('f_birth_date'));
+        $m_date=explode('-',$request->input('m_birth_date'));
+        $f_time=explode(':',$request->input('f_birth_time'));
+        $m_time=explode(':',$request->input('m_birth_time'));
+
+        $f_location = $request->input('f_birth_place');
+        $f_address = str_replace(" ", "+", "$f_location");
+        $map_where_f = 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&address=' . $f_address . '&sensor=false';
+        $geocode = $this->content_read($map_where_f);
+        $json = json_decode($geocode);
+        $json = json_decode($geocode);
+        if ($json->{'results'}) {
+            $f_loc['lat'] = isset($json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'}) ? $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'} : 0;
+            $f_loc['long'] = isset($json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'}) ? $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'} : 0;
+        } else {
+            $f_loc['lat'] = 0;
+            $f_loc['long'] = 0;
+        }
+
+        $m_location = $request->input('m_birth_place');
+        $m_address = str_replace(" ", "+", "$m_location");
+        $map_where_m = 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&address=' . $m_address . '&sensor=false';
+        $geocode = $this->content_read($map_where_m);
+        $json = json_decode($geocode);
+        $json = json_decode($geocode);
+        if ($json->{'results'}) {
+            $m_loc['lat'] = isset($json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'}) ? $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'} : 0;
+            $m_loc['long'] = isset($json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'}) ? $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'} : 0;
+        } else {
+            $m_loc['lat'] = 0;
+            $m_loc['long'] = 0;
+        }
+     
+
+             $maleBirthData['date']=$m_date[2];
+             $maleBirthData['month']=$m_date[1];
+             $maleBirthData['year']=$m_date[0];
+             $maleBirthData['hour']=$m_time[0];
+             $maleBirthData['minute']=$m_time[1];
+             $maleBirthData['latitude']=$m_loc['lat'];
+             $maleBirthData['longitude']=$m_loc['long'];
+             $maleBirthData['timezone']='5.5';
+       
+       
+            $femaleBirthData['date']=$f_date[2];
+            $femaleBirthData['month']=$f_date[1];
+            $femaleBirthData['year']=$f_date[0];
+            $femaleBirthData['hour']=$f_time[0];
+            $femaleBirthData['minute']=$f_time[1];
+            $femaleBirthData['latitude']=$f_loc['lat'];
+            $femaleBirthData['longitude']=$f_loc['long'];
+            $femaleBirthData['timezone']='5.5';
+
+      
+    $userId = "621870";
+    $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+    $astrologyApi = new AstrologyApiClient($userId, $apiKey);
+    $responseData = json_decode($astrologyApi->matchBirthDetails($maleBirthData, $femaleBirthData));
+    $responseData1 = json_decode($astrologyApi->matchAshtakootPoints($maleBirthData, $femaleBirthData));
+ 
+        return view('front_end.matchmaking',compact('responseData','responseData1','input'));
     }
 
     public function getKundliImagesdata()

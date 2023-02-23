@@ -36,8 +36,8 @@
                 <li><a href="{{ url('/blog')}}"> Blog </a> </li>  
                 <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
              <a href="{{url('/user/dashboard')}}"> <li style="margin-left:1rem;"> <img  class="rounded" style="width:50px;height:50px;"; src="{{asset('images/user.jpg')}}" alt="">
-       <span class="text-dark">{{Auth::guard('users')->user()->name}}</span>  <a href="{{url('/user/notification')}}/{{Auth::guard('users')->user()->id}}"><i class="fa fa-bell mx-4"><span id="count" style="margin-top:-10rem;"></span></i> </a>  
-
+       <span class="text-dark">{{Auth::guard('users')->user()->name}}</span>  <a href="{{url('/user/notification')}}/{{Auth::guard('users')->user()->id}}"><i class="fa fa-bell mx-4 position-relative"><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="count"></span></i> </a>  
+      
      </li></a>  
 
         <?php } else{ ?>
@@ -91,7 +91,7 @@
                     <h1>Free Kundli</h1>
                     <p style="margin-top: 6px;">At vero eos et accusamus et iusto odio dignissimos.</p>
                 </div>
-                <form action="{{ route('getKundli')}}" method="post">
+                <form action="{{ route('free-kundli')}}" method="post">
                     @csrf
                     <div class="input-div">
                         <input type="text" name="full_name" required placeholder="Fulll Name">
@@ -552,7 +552,7 @@
                     in
                     some form, by injected hummer.</p>
             </div>
-            <form action="{{ route('getKundli')}}" method="post">
+            <form action="{{ route('free-kundli')}}" method="post">
                 @csrf
                 <div class="input" style="width:107%;">
                     <h1>Full Name</h1>
@@ -694,13 +694,12 @@ console.log(base_url)
     }
     </script>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript"
     src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
 
 <script>
-
 var base_url = location.protocol+'//'+location.host
 
 $(document).on('keyup', '#front-search-field', function() {
@@ -714,7 +713,7 @@ $(document).on('keyup', '#front-last-field', function() {
    if(Auth::guard('users')->check() == true){
     $loginId = auth()->guard("users")->user()->id;
     ?>
-
+var user_type={{auth()->guard("users")->user()->user_type}}
 
 var intervalId = window.setInterval(function() {
     get_notification_count()
@@ -749,6 +748,10 @@ function send_request(element, from_user_id, to_user_id) {
     console.log(from_user_id)
     console.log(to_user_id)
 
+  if(user_type == 2){
+    Swal.fire('Login with User')
+  }else{
+
     var url = base_url+'/user/send_request'
     var data = {
         from_user_id: from_user_id,
@@ -764,7 +767,13 @@ function send_request(element, from_user_id, to_user_id) {
         dataType: 'json',
         success: function(result) {
             if (result.status == 0) {
-                alert(result.message)
+                // alert(result.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    })
+
             } else {
                  location.href = base_url+'/confirm-request/'+ to_user_id;
                
@@ -772,7 +781,7 @@ function send_request(element, from_user_id, to_user_id) {
 
         }
     });
-
+  }
 }
 
 

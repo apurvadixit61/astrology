@@ -1,37 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@include('layouts.front_end.header')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
     <link rel="stylesheet" href="{{ asset('public/front_end/css/service_style.css?v=').time() }}">
-</head>
 
-<body>
-    <nav>
-
-        <img src="{{ asset('public/front_img/Logo-removebg-preview 1.png')}} " alt="">
-        <div>
-
-            <ul>
-                <li style="font-family: 'Lato', sans-serif;"> <a href="{{ url('/')}}"> Home </a> </li>
-                <li><a href="{{ url('/all')}}"> Our Astrologer </a> </li>
-                <li><a href="{{ url('/services')}}"><b  style="color:#fe870a !important;border-bottom: 2px solid #fe870a;" >  Services </b></a></li>
-                <li><a href="{{ url('/kundli')}}"> Kundli  </a></li>
-                <li><a href="{{ url('/horoscope')}}"> Horoscope </a> </li>
-                <li><a href="{{ url('/blog')}}"> Blog </a> </li>
-            </ul>
-        </div>
-
-        <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
-        {{Auth::guard('users')->user()->name}}  <a href='{{url("/user/notification/$id")}}'><i class="fa fa-bell fa-x" aria-hidden="true"></i><span id="count" style="margin-top:1rem;"></span></a>
-        <?php } else{ ?>
-        <a class="login-btn text-light" href="{{url('/signin')}}">Sing In</a>
-        <?php } ?>
-        
-    </nav>
     <div class="first-sec">
 
         <h1>Services</h1>
@@ -94,7 +64,7 @@
 
     </section>
     <section class="Client-sec">
-        <div class="container" style="  flex-wrap: wrap;">
+        <div class="container mt-3" style="  flex-wrap: wrap;">
             <div class="Services-heading">
 
                 <h1>What Clients Says</h1>

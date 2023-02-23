@@ -921,6 +921,7 @@ img.shadow {
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script
@@ -973,10 +974,11 @@ document.getElementById('timer').innerHTML =sessionStorage.getItem('saved_countd
   var s = checkSecond((timeArray[1] - 1));
   if(s==59){
     m=m-1
-
+console.log(user_type)
 if(user_type == 1)
 {
    var data={user_id:from_user_id,astro_charge:astro_charge}
+   console.log(data)
     socket.emit("deduct_amount",data)
 }    
     
@@ -1119,10 +1121,26 @@ send_button.addEventListener("keydown", function (e) {
 
 function end_chat()
 {
+
+    Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, End it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
     socket.emit('forceDisconnect',to_user_id);
 
     sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
+    sessionStorage.removeItem('saved_countdown');
     location.href = 'https://collabdoor.com';
+
+  }
+})
 
 }
 
@@ -1133,6 +1151,7 @@ socket.on('end_chat_data', function(data) {
     {
     socket.emit('forceDisconnect',data);
     sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
+    sessionStorage.removeItem('saved_countdown');
         
     location.href = 'https://collabdoor.com';
     }

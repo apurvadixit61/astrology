@@ -43,15 +43,21 @@
           <h2>Sign In</h2>
           <h5>Welcome Back</h5>
 
+          @if (\Session::has('error'))
+          <div class="alert alert-danger">
+            {!! \Session::get('error') !!}
+          </div>
+        @endif
+
           <h6>Phone</h6>
           <input placeholder="Phone" required  name="email" type="text">
           <h6>Password</h6>
-          <input placeholder="Password" required  name="password" type="text">
+          <input placeholder="Password" required  name="password" type="password">
 
 
 
         </div>
-        <button type="submit" class="Sing-up-btn">Sing In</button>
+        <button type="submit" class="Sing-up-btn">Sign In</button>
         </form>
         <!-- <div class="btn-div">
           <button class="FA-FACBOOK"><a href="#" class="fa fa-facebook"></a></button> <button class="FA-TWITTER"><a

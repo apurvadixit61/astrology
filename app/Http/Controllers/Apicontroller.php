@@ -6178,9 +6178,8 @@ public function cancle_request(Request $request)
 {
 
 
-
+    $url1 = 'https://fcm.googleapis.com/fcm/send';
     $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
-    
     $user_id = DB::table('users')->where('id',$request->receiver_id)->first();
     $astro_name = DB::table('users')->where('id',$request->sender_id)->first();
     if(!defined( 'API_ACCESS_KEY')){
@@ -6276,10 +6275,13 @@ public function cancle_request(Request $request)
        // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
       ];
       $dataPayload = [
-       'id'=> '', 
+       'id'=> $request->id, 
        'user_name'=> $astro_name->name, 
        'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
        'type'=>'customer',
+       'sender_id'=>$request->sender_id,
+       'receiver_id'=>$request->receiver_id,
+       'per_minute'=>$request->per_minute,
        'notification_type'=>'accept',
        'title' => 'Your chat request accpeted from '. $astro_name->name,
       'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',

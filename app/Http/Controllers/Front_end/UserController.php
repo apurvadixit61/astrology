@@ -26,6 +26,11 @@ class UserController extends Controller
 
 {
 
+    public function __construct()
+    {
+
+        print_r(Auth::guard('users')->check());
+    }
     public function index()
     {
            
@@ -36,7 +41,7 @@ class UserController extends Controller
     {
         if(Auth::guard('users')->user())
         {
-            return view('front_end.users.chats');
+            return view('front_end.users.dashboard');
         }
 
         return redirect('login')->with('success', 'you are not allowed to access');
@@ -132,6 +137,8 @@ class UserController extends Controller
       
                       $data['status'] = "false";
                       $data['message'] = "Enter phone number";
+
+                      return redirect()->back()->with('error', 'User not Exists'); 
                   }else{
           
           
@@ -155,7 +162,7 @@ class UserController extends Controller
                         }
 
                     }else{
-                        return redirect('/'); 
+                        return redirect()->back()->with('error', 'Password Not Matched'); 
                     }
                 
                 
@@ -163,6 +170,29 @@ class UserController extends Controller
 
 
             //   }
+
+    }
+
+    public function orders()
+    {
+        if(Auth::guard('users')->user())
+        {
+            return view('front_end.users.orders');
+        }
+        return redirect('/'); 
+
+    }
+
+    public function wallets()
+    {
+        if(Auth::guard('users')->user())
+        {
+
+            $id=Auth::guard('users')->user()->id;
+            $wallets=DB::table('wallet_system')->where('user_id',$id)->first();
+            return view('front_end.users.wallets',compact('wallets'));
+        }
+        return redirect('/'); 
 
     }
 

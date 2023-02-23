@@ -5,15 +5,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-nav {
-  height: 100px;
-  top: 0;
-  left: 0;
-  padding: 15px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 a:link,a:visited {
     text-decoration: none !important;
     color:black;
@@ -21,41 +13,7 @@ a:link,a:visited {
 a:hover {
     color:#fe870a  !important;
 }
-nav ul li {
-  display: inline-block;
-  list-style: none;
-  margin: 5px 25px;
-  color: light rgb(171, 166, 166);
-  font-family: "Lato", sans-serif;
-  color: rgb(192, 187, 187);
-  font-weight: 600;
-  font-size: 18px;
-  font-style: normal;
-  line-height: 22px;
-}
-ul {
-  margin: 5px 25px;
-  right: 190px;
-  top: 6%;
-  width: 100%;
-}
 
-nav img {
-  height: 80px;
-  width: 80px;
-}
-
-nav button {
-  height: 55px;
-  width: 170px;
-  background-color: #fe870a;
-  border: none;
-  border-radius: 8px;
-  font-family: "Poppins" sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: white;
-}
 
 .img-one {
   position: absolute;
@@ -191,7 +149,7 @@ nav button {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 100px;
+ 
 }
 .testm {
   display: flex;
@@ -269,7 +227,7 @@ nav button {
   height: 15px;
   margin-left: 599px;
   margin-top: 171px;
-  background-image: url(./IMAGE/1-2-1\ 1.png);
+  background-image: url(https://collabdoor.com/public/front_img/IMAGE/1-2-1\ 1.png);
 }
 .client-div-first {
   box-sizing: border-box;

@@ -7,6 +7,8 @@ use App\Http\Controllers\Front_end\UserController;
 
 Route::get('/','App\Http\Controllers\Front_end\UserController@index');
 Route::get('/logout','App\Http\Controllers\Front_end\UserController@logout');
+Route::get('/orders','App\Http\Controllers\Front_end\UserController@orders');
+Route::get('/wallets','App\Http\Controllers\Front_end\UserController@wallets');
 Route::get('/chat/{id}','App\Http\Controllers\Front_end\MessageController@chat');
 Route::get('/load_request_chat','App\Http\Controllers\Front_end\MessageController@load_request_chat');
 Route::post('/doLogin','App\Http\Controllers\Front_end\UserController@doLogin')->name('doLogin');

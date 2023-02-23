@@ -72,7 +72,8 @@ Route::get('/yearly_horoscope/{zodiacSign}','App\Http\Controllers\Front_end\Home
 //horoscope end
 Route::get('/chat-with-astrologer','App\Http\Controllers\Front_end\HomeController@chatWithAstrologer');
 Route::get('/call-with-astrologer','App\Http\Controllers\Front_end\HomeController@callWithAstrologer');
-Route::match(array('GET', 'POST'), 'getKundli', 'App\Http\Controllers\Front_end\HomeController@getKundli')->name('getKundli');
+Route::match(array('GET', 'POST'), 'free-kundli', 'App\Http\Controllers\Front_end\HomeController@getKundli')->name('free-kundli');
+Route::match(array('GET', 'POST'), 'match-making', 'App\Http\Controllers\Front_end\HomeController@matchmaking')->name('match-making');
 
 
 Route::get('/getMajorYoginiDasha', 'App\Http\Controllers\Front_end\HomeController@getMajorYoginiDasha');
