@@ -2,7 +2,8 @@
     <title>Astrology</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
 <style>
     .fs-10{
     font-size: 20px;
@@ -135,11 +136,33 @@ footer{
 footer a{
     color: #fff;
 }
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #fe870a;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>
 
 <nav class="navbar navbar-light navbar-expand-sm">
         <a href="{{ url('/')}}" class="navbar-brand">
-            <img src="http://collabdoor.com/public/front_img/Logo-removebg-preview 1.png " alt="">
+            <img src="https://collabdoor.com/public/front_img/Logo-removebg-preview 1.png " alt="">
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
@@ -165,7 +188,7 @@ footer a{
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/kundli')}}" class="nav-link text-dark fs-10 {{ request()->is('kundli') ? 'link_active' : ''}}">
+                    <a href="{{ url('/kundli')}}" class="nav-link text-dark fs-10 {{ request()->is('kundli') ? 'link_active' : ''}} {{ request()->is('free-kundli') ? 'link_active' : ''}} {{ request()->is('match-making') ? 'link_active' : ''}}">
                         Kundli
                     </a>
                 </li>

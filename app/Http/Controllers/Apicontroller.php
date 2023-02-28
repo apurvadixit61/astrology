@@ -57,9 +57,10 @@ class Apicontroller extends Controller{
             }
 
         }else{
-            $checkuser = DB::table('users')->where('phone_no', $phone_no)->first();
-           
-            if($checkuser == null){
+           $passwords= Hash::make($request->password);
+        //   echo $passwords;die;
+             $checkuser = DB::table('users')->where('phone_no', $phone_no)->first();
+             if($checkuser == null){
 
                 $data['status'] = "false";
                 $data['message'] = "Enter phone number";
@@ -118,7 +119,7 @@ public function get_chat_status(Request $request)
 
         }else{
             $check = DB::table('chat_active_status')->where('astro_id',$request->astro_id)->first();
-            //  print_r($check); die();
+          //    print_r($check); die();
   
               if(!empty($check)){
 
@@ -126,7 +127,8 @@ public function get_chat_status(Request $request)
                 $data['message'] = "chat status list";
                 $data['data']=$check;
               }else{
-                $data['status'] = false;
+                $data['status'] = true;
+           //     $data['data']="";
                 $data['message'] = "Data does not found";
                 
               }
@@ -215,8 +217,11 @@ public function get_call_status(Request $request)
                     'status'        =>        $request->status,
                   );
 
+  $setourdata=array('is_busy'=> $request->status);
+
     $otp_msg="chat in check progress for astrologer ".$request->mobile_no;
     $resultlastid = DB::table('chat_active_status')->insertGetId($setdata);
+    $results = DB::table('users')->where('id',$request->astro_id)->update($setourdata);
     $id="$resultlastid";
     $data['status'] = true;
     $data['chat_status'] = true;
@@ -231,9 +236,12 @@ public function get_call_status(Request $request)
                         'start_time'                    =>  $request->start_time,
                         'end_time'                    =>  $request->end_time,
                         'chat_status'                    =>   $request->status,
-                        'status'        =>         $request->end_time,
+                        'status'        =>         $request->status,
                       );
                     $result = DB::table('chat_active_status')->where('astro_id',$request->astro_id)->update($setdata);
+                   
+                    $setourdata=array('is_busy'=> $request->status);
+                    $results = DB::table('users')->where('id',$request->astro_id)->update($setourdata);
                     $otp_msg="chat in check progress for astrologer ".$request->mobile_no;
                     $data['status'] = true;
                     $data['chat_status'] = true;
@@ -978,7 +986,9 @@ public function add_kundli(Request $request)
 
 }
 
- public function add_wallet_amt(Request $request)
+
+
+public function add_wallet_amt(Request $request)
     {
          $validator = Validator::make($request->all(), [
             'user_id'          =>  'required',
@@ -1011,7 +1021,94 @@ public function add_kundli(Request $request)
          $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
          $wallet_system_check=count($wallet_system);
          if($wallet_system_check > 0 ){
-             $avble_bal= $wallet_system[0]->wallet_amount;
+            // $avble_bal= $wallet_system[0]->wallet_amount;
+            // $new_bal=$request->wallet_amount;
+            // $total_bal=$avble_bal + $new_bal;
+            // $setdata['wallet_amount']=  $total_bal;
+            // $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
+            //  $data['status'] = "true";
+            //  $data['user_id'] =$request->user_id;
+            //  $data['wallet_amount'] =$total_bal;
+            //  $data['message'] ='Your Wallet amount udapted sucessfully';
+            $method=$request->payment_method;
+            $setdata=   array(
+            'user_id'=>  $request->user_id,
+            'payment_method'=> $request->payment_method,
+            'payment_status'=>  $request->payment_status,
+            'wallet_amount'=>  $request->wallet_amount,
+            'trancation_id'=>  $request->trancation_id,
+            'status'=>  1,);
+               $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
+               $data['status'] = "true";
+               $data['user_id'] =$request->user_id;
+               $data['wallet_amount'] =$request->wallet_amount;
+               $data['message'] ='Your Wallet amount added sucessfully';
+         }else{
+             $method=$request->payment_method;
+             $setdata=   array(
+             'user_id'=>  $request->user_id,
+             'payment_method'=> $request->payment_method,
+             'payment_status'=>  $request->payment_status,
+             'wallet_amount'=>  $request->wallet_amount,
+             'trancation_id'=>  $request->trancation_id,
+             'status'=>  1,);
+                $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
+                $data['status'] = "true";
+                $data['user_id'] =$request->user_id;
+                $data['wallet_amount'] =$request->wallet_amount;
+                $data['message'] ='Your Wallet amount added sucessfully';
+         }
+             
+         }else{
+            	$data['data'] = '';
+				$data['status'] = false;
+				$data['message'] = "User does not exist";
+                
+         }
+
+       
+        echo json_encode($data);
+    }
+
+}
+
+
+
+
+ public function add_wallet_amt_old(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id'          =>  'required',
+            'payment_method'      =>  'required',
+           // 'payment_status'      =>  'required',
+            'wallet_amount'     =>  'required',
+            'trancation_id'     =>  'required',
+            'device_id'     =>  'required',
+
+        ]);
+        if ($validator->fails()) {
+            $error_msg = [];
+            foreach ($validator->messages()->all() as $key => $value) {
+                array_push($error_msg, $value);
+            }
+            if ($error_msg) {
+                return array(
+                    'status' 	=> false,
+                    'code' 		=> 201,
+                    'message' 	=> $error_msg[0],
+                    'data' 		=> $request->all()
+                );
+            }
+
+        }else{
+
+        $checkuser = DB::table('users')->where('id',$request->user_id)->get();
+        if($checkuser)
+        {
+         $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
+         $wallet_system_check=count($wallet_system);
+         if($wallet_system_check > 0 ){
+            $avble_bal= $wallet_system[0]->wallet_amount;
             $new_bal=$request->wallet_amount;
             $total_bal=$avble_bal + $new_bal;
             $setdata['wallet_amount']=  $total_bal;
@@ -1663,10 +1760,13 @@ echo json_encode($data);
         else{
 
 
-       $checkuser = DB::table('users')->where('id',$request->user_id)->first();
+        $checkuser = DB::table('users')->where('id',$request->user_id)->first();
+      //  print_r($checkuser);die;
 	    if($checkuser)
         {
-
+            //echo $request->user_type;die;
+        if($request->user_type==1){    
+         
         $Amount = DB::table('wallet_system')->where('user_id',$request->user_id)->sum('wallet_amount');
         //print_r($Amount);die;
         if($Amount){
@@ -1674,7 +1774,16 @@ echo json_encode($data);
         $data['status'] = true;
 		$data['message'] = "All Wallet Amount data";
         }
-        else
+    }else{
+
+        $Amount = DB::table('payments')->where('astro_id',$request->user_id)->sum('wallet_amount');
+        $data['Amount'] = $Amount;
+        $data['status'] = true;
+		$data['message'] = "All Wallet Amount data";
+
+
+    }
+ } else
         {
                 //$data['data'] = 'Does not data found';
 				$data['status'] = true;
@@ -1683,16 +1792,6 @@ echo json_encode($data);
 
         }
 
-
-
-
-        }else
-        {
-            	$data['data'] = '';
-				$data['status'] = false;
-				$data['message'] = 'Data does not found!!!!!!!!!!!!';
-
-        }
 
         echo json_encode($data);
         }
@@ -6016,6 +6115,7 @@ public function send_request(Request $request)
            'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
            'type'=>'astrologer',
            'notification_type'=>'send_request',
+           "click_action"=> "FLUTTER_NOTIFICATION_CLICK",
            'title' => 'Incoming chat request from '. $user_name->name,
           'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
            'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
@@ -6138,6 +6238,7 @@ public function chat_accept(Request $request)
        'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
        'type'=>'customer',
        'notification_type'=>'accept',
+       "click_action"=> "FLUTTER_NOTIFICATION_CLICK",
        'title' => 'Your chat request accpeted from '. $astro_name->name,
       'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
        'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
@@ -6205,6 +6306,7 @@ public function cancle_request(Request $request)
        'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
        'type'=>'customer',
        'notification_type'=>'cancle',
+       "click_action"=> "FLUTTER_NOTIFICATION_CLICK",
        'title' => 'Your chat request accpeted from '. $astro_name->name,
       'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
        'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
@@ -6282,6 +6384,7 @@ public function cancle_request(Request $request)
        'sender_id'=>$request->sender_id,
        'receiver_id'=>$request->receiver_id,
        'per_minute'=>$request->per_minute,
+       "click_action"=> "FLUTTER_NOTIFICATION_CLICK",
        'notification_type'=>'accept',
        'title' => 'Your chat request accpeted from '. $astro_name->name,
       'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',

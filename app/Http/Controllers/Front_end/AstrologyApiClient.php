@@ -739,13 +739,13 @@ class AstrologyApiClient  extends Controller
         return $response;
     }
 
-    /*public function getManglikRemedies($date, $month, $year, $hour, $minute, $latitude, $longitude, $timezone)
+    public function getManglikRemedies($date, $month, $year, $hour, $minute, $latitude, $longitude, $timezone)
     {
         $resourceName = 'manglik_remedy';
         $data = $this->packageHoroData($date, $month, $year, $hour, $minute, $latitude, $longitude, $timezone);
-        $response = getCurlReponse($this->userId, $this->apiKey, $resourceName, $data);
+        $response = getCurlReponse($this->userId, $this->apiKey, $resourceName, $data, $this->language);
         return $response;
-    }*/
+    }
 
 
     //*****************Horoscope Charts****************//

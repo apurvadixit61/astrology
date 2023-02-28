@@ -13,8 +13,8 @@
 				<div class="col-md-12">
 					 <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">Product Category</h3>
-		 <a href="#" data-toggle="modal" data-target="#add-usertype" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add  Category</a>
+				  <h3 class="box-title">Blog list</h3>
+		 <a href="#" data-toggle="modal" data-target="#add-usertype" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add  Blog</a>
  
 				</div>
 				<!-- /.box-header -->
@@ -28,7 +28,7 @@
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Image</th>
-                                                    <th> Category Name</th>
+                                                    <th>Name</th>
                                                     <th>Action</th>
                                                
                                                 </tr>
@@ -45,19 +45,19 @@
                                                 <tr>
                                                     <td>{{ $i;}}</td>
                                                     <?php
-                                                    if($user->category_img!="")
+                                                    if($user->blog_image!="")
                                                     {
-                                                        $img=$user->category_img;
+                                                        $img=$user->blog_image;
                                                     }
                                                     else
                                                     {
                                                         $img='no_img.png';
                                                     }
                                                     ?>
-                                              <td><img  style="width:50px;height:50px" class="icon_image" src="{{url('/')}}/images/category_img/{{ $user->category_img }}" /></td>
-                                                <td>{{$user->category_english_name}}</td>
+                                              <td><img  style="width:50px;height:50px" class="icon_image" src="{{url('/')}}/images/blog_image/{{ $user->blog_image }}" /></td>
+                                                <td>{{$user->blog_title}}</td>
                                                 <td>
-									<a href=""  type="button" class="model_edit" data-id="{{$user->category_identifier}}" data-name="{{$user->category_english_name}}" data-desc="{{$user->category_description}}" data-img={{$user->category_img }}>
+									<a href=""  type="button" class="model_edit" data-id="{{$user->id}}" data-name="{{$user->id}}" data-desc="{{$user->id}}" data-img={{$user->blog_image }}>
 									    <span class="badge badge-success mr-5"><i class="fa fa-pencil"></i></span></a>
 									<a href="#" data-toggle="modal" data-target="" title="Delete"><span class="badge badge-danger mr-5"><i class="fa fa-trash"></i></span></a>
 								</td>
@@ -89,7 +89,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><strong>Add  Category</strong></h4>
+                    <h4 class="modal-title"><strong>Add  Blog</strong></h4>
                 </div>
 
                 <form method="POST" action="{{'create_product'}}" enctype="multipart/form-data">
@@ -97,8 +97,28 @@
 
                     <div class="modal-body">
                         <div class="row">
+
+                        <div class="col-md-12">
+                                <label class="control-label"> Blog Category</label>
+                             <select class="form-control">
+                            <option>Select Category</option>
+                            <?php if($blog_category){ 
+                                                    $i =1;
+                                            foreach($blog_category as $blog_category){ 
+                                                $i++;
+                                                       ?>
+                                                       <option value="{{$blog_category->id}}">{{$blog_category->category_name}}</option>
+
+                                                       <?php }} ?>
+                            
+
+                             </select>
+                              
+                            </div>
+
+
                             <div class="col-md-12">
-                                <label class="control-label">Category Name</label>
+                                <label class="control-label"> Blog Title</label>
 
                                 <input class="form-control form-white" placeholder="Enter Name" type="text" name="name" required />
                             </div>
@@ -142,7 +162,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="control-label">Category Name</label>
+                                <label class="control-label">Blog Title</label>
                                  <input type="hidden" value="" name="id" id="id">
                                 <input class="form-control" placeholder="Enter Name" type="text" name="name" value="" id="names"/>
                             </div>
@@ -183,7 +203,6 @@ $(".model_edit").on("click", function(e) {
  e.preventDefault();
 var name=$(this).attr("data-name"); 
 var id=$(this).attr("data-id"); 
-alert(id);
 var desc=$(this).attr("data-desc"); 
 var img=$(this).attr("data-img"); 
  $('#update-category').modal('show');

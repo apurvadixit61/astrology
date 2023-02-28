@@ -6,6 +6,8 @@ use App\Http\Controllers\Front_end\UserController;
 
 
 Route::get('/','App\Http\Controllers\Front_end\UserController@index');
+Route::get('/recharge','App\Http\Controllers\Front_end\UserController@recharge');
+Route::get('/delete_kundli/{id}','App\Http\Controllers\Front_end\UserController@delete_kundli');
 Route::get('/logout','App\Http\Controllers\Front_end\UserController@logout');
 Route::get('/orders','App\Http\Controllers\Front_end\UserController@orders');
 Route::get('/wallets','App\Http\Controllers\Front_end\UserController@wallets');

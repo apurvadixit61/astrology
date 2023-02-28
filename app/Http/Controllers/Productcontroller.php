@@ -82,11 +82,13 @@ class Productcontroller extends Controller
         $photo = $request->image;           
         $photo->move($destinationPath,  '/'.time().$photo->getClientOriginalName());
         $photo_name = '/'.time().$photo->getClientOriginalName();
-        $result = DB::table('categories')->insert(
-         array(
-                'category_english_name'   =>   $request->name,
-                'category_description'   =>   $request->description,
-                'category_img'   =>    $photo_name
+        $result = DB::table('blog')->insert(
+        array(
+                'blog_title'   =>   $request->name,
+                'blog_category'   =>   $request->blog_category,
+                'blog_description'   =>   $request->blog_description,
+                'blog_image'   =>     $request->blog_image
+              
          )
         );
         if($result){
@@ -117,10 +119,19 @@ class Productcontroller extends Controller
               $name=$request->name;
               $desc=$request->description;
               $pic=$request->$photo_name;
-              $input['category_english_name'] =$name;
+           /*   $input['category_english_name'] =$name;
               $input['category_description'] =$desc;
-              $input['category_img'] =$photo_name;
-              
+              $input['category_img'] =$photo_name;*/
+
+            //   'blog_title'   =>   $request->name,
+            //   'blog_category'   =>   $request->blog_category,
+            //   'blog_description'   =>   $request->blog_description,
+            //   'blog_image'   =>     $request->blog_image
+
+              $input['blog_title'] = $request->name;
+              $input['blog_category'] = $request->blog_category;
+              $input['blog_description'] = $request->blog_description;
+              $input['blog_image'] = $photo_name;
              
              //print_r($input);die;
 
@@ -312,8 +323,9 @@ else{
     }
     public function view_category(){
 
-        $users = DB::table('categories')->select('*')->orderBy('category_identifier', 'desc')->get();
-        return view('product_cat', ['users' =>$users]);
+        $users = DB::table('blog')->select('*')->orderBy('id', 'desc')->get();
+        $blog_category = DB::table('blog_category')->select('*')->orderBy('id', 'desc')->get();
+        return view('product_cat', ['users' =>$users],['blog_category'=>$blog_category]);
     }
 
     public function view_subcategory(){

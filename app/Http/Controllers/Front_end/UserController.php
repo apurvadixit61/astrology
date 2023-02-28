@@ -173,6 +173,13 @@ class UserController extends Controller
 
     }
 
+    public function delete_kundli($id)
+    {
+        DB::table('kundli')->where('id',$id)->delete();
+        return redirect()->back()->with('success', 'Kundli deleted Successfully'); 
+
+
+    }
     public function orders()
     {
         if(Auth::guard('users')->user())
@@ -193,6 +200,37 @@ class UserController extends Controller
             return view('front_end.users.wallets',compact('wallets'));
         }
         return redirect('/'); 
+
+    }
+
+    public function recharge()
+    {
+            
+
+
+        if(Auth::guard('users')->check()==1)
+        {
+            $user_id=Auth::guard('users')->user()->id;
+            $Amount = DB::table('wallet_system')->where('user_id',$user_id)->sum('wallet_amount');
+       
+            if($Amount){
+            $data['amount'] = $Amount;
+            $data['status'] = true;
+            $data['message'] = "All Wallet Amount data";
+            }
+            else
+            {
+                    //$data['data'] = 'Does not data found';
+                    $data['status'] = true;
+                    $data['amount'] = 0;
+                    $data['message'] = "No data found enterd user id";
+    
+            }
+
+        return view('front_end.users.recharge',$data);
+        }
+
+        return redirect('/signin'); 
 
     }
 

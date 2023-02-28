@@ -86,9 +86,9 @@
 				  </a>
 				 </li>
 
-				<!--<li class="treeview">
+				<li class="treeview">
 				  <a href="#">
-					<i span class="icon-Cart"><span class="path1"></span><span class="path2"></span></i><span>Pacakages</span><span class="pull-right-container">
+					<i span class="icon-Cart"><span class="path1"></span><span class="path2"></span></i><span>Blog</span><span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
 					</span>
 				  </a>
@@ -96,14 +96,14 @@
 			 		 <ul class="treeview-menu">
 
 
-						<li><a  href="{{url('product') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Product list</a></li>
-						<li><a href="{{url('view_category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category List</a></li>
-						<li><a href="{{url('view_subcategory')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Sub Category</a></li>
+						<li><a  href="{{url('product') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
+						<li><a href="{{url('view_category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Blog</a></li>
+						<!-- <li><a href="{{url('view_subcategory')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Sub Category</a></li> -->
 
 
 
 					</ul>
-				</li>-->
+				</li>
 
 			<!--	 <li><a class="treeview"><i class="ti-layout-grid2-alt"></i>Business<span class="sidebar-collapse-icon ti-angle-down"></span></a>
 
@@ -114,8 +114,8 @@
                     </ul>
                     </li>-->
 
-			<!--
-		        <li class="treeview">
+			
+		        <!-- <li class="treeview">
 				  <a href="#">
 					<i span class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span>Plans</span><span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
@@ -129,7 +129,7 @@
 
 					</ul>
 				</li>
-				-->
+				 -->
 
 				<!--<li>
 				  <a href="order_list.html">

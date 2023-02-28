@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Auth;
 
 //use App\Models\users;
 
@@ -25,17 +26,35 @@ class HomeController extends Controller
 
     public function all()
     {
+        $wallets=0;
+        if(Auth::guard('users')->check()==1 && Auth::guard('users')->user()->user_type == 1)
+        {
+            
+            $id=Auth::guard('users')->user()->id;
+            $wallets=DB::table('wallet_system')->select('wallet_amount')->where('user_id',$id)->first();
+            $wallets=$wallets->wallet_amount;
+        }
+
         $users = User::where('user_type', 2)->get();
 
-        return response()->json([
-            'data' => $users,
-            'status' => 'true',
-        ], 200);
+
+        return view('front_end.astrologers', compact('users','wallets'));
+
+        // return response()->json([
+        //     'data' => $users,
+        //     'status' => 'true',
+        // ], 200);
     }
 
     public function kundli()
     {
-        return view('front_end.free_kundli');
+        $kundlis=[];
+        if(Auth::guard('users')->check()==1)
+        {
+            $id=Auth::guard('users')->user()->id;
+        $kundlis=DB::table('kundli')->where('user_id',$id)->orderBy('id', 'DESC')->get();
+        }
+        return view('front_end.free_kundli',compact('kundlis'));
     }
 
     public function content_read($url)
@@ -86,7 +105,20 @@ class HomeController extends Controller
             'prediction_timezone' => 5.5, // Optional. Only For Transit Prediction API
         );
 
-    
+         if(Auth::guard('users')->check()==1)
+         {
+           
+            $insert=['user_id'=>Auth::guard('users')->user()->id,
+            'kundli_user_name'=>$input['full_name'],'birthday_year'=>$date['0'],'birth_day'=>$date['2'],'birth_month'=>$date['1'],
+            'birth_time'=>$input['birth_time'],'birth_place'=>$input['birth_place'],'birth_time_mintus'=>$time['1'],'birth_time_hrs'=>$time['0'],'lat'=>$loc['lat'],'long'=>$loc['long'],'time_zone'=>'5.5'];
+            $kundli=DB::table('kundli')->where($insert)->first();
+
+            if(empty($kundli))
+            {
+                DB::table('kundli')->insert($insert);
+            }
+         }
+       
 
         $request->session()->put('data', $data);
 
@@ -102,9 +134,12 @@ class HomeController extends Controller
         $responseData6 = json_decode($astrologyApi->getKpDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
         $responseData7 = json_decode($astrologyApi->getMajorYoginiDasha($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
         $responseData8 = json_decode($astrologyApi->getPlanetNature($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
-        
-        $kundli_chart = $this->getHoroChartImage(1);
-        $nkundli_chart = $this->getHoroChartImage(9);
+        $responseData9 = json_decode($astrologyApi->getManglikDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
+        $responseData10 = json_decode($astrologyApi->getKalsarpaDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
+        $responseData11 = json_decode($astrologyApi->getSadhesatiLifeDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
+         
+        $kundli_chart = $this->getHoroChartImage(1)['svg'];
+        $nkundli_chart = $this->getHoroChartImage(9)['svg'];
         $chalit_chart=$this->getHoroChartChalit();
 
         $result1 = json_decode($astrologyApi->getAscendantReport($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
@@ -112,7 +147,7 @@ class HomeController extends Controller
         $result3 = json_decode($astrologyApi->getBasicGemSuggestion($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
 
    
-        return view('front_end.kundli_view', compact('result1','result2','result3','chalit_chart','responseData', 'responseData1', 'responseData2', 'responseData3', 'responseData4','responseData5','responseData6', 'responseData7','responseData8','input', 'kundli_chart', 'nkundli_chart'));
+        return view('front_end.kundli_view', compact('result1','result2','result3','chalit_chart','responseData', 'responseData1', 'responseData2', 'responseData3', 'responseData4','responseData5','responseData6', 'responseData7','responseData8','responseData9','responseData10','responseData11','input', 'kundli_chart', 'nkundli_chart'));
 
     }
 
@@ -187,7 +222,7 @@ class HomeController extends Controller
 
     public function getKundliImagesdata()
     {
-        $d0=$this->getHoroChartImage(4);
+        $d0=$this->getHoroChartImage(00);
         $d01=$this->getHoroChartImage(01);
         $d02=$this->getHoroChartImage(02);
         $d1=$this->getHoroChartImage(1);
@@ -195,12 +230,10 @@ class HomeController extends Controller
         $d3=$this->getHoroChartImage(3);
         $d4=$this->getHoroChartImage(4);
         $d5=$this->getHoroChartImage(5);
-        $d6=$this->getHoroChartImage(6);
         $d7=$this->getHoroChartImage(7);
         $d8=$this->getHoroChartImage(8);
         $d9=$this->getHoroChartImage(9);
         $d10=$this->getHoroChartImage(10);
-        $d11=$this->getHoroChartImage(11);
         $d12=$this->getHoroChartImage(12);
         $d16=$this->getHoroChartImage(16);
         $d20=$this->getHoroChartImage(20);
@@ -211,7 +244,7 @@ class HomeController extends Controller
         $d45=$this->getHoroChartImage(45);
         $d60=$this->getHoroChartImage(60);
 
-       $charts=[$d0,$d01,$d02,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10,$d11,$d12,$d16,$d20,$d24,$d27,$d30,$d40,$d45,$d60];
+       $charts=[$d0,$d01,$d02,$d1,$d2,$d3,$d4,$d5,$d7,$d8,$d9,$d10,$d12,$d16,$d20,$d24,$d27,$d30,$d40,$d45,$d60];
        return $charts;
     }
 
@@ -309,74 +342,118 @@ class HomeController extends Controller
       
 
 switch ($id) {
+    case 00:
+        $chart_id='horo_chart_image/D1';
+        $name='Chalit';
+        break;
+
     case 01:
         $chart_id='horo_chart_image/SUN';
+        $name='SUN';
         break;
       case 02:
         $chart_id='horo_chart_image/MOON';
+        $name='MOON';
+
         break;
   case 1:
     $chart_id='horo_chart_image/D1';
+    $name='Brith';
+
     break;
   case 2:
     $chart_id='horo_chart_image/D2';
+    $name='Hora';
+
     break;
   case 3:
     $chart_id='horo_chart_image/D3';
+    $name='Dreshkan';
+
     break;
   case 4:
         $chart_id='horo_chart_image/D4';
+        $name='Chathurthamasha';
+
         break;
   case 5:
         $chart_id='horo_chart_image/D5';
+        $name='Panchmansha';
+
         break;
-  case 6:
-        $chart_id='horo_chart_image/D6';
-        break;
+
         case 7:
             $chart_id='horo_chart_image/D7';
+            $name=' Saptamansha';
+
             break;
           case 8:
             $chart_id='horo_chart_image/D8';
+        $name='Ashtamansha';
+
             break;
           case 9:
             $chart_id='horo_chart_image/D9';
+        $name='Navamansha';
+
             break;
             case 10:
                 $chart_id='horo_chart_image/D10';
+        $name='Dashamansha';
+
                 break;
-              case 11:
-                $chart_id='horo_chart_image/D11';
+            
+
                 break;
               case 12:
                 $chart_id='horo_chart_image/D12';
+                $name='Dwadashamsha';
+
                 break;
                 case 16:
                     $chart_id='horo_chart_image/D16';
+        $name='Shodashamsha';
+
                     break;
                   case 20:
                     $chart_id='horo_chart_image/D20';
+        $name='Vishamansha';
+
                     break;
                   case 24:
                     $chart_id='horo_chart_image/D24';
+        $name='Chaturvimshamsha';
+
                     break;
                     case 27:
                         $chart_id='horo_chart_image/D27';
+        $name='Bhamsha';
+
                         break;
                       case 30:
                         $chart_id='horo_chart_image/D30';
+        $name='Trishamansha';
+
                         break;
                       case 40:
                         $chart_id='horo_chart_image/D40';
+        $name='Khavedamsha';
+
                         break;
                         case 45:
                             $chart_id='horo_chart_image/D45';
+        $name='Akshvedansha';
+
                             break;
                             case 60:
                                 $chart_id='horo_chart_image/D60';
+        $name='Shashtymsha';
+
                                 break;
   default:
   $chart_id='horo_chart_image/D1';
+  $name='Chalit';
+
 
 }
 $data = session('data');
@@ -386,7 +463,7 @@ $responseData = $astrologyApi->call($chart_id, $data['date'], $data['month'], $d
 $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']);
 
 $xml = json_decode($responseData)->svg;
-return $xml;die;
+return array('svg'=>$xml,'name'=>$name);die;
 // $responseData4 = $astrologyApi->getHoroChartImage($data['date'], $data['month'], $data['year'], $data['hour'],
 // $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']);
 
@@ -550,6 +627,76 @@ public function getRudhraksSuggest()
     return $result;
 
 }
+
+public function razorPaySuccess(){
+    $user_id =Auth::guard('users')->user()->id;
+    
+    $product_id=$_POST['product_id'];
+    //$user_id=$_POST['user_id'];
+    $payment_id=$_POST['payment_id'];
+    $amount=$_POST['amount'];
+    
+   
+    $data = [
+              'user_id' =>$user_id ,
+              'product_id' =>$product_id ,
+              'r_payment_id' => $payment_id,
+              'amount' => $amount,
+           ];
+    
+ 
+   $checkuser = DB::table('users')->where('id',$user_id)->get();
+   if($checkuser)
+   {
+    $wallet_system = DB::table('wallet_system')->where('user_id',$user_id)->get();
+    $wallet_system_check=count($wallet_system);
+    if($wallet_system_check > 0 ){
+        $avble_bal= $wallet_system[0]->wallet_amount;
+        $new_bal=$amount;
+        $total_bal=$avble_bal + $new_bal;
+        $setdata['wallet_amount']=  $total_bal;
+        $result = DB::table('wallet_system')->where('user_id',$user_id)->update($setdata);
+        $data['status'] = "true";
+        $data['user_id'] =$user_id;
+        $data['wallet_amount'] =$total_bal;
+        $data['message'] ='Your Wallet amount udapted sucessfully';
+    }else{
+         $payment_method="Online";
+         $setdata=   array(
+        'user_id'=>  $user_id,
+        'payment_method'=> $payment_method,
+        'payment_status'=>  'paid',
+        'wallet_amount'=>  $amount,
+        'trancation_id'=>  $payment_id,
+        'status'=>  1,);
+           $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
+           $data['status'] = "true";
+           $data['user_id'] =$user_id;
+           $data['wallet_amount'] =$amount;
+           $data['message'] ='Your Wallet amount added sucessfully';
+    }
+        
+    }else{
+           $data['data'] = '';
+           $data['status'] = false;
+           $data['message'] = "User does not exist";
+           
+    }
+
+  
+   return json_encode($data);
+
+    
+
+}
+
+// rozarpay thankyou
+public function RazorThankYou()
+{
+  return view('thankyou');
+}
+
+
 
 
 }

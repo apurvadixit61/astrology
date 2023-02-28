@@ -47,7 +47,8 @@ Route::get('/admin', function () {
 
 });
 
-Route::get('/allastro', 'App\Http\Controllers\Front_end\HomeController@all')->name('all');
+Route::get('/all', 'App\Http\Controllers\Front_end\HomeController@all');
+Route::post('/paysuccess', 'App\Http\Controllers\Front_end\HomeController@razorPaySuccess');
 Route::get('/confirm-request/{id}', 'App\Http\Controllers\Front_end\HomeController@confirmrequest')->name('confirm-request');
 
 
@@ -82,9 +83,6 @@ Route::get('/getRudhraksSuggest', 'App\Http\Controllers\Front_end\HomeController
 
 
 
-Route::get('/all', function () {
-    return view('front_end.astrologers');
-});
 
 Route::get('/blog', function () {
     return view('front_end.blog');

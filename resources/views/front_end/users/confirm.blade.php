@@ -227,7 +227,13 @@ function checkIsaccepted() {
 
                     if(result.status=='Approve')
                     {
-                    location.href = 'http://134.209.229.112/astrology/user/chats/'+result.from_user_id+'/'+result.to_user_id +'?key='+result.key;
+                      var  url ='http://134.209.229.112/astrology/user/chats/'+result.from_user_id+'/'+result.to_user_id +'?key='+result.key;
+                      location.href = url
+
+                    //   window.open(
+                    //     'https://support.wwf.org.uk/earth_hour/index.php?type=individual',
+                    //     '_blank' // <- This is what makes it open in a new window.
+                    //     );
 
                     }
                 //   console.log(result.to_user_id)

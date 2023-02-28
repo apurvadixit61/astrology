@@ -936,6 +936,19 @@ var urlString='http://134.209.229.112:8090';
 var socket = io(urlString, {secure: false});
 
 
+if(localStorage.getItem('save_count') == 'undefined' || localStorage.getItem('save_count') ==null)
+{
+    localStorage.setItem('save_count', 00 + ":" + 00);
+
+}
+
+if(localStorage.getItem('amount') == 'undefined' || localStorage.getItem('amount') ==null)
+{
+    localStorage.setItem('amount', 0);
+}
+
+console.log('new',localStorage.getItem('save_count'))
+console.log('new amount',localStorage.getItem('amount'))
 
 socket.on('connect', function() {
   console.log("Connected to WS server");
@@ -943,7 +956,7 @@ socket.on('connect', function() {
   var user_data = {from_user_id:from_user_id,to_user_id:to_user_id,socket_id:socket.id}
   socket.emit("user_data",user_data) 
   socket.emit("chat_history",user_data)
-  startTimer()
+
 });
 
 
@@ -952,73 +965,21 @@ var from_user_id = {{$from_user->id}};
 var to_user_id = {{$to_user->id}};
 var user_type = {{$from_user->user_type}};
 var astro_charge ={{$astro_charge}}
+var chat_id ={{$chat_id}}
 var wallet_amount ={{$wallet_amount->wallet_amount}}
-var saved_countdown = sessionStorage.getItem('saved_countdown');
-
-    if(sessionStorage.getItem('saved_countdown') == null)
-    {
-
-        saved_countdown= sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
-    }
-    console.log(saved_countdown)
-
-//     console.log(saved_countdown)
-
-document.getElementById('timer').innerHTML =sessionStorage.getItem('saved_countdown')
-//   ;
-
-  function startTimer() {
-  var presentTime = document.getElementById('timer').innerHTML;
-  var timeArray = presentTime.split(/[:]+/);
-  var m = timeArray[0];
-  var s = checkSecond((timeArray[1] - 1));
-  if(s==59){
-    m=m-1
-console.log(user_type)
-if(user_type == 1)
-{
-   var data={user_id:from_user_id,astro_charge:astro_charge}
-   console.log(data)
-    socket.emit("deduct_amount",data)
-}    
-    
-sessionStorage.setItem('count', m);
-console.log(sessionStorage.getItem('count'))
-    
-}
-
-  if(m<0){
-    end_chat()
-    location.href = 'https://collabdoor.com';
-    
-    return
-  }
-  
-  sessionStorage.setItem('saved_countdown', m + ":" + s);
-
-  document.getElementById('timer').innerHTML =m + ":" + s;
-//   console.log(saved_countdown)
-
-  setTimeout(startTimer, 1000);
-  
-}
-
-function checkSecond(sec) {
-  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-  if (sec < 0) {sec = "59"};
-  return sec;
-}
 
 
 
 socket.on('user_status', function(data) {
 
 console.log('my user data status',data[0].user_status)
-
+startTimer()
 });
 
 
-socket.on('chat_data', function(data) {
+socket.on('chat_data', function(datas) {
+if(datas.from_user_id ==from_user_id && datas.to_user_id==to_user_id)
+ {   var data =datas.data
       var html=''  
 
   if(data.length >0 )    {
@@ -1063,7 +1024,8 @@ if (data[count].message_status == 'Not Send') {
 
                 
     var status={id:data[count].id,action:'Read'}
-    // console.log('status',status)
+   
+    
     socket.emit('update_message_status',status)
 
                 html += `<div class="left-chat-message fs-13 mb-2">
@@ -1088,7 +1050,8 @@ if (data[count].message_status == 'Not Send') {
                                             Time: {{$from_user->birth_time}}<br/>Place: {{$from_user->birth_place}}<br/></div>`;
 
                 var messages={from_user_id:from_user_id,to_user_id:to_user_id,message:message};
-                console.log(messages)
+              
+                
                socket.emit("message",messages)
 
                if (messages != '') {
@@ -1103,12 +1066,10 @@ if (data[count].message_status == 'Not Send') {
                 <?php } ?>
 
   }
+
+}
 });
 
-
-socket.on('message_data', function(data) {
-  $('#chat').append(data)
- });
 
 
 var send_button = document.getElementById("message_area");
@@ -1122,7 +1083,7 @@ send_button.addEventListener("keydown", function (e) {
 function end_chat()
 {
 
-    Swal.fire({
+  Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
   icon: 'warning',
@@ -1133,10 +1094,22 @@ function end_chat()
 }).then((result) => {
   if (result.isConfirmed) {
    
-    socket.emit('forceDisconnect',to_user_id);
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('amount',0);
+     localStorage.setItem('amount',0);
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
 
-    sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
-    sessionStorage.removeItem('saved_countdown');
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+
+     socket.emit('forceDisconnect',to_user_id);
+     
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+
     location.href = 'https://collabdoor.com';
 
   }
@@ -1145,14 +1118,20 @@ function end_chat()
 }
 
 socket.on('end_chat_data', function(data) {
-    console.log('end_chat_data',data)
 
+    
     if(data == from_user_id )
     {
-    socket.emit('forceDisconnect',data);
-    sessionStorage.setItem('saved_countdown', 05 + ":" + 01);
-    sessionStorage.removeItem('saved_countdown');
-        
+       
+    localStorage.setItem('save_count',0 + ":" + 00);
+    localStorage.setItem('amount', 0);
+    localStorage.setItem('amount', 0);
+       
+    document.getElementById('timer').innerHTML =0 + ":" + 00;
+    document.getElementById('timer').innerHTML =0 + ":" + 00;
+    document.getElementById('timer').innerHTML =0 + ":" + 00;
+
+    socket.emit('forceDisconnect',data);        
     location.href = 'https://collabdoor.com';
     }
 
@@ -1205,7 +1184,10 @@ document.querySelector('#send_button').disabled = false;
     }
 
  socket.on('message_data', function(data) {
- console.log('message_data',data)
+ 
+    
+ if(data.from_user_id ==to_user_id && data.to_user_id==from_user_id)
+ {
 var html=''
  html = `<div class="left-chat-message fs-13 mb-2">
                                             <p class="mb-0 mr-3 pr-4">` + data.message + `</p>
@@ -1222,6 +1204,7 @@ var html=''
 
                 chat_history_element.innerHTML = previous_chat_element.innerHTML + html
                 ScrollToBottom()
+                                        }
 
             }                                             
 
@@ -1248,6 +1231,80 @@ const nDate = new Date().toLocaleString('en-US', {
 var formattedDate = nDate.split(', ')[1].split(':')[0] + ':' + nDate.split(', ')[1].split(':')[1];
 
 return formattedDate
+}
+
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec > 59) {sec = "0"};
+  return sec;
+}
+
+
+
+function startTimer() {
+  var presentTime = localStorage.getItem('save_count');
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond(parseInt(timeArray[1])+1);
+  
+   if(s==3)
+   {
+    var charge = parseInt(astro_charge)*(parseInt(m)+parseInt(1))
+
+    if(user_type == 1)
+    {
+    var data={user_id:from_user_id,astro_charge:astro_charge,astro_id:to_user_id,charge:charge,chat_id:chat_id}
+    console.log(data)
+    socket.emit("deduct_amount",data)
+    socket.emit("astro_amount",data)
+
+    if(charge >=astro_charge)
+    {
+
+    Swal.fire('User balance is Low')
+
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('amount',0);
+     localStorage.setItem('amount',0);
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
+     document.getElementById('timer').innerHTML =0 + ":" + 00;
+
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+
+     socket.emit('forceDisconnect',to_user_id);
+     
+     localStorage.setItem('save_count',0 + ":" + 00);
+     localStorage.setItem('save_count',0 + ":" + 00);
+
+    location.href = 'https://collabdoor.com';
+
+    }
+
+    }   
+
+   }
+  if(s==59){
+    m=parseInt(m)+1}
+  if(m<0){
+
+    localStorage.setItem('save_count', 00 + ":" + 00);
+    localStorage.setItem('amount', 0);
+
+    location.href = 'https://collabdoor.com';
+    return
+  }
+  
+  console.log(m + ":" + s) 
+  console.log('new amount 1',localStorage.getItem('amount'))
+
+  localStorage.setItem('save_count',m + ":" + s);
+  document.getElementById('timer').innerHTML =m + ":" + s; 
+  setTimeout(startTimer, 1000);
+  
 }
 
 

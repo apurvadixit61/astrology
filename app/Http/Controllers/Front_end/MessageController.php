@@ -43,13 +43,16 @@ class MessageController extends Controller
 
     public function chats($from,$to,Request $request)
     {
-        $key_exists= DB::table('chat_requests')->where(['from_user_id'=>$from,'to_user_id'=>$to,'status'=>'Approve','key'=>$request->get('key')])->first();
-        // if(empty($key_exists))
-        // {
-        //     return redirect('/');
+        $key=$request->get('key');
+        $key_exists= DB::table('chat_requests')->where(['status'=>'Approve','key'=>$request->get('key')])->first();
+        if(empty($key_exists))
+        {
+            return view('front_end.notfound');
 
-        // }else{
+        }else{
 
+          
+       $chat_id=$key_exists->id;       
         $wallet_amount=[];
         $astro_charge='';
         $from_user=DB::table('users')->where('users.id',$from)->first();
@@ -69,10 +72,8 @@ class MessageController extends Controller
 
         }
          
-        DB::table('users')->where('id',$from)->update(['is_busy'=>1]);
-        DB::table('users')->where('id',$to)->update(['is_busy'=>1]);
-        return view('front_end.users.chats',compact('from_user','to_user','wallet_amount','astro_charge'));
-    //    }
+        return view('front_end.users.chats',compact('from_user','to_user','wallet_amount','astro_charge','key','key_exists','chat_id'));
+       }
     }
 
     public function load_request_chat()

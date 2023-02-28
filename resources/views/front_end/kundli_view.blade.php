@@ -51,11 +51,37 @@ p{
     color: #fff;
     background-color: #fe870a;
 }
+
+.report>li.active>a, .report>li.active>a:focus, .report>li.active>a:hover {
+    border-bottom: 4px solid #fe870a;
+    color: #fe870a;
+    margin-left: 80px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    background: none;
+}
+
 .card-title
 {
     font-size:18px;
 }
 
+.manglik_present{    
+    border: 4px solid green;
+}
+
+.manglik_absent{    
+    border: 4px solid red;
+}
+.manglik_active
+{
+    width: 75px;
+    padding: 20px;
+    font-size: 18px;
+    border-radius: 50%;
+    color: #fff;
+    border: 1px solid #fff;
+}
 </style>
 <div class="container">
     <ul class="nav nav-pills">
@@ -415,7 +441,13 @@ p{
             </div>
         </div>
         <div id="charts" class="tab-pane fade">
-            
+            <div class="container"  >
+            <div class="loader" style="margin-left:40rem;margin-top:20rem;margin-bottom:5rem;" id="loading-image"></div>
+
+             <div class="row mt-5" id="charts_data">
+             </div>
+            </div>
+       
         </div>
         <div id="dasha" class="tab-pane fade">
         <div class="btn-viimshotari mt-5">
@@ -458,10 +490,10 @@ p{
         </div>
         <div id="report" class="tab-pane fade">
             <div class="container mt-3">
-                <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#general">General</a></li>
-                    <li><a data-toggle="pill" href="#remedies">Remedies</a></li>
-                    <li><a data-toggle="pill" href="#dosha">Dosha</a></li>
+                <ul class="nav nav-pills report">
+                    <li class="active pl-5 pr-5"><a data-toggle="pill" href="#general">General</a></li>
+                    <li><a class="pl-5 pr-5" data-toggle="pill" href="#remedies">Remedies</a></li>
+                    <li><a  class="pl-5 pr-5"  data-toggle="pill" href="#dosha">Dosha</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -479,9 +511,9 @@ p{
                                             <div class="card" style="width:90%;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Description</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">Your ascendant
+                                                    <h4 class="card-subtitle mb-2 text-muted">Your ascendant
                                                         is
-                                                        {{$result1->asc_report->ascendant}}</h6>
+                                                        {{$result1->asc_report->ascendant}}</h4>
                                                     <div class="card-text">{{$result1->asc_report->report}}
                                                     </div>
                                                 </div>
@@ -675,7 +707,7 @@ p{
                                     <div class="row mx-3">
 
                                         <div class="col-md-12  mt-4">
-                                            <h5>Life Stone</h5>
+                                            <h3>Life Stone</h3>
                                             <div class="card" style="width:90%;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Life stone for
@@ -695,14 +727,14 @@ p{
                                                         person born with
                                                         {{$responseData1->ascendant}} Ascendant must
                                                         wear a {{$result3->LIFE->name}} stone.
-                                                        <table width="100%" class="table table-bordered">
+                                                        <table width="100%" class="table table-bordered mt-4"  style="background:rgba(254, 135, 10, 0.8);">
                                                             <tr>
-                                                                <td>Life stone for
+                                                                <td  class="font-weight-bold">Life stone for
                                                                     {{$responseData1->ascendant}} </td>
                                                                 <td>{{$result3->LIFE->name}}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>How to wear</td>
+                                                                <td  class="font-weight-bold">How to wear</td>
                                                                 <td>With {{$result3->LIFE->wear_metal}}
                                                                     ring of
                                                                     {{$result3->LIFE->weight_caret}}
@@ -717,7 +749,7 @@ p{
 
                                                 </div>
                                             </div>
-                                            <h5>Fortune Stone</h5>
+                                            <h3>Fortune Stone</h3>
                                             <div class="card" style="width:90%;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Fortune Stone for
@@ -733,14 +765,14 @@ p{
                                                         helps in fighting obstacles and enhances
                                                         prosperity both in personal and professional
                                                         life.
-                                                        <table width="100%" class="table table-bordered">
+                                                        <table width="100%" class="table table-bordered mt-4"  style="background:rgba(254, 135, 10, 0.8);">
                                                             <tr>
-                                                                <td>Fortune stone for
+                                                                <td  class="font-weight-bold">Fortune stone for
                                                                     {{$responseData1->ascendant}} </td>
                                                                 <td>{{$result3->BENEFIC->name}}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>How to wear</td>
+                                                                <td  class="font-weight-bold">How to wear</td>
                                                                 <td>With
                                                                     {{$result3->BENEFIC->wear_metal}}
                                                                     ring of
@@ -757,7 +789,7 @@ p{
                                                 </div>
                                             </div>
 
-                                            <h5>Lucky Stone</h5>
+                                            <h3>Lucky Stone</h3>
                                             <div class="card" style="width:90%;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Lucky Stone for
@@ -774,14 +806,14 @@ p{
                                                         the
                                                         Lucky gemstone for the {{$responseData1->ascendant}} Ascendant
                                                         is: {{$result3->LUCKY->name}}
-                                                        <table width="100%" class="table table-bordered">
+                                                        <table width="100%" class="table table-bordered mt-4" style="background:rgba(254, 135, 10, 0.8);">
                                                             <tr>
-                                                                <td>Lucky stone for
+                                                                <td class="font-weight-bold">Lucky stone for
                                                                     {{$responseData1->ascendant}} </td>
                                                                 <td>{{$result3->LUCKY->name}}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>How to wear</td>
+                                                                <td  class="font-weight-bold" >How to wear</td>
                                                                 <td>With {{$result3->LUCKY->wear_metal}}
                                                                     ring of
                                                                     {{$result3->LUCKY->weight_caret}}
@@ -805,9 +837,76 @@ p{
                         </div>
                     </div>
                     <div id="dosha" class="tab-pane fade">
-                        <h3>Dosha</h3>
-                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam.</p>
+                    <div class="container">
+                      <ul class="nav nav-pills">
+                            <li class="active"><a data-toggle="pill" href="#manglik">Manglik</a></li>
+                            <li><a data-toggle="pill" href="#kalsarpa">Kalsarpa</a></li>
+                            <li><a data-toggle="pill" href="#sadesati">Sadesati</a></li>
+                        </ul>
+                        
+                        <div class="tab-content">
+                            <div id="manglik" class="tab-pane fade in active">
+                            <div class="card m-5">
+                                <div class="card-body @if($responseData9->is_present ==1) manglik_absent @else manglik_present @endif">
+
+                                @if($responseData9->is_present ==1) 
+
+                                <div class="manglik_active"  style="background:red;">Yes</div> <div class="card-body" style="font-size:16px;">{{$responseData9->manglik_report}}</div>
+                                
+                                
+                                @else <div class="manglik_active" style="background:green;">No</div> <div class="card-body" style="font-size:16px;"> {{$responseData9->manglik_report}}</div> @endif 
+
+                                
+                                </div>
+                            </div>
+                           </div>
+                            <div id="kalsarpa" class="tab-pane fade">
+                            <div class="card m-5">
+                            <div class="card-body @if($responseData10->present ==1) manglik_absent @else manglik_present @endif">
+                            @if($responseData10->present ==1) 
+
+<div class="manglik_active"  style="background:red;">Yes</div> <div class="card-body" style="font-size:16px;">{{$responseData10->one_line}}</div>
+ <div ><ul>{!!str_replace('p>','li>',$responseData10->report->report)!!}</ul></div>
+
+
+@else <div class="manglik_active" style="background:green;">No</div> <div class="card-body" style="font-size:16px;"> {{$responseData10->one_line}}</div> @endif 
+                            </div>
+                            </div>
+                           
+                             </div>
+                            <div id="sadesati" class="tab-pane fade">
+                            <div class="card m-5">
+                            <div class="card-body">
+                                <h3>Sadesati Details</h3>
+                               <div style="font-size:16px;">
+                               Sadhe Sati refers to the seven-and-a-half year period in which Saturn moves through three signs, the moon sign, one before the moon and the one after it. Sadhe Sati starts when Saturn (Shani) enters the 12th sign from the birth Moon sign and ends when Saturn leaves 2nd sign from the birth Moon sign. Since Saturn approximately takes around two and half years to transit a sign which is called Shanis dhaiya it takes around seven and half year to transit three signs and that is why it is known as Sadhe Sati. Generally Sade-Sati comes thrice in a horoscope in the life time - first in childhood, second in youth & third in old-age. First Sade-Sati has effect on education & parents. Second Sade-Sati has effect on profession, finance & family. The last one affects health more than anything else.
+                               </div>
+                               <table class="table table-bordered mt-3">
+                                <tr>
+                                    <td>Start Date</td>
+                                    <td>End Date</td>
+                                    <td>Sign Name</td>
+                                    <td>Type</td>
+                                </tr>
+                                @foreach($responseData11 as $key=>$report)
+                                  @if($key < 20)
+                                 <tr @if($key % 2==0) class="td_style" @endif >
+                                    <td>{{$report->date}}</td>
+                                    <td>{{$responseData11[$key+1]->date}}</td>
+                                    <td>{{$report->saturn_sign}}</td>
+                                    <td>{{ str_replace('_',' ',$report->type)}}</td>
+                                 </tr>
+                                 @endif  
+
+                                 @endforeach
+                               </table>
+                            </div>
+                            </div>
+                           </div>
+                            
+                        </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -1056,15 +1155,19 @@ function getKundlidata() {
         dataType: 'json',
         success: function(result) {
             var trHTML = '';
+
             for (var i = 0; i < result.length; i++) {
-                trHTML += `<div class="col-md-3" id="D` + i + `" >Name goes here` + result[i] + `</div>`;
+                trHTML += `<div class="col-md-3 mx-4" style="margin-right:4rem !important ;">`+result[i].svg+` <p style="margin-left:10rem;">`+result[i].name+`</p></div>`
+
+                // trHTML += `<div class="col-md-3" id="D` + i + `" >Name goes here` + result[i] + `</div>`;
 
             }
 
-            console.log(trHTML)
 
-            // var newSvg = document.getElementById('charts_data');
-            // newSvg.innerHTML = trHTML
+            var newSvg = document.getElementById('charts_data');
+            newSvg.innerHTML = trHTML
+
+
 
         },
         complete: function() {
@@ -1089,7 +1192,7 @@ function getRudhraksSuggest() {
         dataType: 'json',
         success: function(result) {
             console.log(result)
-            trHTML = `<h6 class="card-subtitle mb-2 mt-4 text-muted">` + result.recommend + `</h6>
+            trHTML = `<h4 class="card-subtitle mb-2 mt-4 text-muted">` + result.recommend + `</h4>
                                 <div class="card-text">` + result.detail + `</div>`
 
 
@@ -1097,10 +1200,10 @@ function getRudhraksSuggest() {
             $('#rudhra_content').append(trHTML);
 
         },
-        complete: function() {
+        // complete: function() {
 
-            $('#loading-image').hide();
-        }
+        //     $('#loading-image').hide();
+        // }
     });
 
 }
