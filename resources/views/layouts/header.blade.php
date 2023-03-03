@@ -110,7 +110,7 @@
 		</a>
 	</div>
     <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top" id="navbar_top">
       <!-- Sidebar toggle button-->
 	  <div class="app-menu">
 		<ul class="header-megamenu nav">

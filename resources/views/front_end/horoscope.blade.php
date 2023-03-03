@@ -1,30 +1,26 @@
 @include('layouts.front_end.header')
 
-<div class="first-div">
-    <span class="banner_heading">Horoscope</span>    
-    <button class="banner_button">
-        <p class="banner_para">Home</p> <img src="https://collabdoor.com/public/front_img/Vector%20(1)btn.png" class="" height="20" alt="">
-        <h5 class="text-light">Horoscope</h5>
-    </button>
-</div>
-<div class="container mt-4">
+<section id="page-title">
+    <div class="container">
+            <h1>Horoscope</h1>
+            <ul>
+                    <li><a href="#"> Home </a></li>
+                    <li>Horoscope</li>
+            </ul>
+    </div>
+</section>
+<section id="horoscopePanle">
+    <div class="container">
+        <div class="title  text-center">
+                <h2 id="headdailyscope" class="headdailyscope"></h2>
+                <p class="mt-2 mb-5">Know Your Horoscope</p>
+            </div>
 
-<div id="" class="m-5">
-            <h3 style="text-align:center" id="headdailyscope" class="headdailyscope"></h3>
-            <h4 style="text-align:center;font-weight: 200;">Know Your Horoscope</h4>
-            <p>
-            <h5 id="subtitle"></h5>
-            <p id="description_Data"></p>
-
-
-            </span>
-
-            </p>
+             <h5 id="subtitle" class="mb-4  text-center"></h5>
+            <p id="description_Data" class=" text-center"></p>
 
 
-
-        </div>
-<div id="dailyhoroscope" class="dailyhoroscope">
+            <div id="dailyhoroscope" class="dailyhoroscope">
             <section>
                 <div class="m-5" style="margin-left:10rem  !important;margin-right:10rem !important;"
                     id="adscent_prediction">
@@ -238,12 +234,22 @@
             </section>
         </div>
 </div>
+    </div>
+</section>
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
 @include('layouts.front_end.footer')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+      
 <style>
 /* Style the active class, and buttons on mouse-over */
 .daily_event_call[data-active="active"],

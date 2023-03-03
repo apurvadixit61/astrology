@@ -49,6 +49,7 @@ Route::post('add_call_chat','App\Http\Controllers\Apicontroller@add_call_chat');
 Route::post('view_call_chat','App\Http\Controllers\Apicontroller@view_call_chat');
 
 Route::post('login_user','App\Http\Controllers\Apicontroller@login');
+Route::post('login_user_new','App\Http\Controllers\Apicontroller@login_user_new');
 Route::post('check_exsists','App\Http\Controllers\Apicontroller@check_exsists');
 Route::post('otp_mobile_verify','App\Http\Controllers\Apicontroller@otp_mobile_verify');
 Route::post('add_wallet_amt','App\Http\Controllers\Apicontroller@add_wallet_amt');
@@ -135,3 +136,4 @@ Route::post('send_request','App\Http\Controllers\Apicontroller@send_request');
 Route::post('chat_accept','App\Http\Controllers\Apicontroller@chat_accept');
 Route::post('approve_request','App\Http\Controllers\Apicontroller@approve_request');
 Route::post('cancle_request','App\Http\Controllers\Apicontroller@cancle_request');
+Route::post('chat_histroy','App\Http\Controllers\Apicontroller@chat_histroy');

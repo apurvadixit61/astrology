@@ -1,133 +1,248 @@
 @include('layouts.front_end.header')
-<style>
-    .astrologerListBox {
-  background: #FFFFFF;
-  border: 1px solid #EFEFEF;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  padding: 15px; margin-bottom: 25px;
-}.astroBoxTop {
-  display: flex;
-  position: relative;
-}.astroBoximg img {
-  width: 100px;
-  height:150px;
-  border-radius: 10px;
-}.astroBoximg {
-  margin-right: 15px;
-}
-.checkicon {
-  position: absolute;
-  right: 0;
-}
-.astroBoxcont h4 {
-  font-size: 28px;
-  font-weight: 600;
-}
-.astroBoxcont h5 { margin: 5px 0;
-  font-size: 18px;
-}.astroBoxcont p {
-  font-size: 13px;
-  color: #979797;
-  line-height: 20px;
-}
 
-.reviewBox {
-  color: #979797;
-  font-size: 13px;
-  margin-top: 7px;
-}
-.reviewBox i{margin-left: 3px}
-
-</style>
-<link rel="stylesheet" href="{{ asset('public/front_end/css/our_astro.css?v=').time() }}">
-
-<div class="first-div">
-    <span class="banner_heading">Our Astrologer</span>
-    <button class="banner_button">
-        <p class="banner_para">Home</p> <img src="https://collabdoor.com/public/front_img/Vector%20(1)btn.png" class=""
-            height="20" alt="">
-        <h5 class="text-light">Astrologers</h5>
-    </button>
-</div>
-
-<div class="container mt-3 md-5">
-<div class="second-div">
-        <div class="btn-div">
-            <a class="btn" href="{{url('user/recharge')}}" style="background: #FE8302;color: white;">Recharge</a>
-            <p>Rs. {{$wallets}}</p>
-        </div>
-        <div class="btn-div"> <input type="text" placeholder=" Search Name " name="" id=""> <img
-                style="position: absolute; left: 750px;" src="{{ asset('public/front_img/saerch icon.png') }}"
-                height="25" alt="">
-            <h1><i class="fa-solid fa-magnifying-glass"></i></h1>
-            <button class="button"><img src="{{ asset('public/front_img/filter.png') }}" height="25" alt=""> <a
-                    href="#popup1">Filter</a></button>
-        </div>
-        <button class="sort-btn"><img src="{{ asset('public/front_img/ss.png') }}" height="23" alt=""> Sort by</button>
-
-
+<section id="page-title">
+    <div class="container">
+            <h1>Our Astrologer</h1>
+            <ul>
+                    <li><a href="#"> Home </a></li>
+                    <li>Our Astrologer</li>
+            </ul>
     </div>
-</div>
-
-<div class="container mt-5">
-<div class="astrologerList">
+</section>
+<section id="filter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="d-flex align-items-center">
+                    <a href="{{url('user/recharge')}}" class="btn btn-primary">Recharge</a>
+                    <span class="ms-2">Rs. {{$wallets}}</span>
+                </div>
+            </div>
+             <div class="col-md-6">
+                 <div class="d-flex align-items-center justify-content-center">
+                    <div class="seachBox"><input type="text" class="form-control" placeholder="Search Name"><button><i class="fas fa-search"></i></button></div>
+                    <button class="btn btn-outline-secondary ms-3"><i class="fas fa-filter"></i> Filter </button>
+                 </div>
+             </div>
+              <div class="col-md-3 text-end">
+                  <button class="btn btn-outline-secondary"><i class="fas fa-sort-amount-down"></i> Sort by</button>
+              </div>
+        </div>
+    </div>
+</section>
+<section id="ourAstrologer" class="pt-0">
+  <div class="container">
+        
+        <div class="astrologerList">
             <div class="row">
-                
-    <?php $id=0; if(Auth::guard('users')->check()==true ) { $id=Auth::guard('users')->user()->id;  } ?>
+            <?php $id=0; if(Auth::guard('users')->check()==true ) { $id=Auth::guard('users')->user()->id;  } ?>
             @foreach($users as $key=>$user)
                 <div class="col-lg-4 col-sm-6">
                     <div class="astrologerListBox">
                         <div class="astroBoxTop">
-                            <div class="astroBoximg"><img src="{{url('/')}}/images/profile_image{{$user->profile_image}}">
+                            <div class="astroBoximg"><img width="50" height="120"
+                                @if($user->profile_image!='' ||
+                            $user->profile_image != NULL)
+                            src="{{url('/')}}/images/profile_image{{$user->profile_image}}" @else
+                            src="{{ asset('public/front_img/elem.png') }}" alt="{{$user->name}}" @endif alt="">
+                            <span class="{{$user->user_status}}"></span>
+
                                 <div class="reviewBox">
-                                    <i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i><i class="fa fa-star"></i> 4.5
+                                    <i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star"></i> 4.5
                                 </div>
                             </div>
                             <div class="astroBoxcont">
-                                <span class="checkicon"><img width="25" src="{{ asset('public/front_img/blue tick.png') }}"></span>
+                                <span class="checkicon"><img src="{{ asset('public/astrology_assets/images/check.png')}}"></span>
                                 <h4>{{$user->name}}</h4>
-                                <h5 class="mt-2">@if($user->user_expertise == '')--@else{{$user->user_expertise}}@endif</h5>
-                                <p class="mt-2">@if($user->user_language == '')--@else{{$user->user_language}}@endif <br> Exp: {{$user->user_experience}} @if($user->user_experience != '')Years @endif</p>
+                                <h5>@if($user->user_expertise == '')--@else{{$user->user_expertise}}@endif</h5>
+                                <p>@if($user->user_language == '')--@else{{$user->user_language}}@endif <br> Exp: {{$user->user_experience}} @if($user->user_experience != '')Years @endif</p>
                                 <div class="metaInfo">
-                                    <span class="text-primary fw-bold">@if($user->per_minute == NULL || $user->per_minute==0)<b> <span
-                                                    style="color: red;">FREE</span> </b> @else <span
-                                                style="color: #FE8302;">
-                                                &#x20b9; {{$user->per_minute}} /min </span> @endif</span>
-                                  
+                                    <span class="text-primary fw-bold">₹ {{$user->per_minute}}/min</span>
+                                    <a href="#" @if($user->is_busy == 1) style="border:2px solid red;border-radius:50%;padding:3%;" @endif @if($user->is_busy == 1) onclick="is_busy()" @else onclick="send_request(this,{{$id}},{{$user->id }},'{{$user->user_status}}')" @endif class="ms-auto"><img src="{{ asset('public/astrology_assets/images/msg.png')}}"></a>
+                                    <a href="#" class="ms-2"><img src="{{ asset('public/astrology_assets/images/tel.png')}}"></a>
                                 </div>
-                                <div style="margin-left:140px;" onclick="send_request(this,{{$id}},{{$user->id }})"><a   class=""><img width="25" src="{{ asset('public/front_img/icon-message.png') }}"></a>
-                                    <a href="#"  class="mx-1"><img width="25" src="{{ asset('public/front_img/call icon.png') }}"></a></div> 
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
+        
             </div>
         </div>
-</div>
+  </div>
+</section>
+
 @include('layouts.front_end.footer')
+      <!--  JS Files -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+      <script type="text/javascript">
+         $(function() {
+         // Owl Carousel
+         var owl = $(".owl-carousel");
+         owl.owlCarousel({
+         items: 2,
+         margin: 20,
+         loop: true,
+         nav: true,
+          responsiveClass: true,
+                responsive: {
+                    0:{
+                      items: 1
+                    },
+                    480:{
+                      items: 1
+                    },
+                    769:{
+                      items: 2
+                    }
+                }
+         });
+
+         });
+          
+      </script>
+
+         
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js"></script>
+
 <script>
-
 var base_url = location.protocol+'//'+location.host
 
-  <?php
+console.log(base_url)
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5UhODBBmx_CO43480AoBxcLEWQtf_dss",
+        authDomain: "astrologyfcm.firebaseapp.com",
+        projectId: "astrologyfcm",
+        storageBucket: "astrologyfcm.appspot.com",
+        messagingSenderId: "5304372207",
+        appId: "1:5304372207:web:c97e81ba86bc06b386441a",
+        measurementId: "G-W3L7RJS9TM"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+    startFCM()
+    function startFCM() {
+        messaging.requestPermission()
+            .then(function () {
+                return messaging.getToken()
+            })
+            .then(function (response) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: base_url+'/user/store-token',
+                    type: 'POST',
+                    data: {
+                        token: response
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        // alert('Token stored.');
+                    },
+                    error: function (error) {
+                        alert(error);
+                        console.log(error)
+                    },
+                });
+            }).catch(function (error) {
+                alert(error);
+                console.log(error)
+
+            });
+    }
+    </script>
+
+
+    <script type="text/javascript">
+
+$(document).on('keyup', '#front-search-field', function() {
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field"));
+});
+    $(function() {
+        // Owl Carousel
+        var owl = $(".owl-carousel");
+        owl.owlCarousel({
+            items: 2,
+            margin: 20,
+            loop: true,
+            nav: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 1
+                },
+                769: {
+                    items: 2
+                }
+            }
+        });
+
+    });
+
+    <?php
    if(Auth::guard('users')->check() == true){
     $loginId = auth()->guard("users")->user()->id;
     ?>
 var user_type={{auth()->guard("users")->user()->user_type}}
 
+var intervalId = window.setInterval(function() {
+    get_notification_count()
+}, 5000);
 
-function send_request(element, from_user_id, to_user_id) {
+function get_notification_count(){
+
+    var url = base_url+'/user/get_notification_count/'+{{$loginId}}
+    
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+         console.log(result)
+         $('#count').append('')
+         $('#count').append(result)
+
+         
+         var count = document.querySelector("#count");
+
+         count.innerHTML =result
+
+        }
+    });
+
+}
+function send_request(element, from_user_id, to_user_id,status) {
     console.log(from_user_id)
     console.log(to_user_id)
+    console.log(status)
 
   if(user_type == 2){
     Swal.fire('Login with User')
   }else{
 
+    if(status=='Offline')
+    {
+    Swal.fire('Astrologer is not available for now')
+
+    }
+    else{
     var url = base_url+'/user/send_request'
     var data = {
         from_user_id: from_user_id,
@@ -150,15 +265,46 @@ function send_request(element, from_user_id, to_user_id) {
                     text: result.message,
                     })
 
+                location.href = base_url+'/user/recharge';
+
+
             } else {
-                 location.href = base_url+'/confirm-request/'+ to_user_id;
+                location.href = base_url+'/kundli-detail/'+ to_user_id;
+
                
             }
 
         }
     });
+
+}
+
   }
 }
+
+
+function approve_request() {
+
+
+    var url = base_url+'/user/approve_request'
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'POST',
+        data: '',
+        dataType: 'json',
+        success: function(result) {
+            console.log(result)
+            location.href = url+'/user/chat/' + result;
+
+        }
+    });
+
+}
+
 <?php
    }else{
     ?>
@@ -169,4 +315,13 @@ function send_request() {
 }
 <?php
    } ?>
-</script>
+
+function is_busy()
+   {
+    Swal.fire('Astrologer is busy right now')
+
+   }
+    </script>
+     
+   </body>
+</html>

@@ -1,232 +1,65 @@
-<html>
-    <title>Astrology</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-<style>
-    .fs-10{
-    font-size: 20px;
-    font-weight:600;
-    line-height: 22px;
-    margin-left: 40px;
-    margin-top:1.5rem;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .link_active{
-    color: #fe870a !important;
-    border-bottom: 2px solid #fe870a;
-    }
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="{{ asset('public/astrology_assets/images/favicon.png')}}" rel="icon">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-.first-div{
-    height: 200px;
-    background-image: url(http://collabdoor.com/public/front_img/page-title.png);
-    background-size: contain;
-    position: relative;
-    width: 100%;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-.banner_heading{
-    font-style: normal;
-    font-weight: 600;
-    font-size: 50px;
-}  
-.banner_button
-{
-    width: 258px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.235);
-    border-radius: 100px;
-    border: none;
-    margin-top: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}  
-.banner_para{
-    font-weight: bold;
-    color: #fe870a;
-    font-size: 18px;
-}
+    <!--  CSS Files -->
+    <link href="{{ asset('public/astrology_assets/css/bootstrap.min.css?v=').time()}}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('public/astrology_assets/css/owl.carousel.min.css?v=').time()}}">
+    <!-- Template Main CSS File -->
+    <link href="{{ asset('public/astrology_assets/css/style.css?v=').time()}}" rel="stylesheet" />
+    <title>Welcome to Our Astrologer</title>
+</head>
 
-.kundli_buttton
-{
-    /* margin: 10px;
-    /* padding: 20px; */
-    border-radius: 30px;
-    color: #ffffff;
-    font-family: "Lato" sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 29px;
-    text-transform: capitalize;
-    border: none;
-    color: #fe870a;
-    border: 2px solid #fe870a;
-    background-color: #fff; 
+<body>
+    <div class="top_section home">
+        <nav class="navbar navbar-expand-lg sticky-top" id="navbar_top">
+            <div class="container">
+                <a href="{{url('/')}}" class="logo"><img src="{{ asset('public/astrology_assets/images/logo.png')}}"
+                        alt="" /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : ''}} " aria-current="page" href="{{ url('/')}}">Home</a> </li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('all') ? 'active' : ''}} " href="{{ url('/all')}}">Our Astrologer</a></li>
+                        <li class="nav-item"><a class="nav-link  {{ request()->is('services') ? 'active' : ''}} " href="{{ url('/services')}}">Services</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('kundli') ? 'active' : ''}}" href="{{ url('/kundli')}}">Kundli</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('horoscope') ? 'active' : ''}}" href="{{ url('/horoscope')}}">Horoscope</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('blog') ? 'active' : ''}}" href="{{ url('/blog')}}">Blog</a></li>
+                        <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
 
-}
-.is_active{
-    background: #fe870a;
-    color: #ffffff;
+                            <li class="nav-item dropdown userDropDown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img <?php  if(Auth::guard('users')->user()->profile_image != NULL){?> src="{{url('/')}}/images/profile_image{{Auth::guard('users')->user()->profile_image}}" <?php }else{?> src="{{ asset('public/astrology_assets/images/user.jpg')}}"<?php } ?>width="50px"> {{Auth::guard('users')->user()->name}}
+                            </a>
+                            <span id="count"></span>
+                            <ul class="dropdown-menu dropdown-menu-lg-end">
+                                <li><a class="dropdown-item" href="{{url('/user/notification')}}">Notification</a></li>
+                                <li><a class="dropdown-item" href="{{url('/user/wallets')}}">Wallet</a></li>
+                                <li><a class="dropdown-item" href="{{url('/user/orders')}}">Order History</a></li>
+                                <li><a class="dropdown-item" href="{{url('user/logout')}}">Logout</a></li>
+                            </ul>
+                        </li>
+                        <?php } else{ ?>
 
-}
+                            <li class="nav-item "><a class="nav-link btn  btn-primary" href="{{url('/signin')}}">Sign In</a></li>
 
-.dropbtn {
-  background-color: #fff;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdowns {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdowns-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdowns-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdowns-content a:hover {background-color: #f1f1f1}
-
-.dropdowns:hover .dropdowns-content {
-  display: block;
-}
-
-.dropdowns:hover .dropbtn {
-  background-color: #fe870a;
-}
-.kundli_div{
-    background-color: #fff0e0;
-    margin: 20px;
-    padding: 4rem;
-    border-radius:30px;
-}
-.login-btn{
-    background-color:#fe870a;
-    border:none;
-
-}
-footer{
-    background-color: #000;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    line-height: 3rem;
-}
-footer a{
-    color: #fff;
-}
-
-.loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #fe870a;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-</style>
-
-<nav class="navbar navbar-light navbar-expand-sm">
-        <a href="{{ url('/')}}" class="navbar-brand">
-            <img src="https://collabdoor.com/public/front_img/Logo-removebg-preview 1.png " alt="">
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                     <?php } ?>      
 
 
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="navbar-nav mx-3 px-5">
-                <li class="nav-item">
-                    <a href="{{ url('/')}}" class="nav-link text-dark fs-10">
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/all')}}" class="nav-link text-dark fs-10 {{ request()->is('all') ? 'link_active' : ''}}">
-                        Our Astrologer
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/services')}}" class="nav-link text-dark fs-10 {{ request()->is('services') ? 'link_active' : ''}} ">
-                        Services
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/kundli')}}" class="nav-link text-dark fs-10 {{ request()->is('kundli') ? 'link_active' : ''}} {{ request()->is('free-kundli') ? 'link_active' : ''}} {{ request()->is('match-making') ? 'link_active' : ''}}">
-                        Kundli
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/horoscope')}}" class="nav-link text-dark fs-10 {{ request()->is('horoscope') ? 'link_active' : ''}} ">
-                        Horoscope
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/blog')}}" class="nav-link text-dark fs-10 {{ request()->is('blog') ? 'link_active' : ''}}">
-                        Blog
-                    </a>
-                </li>
-
-                
-                <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
-
-                <li>
-                <div class="dropdowns" style="margin-left:80px;float:right;">
-                <button class="dropbtn"><img  class="rounded" style="width:50px;height:50px;"; src="{{asset('images/user.jpg')}}" alt=""><span style="margin-left:5px;font-weight:600;">{{Auth::guard('users')->user()->name}}</span> </button>
-                <div class="dropdowns-content">
-                <a href="{{url('/user/notification')}}/{{Auth::guard('users')->user()->id}}">Notification</a>
-                <a href="{{url('/user/wallets')}}">Wallet</a>
-                <a href="{{url('/user/orders')}}">Order History</a>
-                <a href="{{url('user/logout')}}">Logout</a>
+                    </ul>
                 </div>
-              </div>
-                </li>
-
-                <?php } else{ ?>
-               <li><a href="{{url('/signin')}}" style="margin-left:100px;float:right;"> <button class="btn-lg mt-3 text-light login-btn">Sign In</button> </a></li>
-                   <?php } ?>     
-
-            </ul>
-
-            
-              
-        </div>
-
-        
-  </nav>
+            </div>
+        </nav>
+    </div>

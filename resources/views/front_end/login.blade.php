@@ -10,9 +10,15 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style type="text/css">
+    .loginPage{background: #FFF0E0}
+.loginPage nav{background: #fff}
+.content{background: #fff}
+
+  </style>
 </head>
 
-<body>
+<body class="loginPage">
   <nav>
 
     <img src="{{ asset('public/front_img/Logo-removebg-preview 1.png') }}" alt="">
@@ -33,7 +39,7 @@
 
   <section class=" new-kundli-matching">
     <img class="background-img" src="{{ asset('public/front_img/background-imgg.png') }}" height="570" alt="">
-    <div class="content">
+    <div class=" loginForm">
 
     <form action="{{route('doLogin')}}" method="post">
         @csrf
@@ -49,8 +55,15 @@
           </div>
         @endif
 
+        
+        @if (\Session::has('success'))
+          <div class="alert alert-success">
+            {!! \Session::get('success') !!}
+          </div>
+        @endif
+
           <h6>Phone</h6>
-          <input placeholder="Phone" required  name="email" type="text">
+          <input placeholder="Phone" required  value="{{ old('email') }}" name="email" type="text">
           <h6>Password</h6>
           <input placeholder="Password" required  name="password" type="password">
 
@@ -65,7 +78,7 @@
               class="fa fa-google"></a></button>
         </div> -->
 
-        <p style="margin-top: 20px;">Dont't have an account? <a href="">SIgn Up</a></p>
+        <p style="margin-top: 20px;">Dont't have an account? <a href="{{url('/signup')}}">SIgn Up</a></p>
 
       </div>
   </section>

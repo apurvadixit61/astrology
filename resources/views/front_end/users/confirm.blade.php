@@ -1,205 +1,84 @@
-<html>
+@include('layouts.front_end.header')
 
-<head></head>
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-  font-family: sans-serif;
-  display: grid;
-  height: 100vh;
-  place-items: center;
-  background:url('https://collabdoor.com/public//front_img/back.png');
-  background-size: cover;
-  opacity: 0.8;
-}
-
-.base-timer {
-  position: relative;
-  width: 200px;
-  height: 200px;
-}
-
-.base-timer__svg {
-  transform: scaleX(-1);
-}
-
-.base-timer__circle {
-  fill: none;
-  stroke: none;
-}
-
-.base-timer__path-elapsed {
-  stroke-width: 7px;
-  stroke: grey;
-}
-
-.base-timer__path-remaining {
-  stroke-width: 7px;
-  stroke-linecap: round;
-  transform: rotate(90deg);
-  transform-origin: center;
-  transition: 1s linear all;
-  fill-rule: nonzero;
-  stroke: currentColor;
-}
-
-.base-timer__path-remaining.green {
-  color: rgb(65, 184, 131);
-}
-
-.base-timer__path-remaining.orange {
-  color: orange;
-}
-
-.base-timer__path-remaining.red {
-  color: red;
-}
-
-.base-timer__label {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-}
-</style>
-
-<body>
-    <div class="row">
-        <div class="col-md-4"><img src="{{url('/')}}/images/profile_image{{Auth::guard('users')->user()->profile_image}}"  style="border-radius:50px;" alt="">
-      <p style="font-size:20px;font-weight:600;margin-left:40px;padding:20px;">{{Auth::guard('users')->user()->name}}</p>
-    </div>
-        <div class="col-md-4"><div id="app"></div></div>
-        <div class="col-md-4">
-            <img src="{{url('/')}}/images/profile_image{{$user->profile_image}}" style="border-radius:50px;margin-left:50px;" alt="">
-      <p  style="font-size:20px;font-weight:600;margin-top:10px;margin-left:50px;padding:20px;">{{$user->name}}</p>
+<section class="chatMsg">
+    <div class="container">
+        <div class="title text-center"><h2>you'r all set</h2></div>
+        <div class="chatMsg_inner mt-5">
+            <div class="chatmsgUsers d-flex align-items-center justify-content-between">
+                <div class="chatUser text-center"><img <?php  if(Auth::guard('users')->user()->profile_image != NULL){?> src="{{url('/')}}/images/profile_image{{Auth::guard('users')->user()->profile_image}}" <?php }else{?> src="{{ asset('public/astrology_assets/images/user.jpg')}}"<?php } ?> width="80px"><h4>{{Auth::guard('users')->user()->name}}</h4></div>
+                <p class="saving"><span>.</span><span>.</span><span>.</span></p>
+                <div class="chatUser text-center"><img src="{{url('/')}}/images/profile_image{{$user->profile_image}}" width="80px"><h4>{{$user->name}}</h4></div>
+            </div>
+            <h5 class="mt-4 mb-3">You will be connecting with {{$user->name}} in  <span class="otp-countdown"  id="timer-countdown">05:00</div>
+        </div> </h5>
         </div>
     </div>
+</section>
 
-    <p style="font-size:22px;font-weight:600;"> Wait for astrologer to connect we will redirect you shortly </p> 
-      <span>Do not refresh or back</span>  
-</body>
+@include('layouts.front_end.footer')
+      <!--  JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
-    
-const FULL_DASH_ARRAY = 283;
-const WARNING_THRESHOLD = 10;
-const ALERT_THRESHOLD = 5;
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+      <script type="text/javascript">
+         $(function() {
+         // Owl Carousel
+         var owl = $(".owl-carousel");
+         owl.owlCarousel({
+         items: 2,
+         margin: 20,
+         loop: true,
+         nav: true,
+          responsiveClass: true,
+                responsive: {
+                    0:{
+                      items: 1
+                    },
+                    480:{
+                      items: 1
+                    },
+                    769:{
+                      items: 2
+                    }
+                }
+         });
 
-const COLOR_CODES = {
-  info: {
-    color: "green"
-  },
-  warning: {
-    color: "orange",
-    threshold: WARNING_THRESHOLD
-  },
-  alert: {
-    color: "red",
-    threshold: ALERT_THRESHOLD
-  }
-};
+         });
 
-const TIME_LIMIT = 120;
-let timePassed = 0;
-let timeLeft = TIME_LIMIT;
-let timerInterval = null;
-let remainingPathColor = COLOR_CODES.info.color;
-
-document.getElementById("app").innerHTML = `
-<div class="base-timer">
-  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-      <path
-        id="base-timer-path-remaining"
-        stroke-dasharray="283"
-        class="base-timer__path-remaining ${remainingPathColor}"
-        d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
-      ></path>
-    </g>
-  </svg>
-  <span id="base-timer-label" class="base-timer__label">${formatTime(
-    timeLeft
-  )}</span>
-</div>
-`;
-
-startTimer();
-
-function onTimesUp() {
-  clearInterval(timerInterval);
-}
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-    document.getElementById("base-timer-label").innerHTML = formatTime(
-      timeLeft
-    );
-    setCircleDasharray();
-    setRemainingPathColor(timeLeft);
-
-    if (timeLeft === 0) {
-      onTimesUp();
+         if ($('#timer-countdown').length) {
+    function countdown( elementName, minutes, seconds )
+    {
+        var element, endTime, hours, mins, msLeft, time;
+        function twoDigits( n )
+        {
+            return (n <= 9 ? "0" + n : n);
+        }
+        function updateTimer()
+        {
+            msLeft = endTime - (+new Date);
+            if ( msLeft < 1000 ) {
+                element.innerHTML = "Time is up!";
+            } else {
+                time = new Date( msLeft );
+                hours = time.getUTCHours();
+                mins = time.getUTCMinutes();
+                element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+                setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+            }
+        }
+        element = document.getElementById( elementName );
+        endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+        updateTimer();
     }
-  }, 1000);
+    countdown( "timer-countdown", 5, 0 );
 }
 
-function formatTime(time) {
-  const minutes = Math.floor(time / 60);
-  let seconds = time % 60;
+          
+      </script>
 
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
-  }
-
-  return `${minutes}:${seconds}`;
-}
-
-function setRemainingPathColor(timeLeft) {
-  const { alert, warning, info } = COLOR_CODES;
-  if (timeLeft <= alert.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(warning.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(alert.color);
-  } else if (timeLeft <= warning.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(info.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(warning.color);
-  }
-}
-
-function calculateTimeFraction() {
-  const rawTimeFraction = timeLeft / TIME_LIMIT;
-  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
-}
-
-function setCircleDasharray() {
-  const circleDasharray = `${(
-    calculateTimeFraction() * FULL_DASH_ARRAY
-  ).toFixed(0)} 283`;
-  document
-    .getElementById("base-timer-path-remaining")
-    .setAttribute("stroke-dasharray", circleDasharray);
-}
-</script>
 <script>
 var intervalId = window.setInterval(function() {
     checkIsaccepted()
@@ -236,6 +115,13 @@ function checkIsaccepted() {
                     //     );
 
                     }
+
+                    if(result.status=='Close')
+                    {
+                         Swal.fire('Your request is Rejected')
+
+                      location.href = base_url
+                    }
                 //   console.log(result.to_user_id)
                 //   console.log(result.key)
 
@@ -247,5 +133,6 @@ function checkIsaccepted() {
 
 }
 </script>
-
+     
+   </body>
 </html>

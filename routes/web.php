@@ -50,9 +50,11 @@ Route::get('/admin', function () {
 Route::get('/all', 'App\Http\Controllers\Front_end\HomeController@all');
 Route::post('/paysuccess', 'App\Http\Controllers\Front_end\HomeController@razorPaySuccess');
 Route::get('/confirm-request/{id}', 'App\Http\Controllers\Front_end\HomeController@confirmrequest')->name('confirm-request');
+Route::get('/kundli-detail/{id}', 'App\Http\Controllers\Front_end\HomeController@kundli_detail')->name('kundli-detail');
 
 
 Route::get('/signin', 'App\Http\Controllers\Front_end\HomeController@login')->name('signin');
+Route::get('/signup', 'App\Http\Controllers\Front_end\HomeController@signup')->name('signup');
 
 Route::get('/', 'App\Http\Controllers\Front_end\HomeController@index');
 Route::get('/kundli', 'App\Http\Controllers\Front_end\HomeController@kundli');

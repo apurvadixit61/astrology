@@ -28,6 +28,13 @@ class Apicontroller extends Controller{
     }
 
 
+
+public function login_user_new(Request $request){
+echo "dsfdsf";die;
+
+
+}
+
 /*******************************Login**********************************************************************/
     public function login(Request $request){
         //echo "sdfd";die;
@@ -69,7 +76,6 @@ class Apicontroller extends Controller{
                 // if($checkuser->status==1){
                 $setdata['device_id']=$request->device_token;
                 $setdata['token'] = md5(uniqid());
-                $setdata['is_login']=1;
                 $setdata['user_status']='Online';
 
 
@@ -217,8 +223,7 @@ public function get_call_status(Request $request)
                     'status'        =>        $request->status,
                   );
 
-  $setourdata=array('is_busy'=> $request->status);
-
+    $setourdata=array('is_busy'=> $request->status);
     $otp_msg="chat in check progress for astrologer ".$request->mobile_no;
     $resultlastid = DB::table('chat_active_status')->insertGetId($setdata);
     $results = DB::table('users')->where('id',$request->astro_id)->update($setourdata);
@@ -239,7 +244,6 @@ public function get_call_status(Request $request)
                         'status'        =>         $request->status,
                       );
                     $result = DB::table('chat_active_status')->where('astro_id',$request->astro_id)->update($setdata);
-                   
                     $setourdata=array('is_busy'=> $request->status);
                     $results = DB::table('users')->where('id',$request->astro_id)->update($setourdata);
                     $otp_msg="chat in check progress for astrologer ".$request->mobile_no;
@@ -1021,28 +1025,28 @@ public function add_wallet_amt(Request $request)
          $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
          $wallet_system_check=count($wallet_system);
          if($wallet_system_check > 0 ){
-            // $avble_bal= $wallet_system[0]->wallet_amount;
-            // $new_bal=$request->wallet_amount;
-            // $total_bal=$avble_bal + $new_bal;
-            // $setdata['wallet_amount']=  $total_bal;
-            // $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
-            //  $data['status'] = "true";
-            //  $data['user_id'] =$request->user_id;
-            //  $data['wallet_amount'] =$total_bal;
-            //  $data['message'] ='Your Wallet amount udapted sucessfully';
+             $avble_bal= $wallet_system[0]->wallet_amount;
+             $new_bal=$request->wallet_amount;
+             $total_bal=$avble_bal + $new_bal;
+             $setdata['wallet_amount']=  $total_bal;
+             $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
+             $data['status'] = "true";
+             $data['user_id'] =$request->user_id;
+             $data['wallet_amount'] =$total_bal;
+             $data['message'] ='Your Wallet amount udapted sucessfully';
             $method=$request->payment_method;
-            $setdata=   array(
+            $setdatas=   array(
             'user_id'=>  $request->user_id,
             'payment_method'=> $request->payment_method,
             'payment_status'=>  $request->payment_status,
             'wallet_amount'=>  $request->wallet_amount,
             'trancation_id'=>  $request->trancation_id,
             'status'=>  1,);
-               $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
-               $data['status'] = "true";
-               $data['user_id'] =$request->user_id;
-               $data['wallet_amount'] =$request->wallet_amount;
-               $data['message'] ='Your Wallet amount added sucessfully';
+               $resultlastid = DB::table('trancation_histroy')->insertGetId($setdatas);
+            //    $data['status'] = "true";
+            //    $data['user_id'] =$request->user_id;
+            //    $data['wallet_amount'] =$request->wallet_amount;
+            //    $data['message'] ='Your Wallet amount added sucessfully';
          }else{
              $method=$request->payment_method;
              $setdata=   array(
@@ -1052,11 +1056,21 @@ public function add_wallet_amt(Request $request)
              'wallet_amount'=>  $request->wallet_amount,
              'trancation_id'=>  $request->trancation_id,
              'status'=>  1,);
-                $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
-                $data['status'] = "true";
-                $data['user_id'] =$request->user_id;
-                $data['wallet_amount'] =$request->wallet_amount;
-                $data['message'] ='Your Wallet amount added sucessfully';
+               
+
+                     $setdatas=   array(
+                    'user_id'=>  $request->user_id,
+                    'payment_method'=> $request->payment_method,
+                    'payment_status'=>  $request->payment_status,
+                    'wallet_amount'=>  $request->wallet_amount,
+                    'trancation_id'=>  $request->trancation_id,
+                    'status'=>  1,);
+                     $resultlastid = DB::table('trancation_histroy')->insertGetId($setdatas);
+                     $resultlastid = DB::table('wallet_system')->insertGetId($setdata);
+                     $data['status'] = "true";
+                     $data['user_id'] =$request->user_id;
+                     $data['wallet_amount'] =$request->wallet_amount;
+                     $data['message'] ='Your Wallet amount added sucessfully';
          }
              
          }else{
@@ -1730,15 +1744,81 @@ public function view_notfication(Request $request)
 echo json_encode($data);
     }
 
-   public function view_wallet_bal(Request $request)
+
+
+    public function view_wallet_bal_old(Request $request)
+    {
+    
+    
+          $coverimg_name = '';
+          $validator = Validator::make($request->all(), [
+            'user_id'          =>  'required',
+         //   'device_id'     =>  'required',
+    
+        ]);
+    
+    
+        if ($validator->fails()) {
+            $error_msg = [];
+            foreach ($validator->messages()->all() as $key => $value) {
+                array_push($error_msg, $value);
+            }
+            if ($error_msg) {
+                return array(
+                    'status' 	=> false,
+                    'code' 		=> 201,
+                    'message' 	=> $error_msg[0],
+                    'data' 		=> $request->all()
+                );
+            }
+    
+        }
+        else{
+    
+    
+        $checkuser = DB::table('users')->where('id',$request->user_id)->first();
+      //  print_r($checkuser);die;
+        if($checkuser)
+        {
+            //echo $request->user_type;die;
+     
+         
+        $Amount = DB::table('wallet_system')->where('user_id',$request->user_id)->sum('wallet_amount');
+        //print_r($Amount);die;
+        if($Amount){
+        $data['Amount'] = $Amount;
+        $data['status'] = true;
+        $data['message'] = "All Wallet Amount data";
+        }else{     
+            
+            $data['status'] = true;
+            $data['Amount'] = 0;
+            $data['message'] = "No data found found";   }
+    
+    } else
+        {
+                //$data['data'] = 'Does not data found';
+                $data['status'] = true;
+                $data['Amount'] = 0;
+                $data['message'] = "No data found enterd user id";
+    
+        }
+    
+    
+        echo json_encode($data);
+        }
+    
+    }
+
+
+
+    public function view_wallet_bal(Request $request)
     {
 
 
           $coverimg_name = '';
           $validator = Validator::make($request->all(), [
             'user_id'          =>  'required',
-         //   'device_id'     =>  'required',
-
         ]);
 
 
@@ -1759,12 +1839,10 @@ echo json_encode($data);
         }
         else{
 
-
         $checkuser = DB::table('users')->where('id',$request->user_id)->first();
-      //  print_r($checkuser);die;
-	    if($checkuser)
+       if($checkuser)
         {
-            //echo $request->user_type;die;
+          
         if($request->user_type==1){    
          
         $Amount = DB::table('wallet_system')->where('user_id',$request->user_id)->sum('wallet_amount');
@@ -1773,17 +1851,36 @@ echo json_encode($data);
         $data['Amount'] = $Amount;
         $data['status'] = true;
 		$data['message'] = "All Wallet Amount data";
-        }
-    }else{
+        }else{     
+            
+            $data['status'] = true;
+            $data['Amount'] = 0;
+            $data['message'] = "No data found found";   }
+ 
+ } 
+    else
+    
+    {
 
         $Amount = DB::table('payments')->where('astro_id',$request->user_id)->sum('wallet_amount');
+        if($Amount){
         $data['Amount'] = $Amount;
         $data['status'] = true;
 		$data['message'] = "All Wallet Amount data";
+        }else{
+
+            $data['status'] = true;
+            $data['Amount'] = 0;
+            $data['message'] = "No data found found"; 
+
+        }
 
 
     }
- } else
+ } 
+
+
+       else
         {
                 //$data['data'] = 'Does not data found';
 				$data['status'] = true;
@@ -1798,11 +1895,113 @@ echo json_encode($data);
 
     }
 
-    function percentage(percent, total) {
-        return ((percent/ 100) * total).toFixed(2)
+
+  
+
+
+  
+
+    public function wallet_amount_deduct(Request $request)
+    {
+          $coverimg_name = '';
+          $validator = Validator::make($request->all(), [
+            'user_id'          =>  'required',
+            'current_used_bal'     =>  'required',
+            
+
+        ]);
+
+       // const percentResult;
+    //    const percent;
+     //   const total;
+        if ($validator->fails()) {
+            $error_msg = [];
+            foreach ($validator->messages()->all() as $key => $value) {
+                array_push($error_msg, $value);
+            }
+            if ($error_msg) {
+                return array(
+                    'status' 	=> false,
+                    'code' 		=> 201,
+                    'message' 	=> $error_msg[0],
+                    'data' 		=> $request->all()
+                );
+            }             
+
+        }
+        else{
+    //    $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
+         $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->sum('wallet_amount');
+        
+        
+
+
+        // $wallet_system_check=count($wallet_system);
+         if($wallet_system > 0 ){
+           //percentResult=percentage(10, 100);
+            
+          // $wallet_system
+            // $setdatas['user_id']                  =  $request->user_id;
+            // $setdatas['astro_id']          =  $request->astro_id;
+            // $setdatas['wallet_amount']          =  $request->wallet_amount;
+            // $setdatas['chat_id']          =  $request->user_id;
+            // $setdatas['status']          =  1;
+            // $resultlastid = DB::table('payments')->insertGetId($setdatas);
+
+            $astro_wallet_amt=  ((10/ 100) * $request->current_used_bal);
+            $setdatas['user_id']                  =  $request->user_id;
+            $setdatas['astro_id']          =  $request->astro_id;
+            $setdatas['wallet_amount']          =  $astro_wallet_amt;
+            $setdatas['chat_id']          =  $request->user_id;
+            $setdatas['status']          =  1;
+            $resultlastid = DB::table('payments')->insertGetId($setdatas);
+
+            if($wallet_system==0 || $wallet_system < $request->current_used_bal){
+                $data['status'] = "false";
+                $data['wallet_amount'] =$request->current_used_bal;
+                $data['message'] ='Invalid requested amount';
+             //   echo json_encode($data);
+    
+    
+             }else{
+    
+
+             $avble_bal= $wallet_system;
+             $new_bal=$request->current_used_bal;
+             $total_bal=$avble_bal - $new_bal;
+             $setdata['wallet_amount']=  $total_bal;
+             $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
+             $data['status'] = "true";
+             $data['user_id'] =$request->user_id;
+             $data['wallet_amount'] =$total_bal;
+             $data['message'] ='Your Wallet amount udapted sucessfully';
+
+
+$setdataWallet=array(
+    'start_time'      => $request->start_time,
+    'end_time'      =>  $request->end_time,
+    'user_id'=>$request->user_id,
+    'astro_id'=>$request->astro_id,
+    'deduction_amount'=>$request->current_used_bal
+);
+            $resultlastid = DB::table('chat_history')->insertGetId($setdataWallet);
+
+             }
+           
+           
+        }else{
+             $data['status'] = "true";
+             $data['user_id'] =$request->user_id;
+             $data['wallet_amount'] =0;
+             $data['message'] ='No credits in your wallet';
+        }
+        
+         echo json_encode($data);
     }
 
-public function wallet_amount_deduct(Request $request)
+}
+
+public function wallet_amount_deduct_old(Request $request)
     {
           $coverimg_name = '';
           $validator = Validator::make($request->all(), [
@@ -1811,7 +2010,10 @@ public function wallet_amount_deduct(Request $request)
 
         ]);
 
-        const percentResult
+       // const percentResult;
+    //    const percent;
+     //   const total;
+     //const astro_wallet_amt;
         if ($validator->fails()) {
             $error_msg = [];
             foreach ($validator->messages()->all() as $key => $value) {
@@ -1831,16 +2033,11 @@ public function wallet_amount_deduct(Request $request)
         $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
          $wallet_system_check=count($wallet_system);
          if($wallet_system_check > 0 ){
-            percentResult=percentage(10, 100);
+        //    percentResult=percentage(10, 100);
 
-           
+        
 
-            $setdata['user_id']                  =  $request->user_id;
-            $setdata['astro_id']          =  $request->astro_id;
-            $setdata['wallet_amount']          =  $request->wallet_amount;
-            $setdata['chat_id']          =  $request->user_id;
-            $setdata['status']          =  1;
-            $resultlastid = DB::table('payments')->insertGetId($setdata);
+
              $avble_bal= $wallet_system[0]->wallet_amount;
              $new_bal=$request->current_used_bal;
              $total_bal=$avble_bal - $new_bal;
@@ -4857,7 +5054,7 @@ return response()->json($data, 200);
         }
         else{
 
-        $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
+        $wallet_system = DB::table('trancation_histroy')->where('user_id',$request->user_id)->get();
         $wallet_system_check=count($wallet_system);
         if($wallet_system_check > 0 )
         {
@@ -5612,6 +5809,64 @@ public function call_back_old(Request $request)
 //   }
 // }
 
+public function chat_histroy(Request $request)
+{
+
+    $validator = Validator::make($request->all(), [
+    'user_id'      =>  'required',
+      ]);
+             
+                 if ($validator->fails()) {
+                 $error_msg = [];
+                 foreach ($validator->messages()->all() as $key => $value) {
+                     array_push($error_msg, $value);
+                 }
+                 if ($error_msg) {
+                     return array(
+                         'status' 	=> false,
+                         'code' 		=> 201,
+                         'message' 	=> $error_msg[0],
+                         'data' 		=> $request->all()
+                     );
+                 }
+   
+             }
+else{
+
+    if($request->user_type==1){
+   // $chat_history=DB::table('chat_history')->where('user_id',$request->user_id)->get();
+
+   $chat_history=DB::table('chat_history')
+    ->join('users','users.id','=','chat_history.astro_id')
+    ->where('user_id',$request->user_id)
+    ->get();
+
+    }else{
+
+        $chat_history=DB::table('chat_history')
+        ->join('users','users.id','=','chat_history.user_id')
+        ->where('astro_id',$request->user_id)
+        ->get();
+  
+    }
+    if($chat_history){
+
+                            $data['status'] = true;
+             				$data['message'] = "Data send successfully";
+                            $data['data'] =  $chat_history;
+
+
+    }else{
+        $data['status'] = false;
+        $data['message'] = "Data does not found";
+        $data['data'] =  '';
+    }
+    echo json_encode($data);
+    
+}
+
+}
+
 public function call_history(Request $request)
 {
     $DateCreated = '';
@@ -5738,7 +5993,7 @@ echo json_encode($response);
        ,recipient.id AS recipient_id,sender.profile_image AS recipient_img,
        chat.id as chatId
        ,sent_date,sent_time
-       ,message FROM chat INNER JOIN users AS sender ON sender.id = sender_id INNER JOIN users AS recipient ON recipient.id = receiver_id WHERE   sender_id = $user_id OR receiver_id = $user_id group by recipient_id,sender_id ORDER BY sent_date DESC ";
+       ,message FROM chat INNER JOIN users AS sender ON sender.id = sender_id INNER JOIN users AS recipient ON recipient.id = receiver_id WHERE   sender_id = $user_id OR receiver_id = $user_id group by recipient_id,sender_id ORDER BY sent_date DESC";
     $users_lists= DB::select($sql);
   //  print_r($users_lists);die;
   $response=array('data'=>$users_lists,'status'=>true,'message'=>"Chat List retrived successfully");
@@ -5763,6 +6018,9 @@ array_push($result,$data);
 $response=array('data'=>$result,'status'=>true,'message'=>"Chat List retrived successfully");
 echo json_encode($response);
 }
+
+
+
 public function isLoginUsingOtp(Request $request)
 {
    

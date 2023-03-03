@@ -78,7 +78,7 @@ color: black;
 
 
                 ?>
-               <option value='<?php echo $eow->category_name?>'><?php echo $eow->category_name?></option>
+               <option value='<?php echo $eow->id?>'><?php echo $eow->category_name?></option>
 
 
                 <?php } } ?>
@@ -412,7 +412,7 @@ $result =DB::table('category')->get();
             </div>
 						<div class="col-md-6">
 						<label class="control-label">Video Url</label>
-						<input class="form-control form-white" placeholder="Please Enter Url" type="url" name="video_url"  required="" />
+						<input class="form-control form-white" placeholder="Please Enter Url" type="text" name="video_url"  />
 						</div>
 
 
@@ -479,10 +479,10 @@ $result =DB::table('category')->get();
 						<label class="control-label">Cover Image</label>
 						<input class="form-control form-white"  type="file" name="coverimage" required/>
 						</div>
-						<div class="col-md-6">
+						<!-- <div class="col-md-6">
 						<label class="control-label">Video</label>
-						<input class="form-control form-white" placeholder="https://example.com" type="url" name="video_url" pattern="https://.*" size="30" id="url" required/>
-						</div>
+						<input class="form-control form-white" name="video_url" pattern=""  id="url" value=""/>
+						</div> -->
             <div class="col-md-6">
             <label class="control-label">Date</label>
             <input class="form-control form-white" placeholder="Please Enter Date" type="date" name="created_date" accept="image/*" required="" />
@@ -496,7 +496,7 @@ $result =DB::table('category')->get();
         <div class="modal-footer">
 
              <input type="button" class="btn btn-default waves-effect" data-dismiss="modal" value="Close">
-             <input type="submit" id="submittestmonial" disabled title="All field required" class="btn btn-danger waves-effect waves-light" value="Submit">
+             <input type="submit" id="submittestmonial"  title="All field required" class="btn btn-danger waves-effect waves-light" value="Submit">
 
         </div>
 
@@ -936,7 +936,7 @@ function isTeatmonial(){
       var usernamess =  document.getElementById('user_name').value;
       
        if(usernamess!=""){
-     $("#submittestmonial").prop('disabled', false); 
+    // $("#submittestmonial").prop('disabled', false); 
     //submittestmonial
 }
 
@@ -1154,3 +1154,19 @@ function validateFile(){
     
 }  
 </script>  
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+  window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        document.getElementById('navbar_top').classList.add('fixed-top');
+        // add padding top to show content behind navbar
+        navbar_height = document.querySelector('.navbar').offsetHeight;
+        document.body.style.paddingTop = navbar_height + 'px';
+      } else {
+        document.getElementById('navbar_top').classList.remove('fixed-top');
+         // remove padding top from body
+        document.body.style.paddingTop = '0';
+      } 
+  });
+}); 
+</script>

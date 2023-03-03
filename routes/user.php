@@ -8,15 +8,20 @@ use App\Http\Controllers\Front_end\UserController;
 Route::get('/','App\Http\Controllers\Front_end\UserController@index');
 Route::get('/recharge','App\Http\Controllers\Front_end\UserController@recharge');
 Route::get('/delete_kundli/{id}','App\Http\Controllers\Front_end\UserController@delete_kundli');
+Route::get('/chat-history/{id}','App\Http\Controllers\Front_end\UserController@chat_history');
 Route::get('/logout','App\Http\Controllers\Front_end\UserController@logout');
 Route::get('/orders','App\Http\Controllers\Front_end\UserController@orders');
 Route::get('/wallets','App\Http\Controllers\Front_end\UserController@wallets');
 Route::get('/chat/{id}','App\Http\Controllers\Front_end\MessageController@chat');
 Route::get('/load_request_chat','App\Http\Controllers\Front_end\MessageController@load_request_chat');
 Route::post('/doLogin','App\Http\Controllers\Front_end\UserController@doLogin')->name('doLogin');
+Route::post('/doSignup','App\Http\Controllers\Front_end\UserController@doSignup')->name('doSignup');
+Route::post('/chat-intake','App\Http\Controllers\Front_end\UserController@chatintake')->name('chat-intake');
+
 Route::get('/send_request','App\Http\Controllers\Front_end\MessageController@send_request')->name('users.send_request');
 Route::get('/approve_request/{request_id}','App\Http\Controllers\Front_end\MessageController@approve_request')->name('users.approve_request');
-Route::get('/notification/{id}','App\Http\Controllers\Front_end\MessageController@notification')->name('users.notification');
+Route::get('/reject_request/{request_id}','App\Http\Controllers\Front_end\MessageController@reject_request')->name('users.reject_request');
+Route::get('/notification','App\Http\Controllers\Front_end\MessageController@notification')->name('users.notification');
 Route::get('/chat-accepted','App\Http\Controllers\Front_end\MessageController@chat_accept')->name('users.chat_accept');
 
 Route::get('/chats/{from}/{to}','App\Http\Controllers\Front_end\MessageController@chats');

@@ -142,6 +142,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>

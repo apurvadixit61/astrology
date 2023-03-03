@@ -1,0 +1,40 @@
+@font-face {
+    font-family: '29LT Bukra';
+    src: url('29LTBukra-Black.woff2') format('woff2'),
+        url('29LTBukra-Black.woff') format('woff'),
+        url('29LTBukra-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: '29LT Bukra';
+    src: url('29LTBukra-Bold.woff2') format('woff2'),
+        url('29LTBukra-Bold.woff') format('woff'),
+        url('29LTBukra-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: '29LT Bukra';
+    src: url('29LTBukra.woff2') format('woff2'),
+        url('29LTBukra.woff') format('woff'),
+        url('29LTBukra.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: '29LT Bukra';
+    src: url('29LTBukra-Medium.woff2') format('woff2'),
+        url('29LTBukra-Medium.woff') format('woff'),
+        url('29LTBukra-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

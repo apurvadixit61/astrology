@@ -24,6 +24,12 @@ class HomeController extends Controller
         return view('front_end.main', compact('users'));
     }
 
+    public function signup()
+    {
+        return view('front_end.signup');
+
+    }
+
     public function all()
     {
         $wallets=0;
@@ -32,7 +38,9 @@ class HomeController extends Controller
             
             $id=Auth::guard('users')->user()->id;
             $wallets=DB::table('wallet_system')->select('wallet_amount')->where('user_id',$id)->first();
-            $wallets=$wallets->wallet_amount;
+
+            if(!empty($wallets)){$wallets=$wallets->wallet_amount;}else{$wallets=0;}
+            
         }
 
         $users = User::where('user_type', 2)->get();
@@ -72,6 +80,12 @@ class HomeController extends Controller
     public function getKundli(Request $request)
     {
         $input = $request->all();
+
+        if(empty($input))
+        {
+            return redirect()->back();
+
+        }
         $location = $request->input('birth_place');
         $address = str_replace(" ", "+", "$location");
         $map_where = 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&address=' . $address . '&sensor=false';
@@ -147,7 +161,7 @@ class HomeController extends Controller
         $result3 = json_decode($astrologyApi->getBasicGemSuggestion($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
 
    
-        return view('front_end.kundli_view', compact('result1','result2','result3','chalit_chart','responseData', 'responseData1', 'responseData2', 'responseData3', 'responseData4','responseData5','responseData6', 'responseData7','responseData8','responseData9','responseData10','responseData11','input', 'kundli_chart', 'nkundli_chart'));
+        return view('front_end.kundli_views', compact('result1','result2','result3','chalit_chart','responseData', 'responseData1', 'responseData2', 'responseData3', 'responseData4','responseData5','responseData6', 'responseData7','responseData8','responseData9','responseData10','responseData11','input', 'kundli_chart', 'nkundli_chart'));
 
     }
 
@@ -675,6 +689,16 @@ public function razorPaySuccess(){
            $data['wallet_amount'] =$amount;
            $data['message'] ='Your Wallet amount added sucessfully';
     }
+
+    $payment_method="Online";
+    $setdata=   array(
+   'user_id'=>  $user_id,
+   'payment_method'=> $payment_method,
+   'payment_status'=>  'paid',
+   'wallet_amount'=>  $amount,
+   'trancation_id'=>  $payment_id,
+   'status'=>  1,);
+      DB::table('trancation_histroy')->insertGetId($setdata);
         
     }else{
            $data['data'] = '';
@@ -696,7 +720,11 @@ public function RazorThankYou()
   return view('thankyou');
 }
 
-
+public function kundli_detail($id)
+{
+    return view('front_end.users.chatIntake',compact('id'));
+   
+}
 
 
 }

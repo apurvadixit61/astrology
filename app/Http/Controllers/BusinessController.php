@@ -35,6 +35,8 @@ class BusinessController extends Controller
         return view('users', ['users' => $users]);
 
     }
+
+    
     public function gallery()
     {
 
