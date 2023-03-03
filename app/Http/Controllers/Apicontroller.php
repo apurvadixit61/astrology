@@ -1798,6 +1798,10 @@ echo json_encode($data);
 
     }
 
+    function percentage(percent, total) {
+        return ((percent/ 100) * total).toFixed(2)
+    }
+
 public function wallet_amount_deduct(Request $request)
     {
           $coverimg_name = '';
@@ -1807,7 +1811,7 @@ public function wallet_amount_deduct(Request $request)
 
         ]);
 
-
+        const percentResult
         if ($validator->fails()) {
             $error_msg = [];
             foreach ($validator->messages()->all() as $key => $value) {
@@ -1824,14 +1828,24 @@ public function wallet_amount_deduct(Request $request)
 
         }
         else{
-            $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
+        $wallet_system = DB::table('wallet_system')->where('user_id',$request->user_id)->get();
          $wallet_system_check=count($wallet_system);
          if($wallet_system_check > 0 ){
-            $avble_bal= $wallet_system[0]->wallet_amount;
-            $new_bal=$request->current_used_bal;
-            $total_bal=$avble_bal - $new_bal;
-            $setdata['wallet_amount']=  $total_bal;
-            $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
+            percentResult=percentage(10, 100);
+
+           
+
+            $setdata['user_id']                  =  $request->user_id;
+            $setdata['astro_id']          =  $request->astro_id;
+            $setdata['wallet_amount']          =  $request->wallet_amount;
+            $setdata['chat_id']          =  $request->user_id;
+            $setdata['status']          =  1;
+            $resultlastid = DB::table('payments')->insertGetId($setdata);
+             $avble_bal= $wallet_system[0]->wallet_amount;
+             $new_bal=$request->current_used_bal;
+             $total_bal=$avble_bal - $new_bal;
+             $setdata['wallet_amount']=  $total_bal;
+             $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
              $data['status'] = "true";
              $data['user_id'] =$request->user_id;
              $data['wallet_amount'] =$total_bal;
