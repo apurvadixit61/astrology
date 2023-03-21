@@ -1,8 +1,27 @@
   <!--Container Main end-->
+  <style>
+    .footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+  </style>
+  <!-- <div class="footer">Your chat is still running cancel it otherwise your full amount will be deducted <button class="btn btn-primary">Back to Chat</button>.</div> -->
         <!--  JS Files -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="{{ asset('public/astrology_assets/dashboard/js/bootstrap.bundle.min.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript" ></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
         <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -109,7 +128,80 @@
                 options: donutOptions
             });
         }
+
+
+        var base_url = location.protocol+'//'+location.host
+
+            <?php
+   if(Auth::guard('users')->check() == true){
+    $loginId = auth()->guard("users")->user()->id;
+    ?>
+var user_type={{auth()->guard("users")->user()->user_type}}
+
+var intervalId = window.setInterval(function() {
+    get_notification_count()
+}, 5000);
+
+function get_notification_count(){
+
+    var url = base_url+'/user/get_notification_count/'+{{$loginId}}
+    
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+         console.log(result)
+         $('#count').append('')
+         $('#count').append(result)
+
+         
+         var count = document.querySelector("#count");
+
+         count.innerHTML =result
+
+        }
+    });
+
+}
+
+<?php }?>
+
+$('.datetimepicker3').datetimepicker({
+                    format: 'HH:mm A',
+                    collapse:false,
+                    sideBySide: true,
+    icons: {
+        up: "fa fa-angle-up",
+        down: "fa fa-angle-down",
+        next: 'fa fa-angle-right',
+        previous: 'fa fa-angle-left'
+    }
+                });
+
+                $('.datetimepicker').datetimepicker({
+                    format: 'HH:mm',
+                    collapse:false,
+                    sideBySide: true,
+    icons: {
+        up: "fa fa-angle-up",
+        down: "fa fa-angle-down",
+        next: 'fa fa-angle-right',
+        previous: 'fa fa-angle-left'
+    }
+                });              
+
+  $( ".my_date_picker" ).datepicker({dateFormat: 'yy-mm-dd',maxDate: new Date(),changeMonth: true,
+      changeYear: true});
+      $(document).on('keyup', '#front-search-field', function() {
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field"));
+});   
         </script>
+
+        
     </body>
 
 </html>

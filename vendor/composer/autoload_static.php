@@ -40,6 +40,7 @@ class ComposerStaticInitcc6dc2ff95f7b952dc81da28af680140
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        'ef157334f1067da991ff8953983afdb3' => __DIR__ . '/../..' . '/app/Helpers/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -631,6 +632,7 @@ class ComposerStaticInitcc6dc2ff95f7b952dc81da28af680140
         'App\\Http\\Controllers\\Front_end\\SocketController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front_end/SocketController.php',
         'App\\Http\\Controllers\\Front_end\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front_end/UserController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\HoroscopeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HoroscopeController.php',
         'App\\Http\\Controllers\\Loginusercontroller' => __DIR__ . '/../..' . '/app/Http/Controllers/Loginusercontroller.php',
         'App\\Http\\Controllers\\Membershipcontroller' => __DIR__ . '/../..' . '/app/Http/Controllers/Membershipcontroller.php',
         'App\\Http\\Controllers\\Ordercontroller' => __DIR__ . '/../..' . '/app/Http/Controllers/Ordercontroller.php',
@@ -659,6 +661,7 @@ class ComposerStaticInitcc6dc2ff95f7b952dc81da28af680140
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
+        'App\\Providers\\HelperServiceProvider' => __DIR__ . '/../..' . '/app/Providers/HelperServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',

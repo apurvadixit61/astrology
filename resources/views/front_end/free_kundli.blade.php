@@ -1,5 +1,7 @@
 @include('layouts.front_end.header')
-
+<style>
+    .timepicker table .btn span { background-color: #f6a828 ;}
+</style>
 <section id="page-title">
     <div class="container">
             <h1>Kundli</h1>
@@ -41,14 +43,14 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Birth Date</label>
-                                    <input type="date" required name="birth_date" class="form-control"
+                                    <input type="text"  required name="birth_date" class="form-control my_date_picker"
                                         id="inputPassword4" placeholder="Birth Date">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress">Birth Time</label>
-                                <input type="time" required name="birth_time" class="form-control" id="inputAddress"
-                                    placeholder="">
+                                <input type="text" required name="birth_time"  placeholder="Birth Time" class="form-control datetimepicker3" id="inputAddress"
+                                   >
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress2">Birth Place</label>
@@ -139,14 +141,14 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Birth Date</label>
-                                    <input type="date" required name="f_birth_date" class="form-control"
+                                    <input type="text" required name="f_birth_date" class="form-control my_date_picker"
                                         id="inputPassword4" placeholder="Birth Date">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress">Birth Time</label>
-                                <input type="time" required name="f_birth_time" class="form-control" id="inputAddress"
-                                    placeholder="">
+                                <input type="text" required name="f_birth_time" class="form-control datetimepicker3" id="inputAddress"
+                                    placeholder="Birth Time">
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress2">Birth Place</label>
@@ -179,14 +181,14 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Birth Date</label>
-                                    <input type="date" required name="m_birth_date" class="form-control"
+                                    <input type="text"  required name="m_birth_date" class="form-control my_date_picker"
                                         id="inputPassword4" placeholder="Birth Date">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress">Birth Time</label>
-                                <input type="time" required name="m_birth_time" class="form-control" id="inputAddress"
-                                    placeholder="">
+                                <input type="text" id="" required name="m_birth_time" class="form-control datetimepicker3" id="inputAddress"
+                                    placeholder="Birth Time">
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress2">Birth Place</label>
@@ -221,8 +223,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
 
 <script>
 $(document).on('keyup', '#front-search-field', function() {

@@ -12,10 +12,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css">
     <!-- Template Main CSS File -->
+    <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>  <!-- Template Main CSS File -->
+
     <link href="{{ asset('public/astrology_assets/dashboard/css/style.css')}}" rel="stylesheet" />
     <title>Welcome to Our Astrologer</title>
 </head>
-
+<style>
+    #count{
+        position: absolute;
+    background: #3ff001;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    left: 15px;
+    top: 10px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 22px;
+    }
+</style>
 <body>
 
     <body id="body-pd" class="body-pd">
@@ -26,9 +42,14 @@
                 <button class="dropdown-toggle" type="button" id="defaultDropdown" data-bs-toggle="dropdown"
                     data-bs-auto-close="true" aria-expanded="false">
                     <img <?php  if(Auth::guard('users')->user()->profile_image != NULL){?> src="{{url('/')}}/images/profile_image{{Auth::guard('users')->user()->profile_image}}" <?php }else{?> src="{{ asset('public/astrology_assets/images/user.jpg')}}"<?php } ?> alt=""> {{Auth::guard('users')->user()->name}}
+                    <span id="count"></span>
+             
                 </button>
+
                 <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{url('user/profile_page')}}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{url('/user/notification')}}">Notification</a></li>
+
                     <li><a class="dropdown-item" href="{{url('user/recharge')}}">Recharge</a></li>
                     <li><a class="dropdown-item" href="{{url('/user/logout')}}">Logout</a></li>
                 </ul>
@@ -42,7 +63,7 @@
                             src="{{ asset('public/astrology_assets/dashboard/images/logo.png') }}"></a>
                     <div class="nav_list"> <a href="{{url('/user/dashboard')}}" class="nav_link {{ request()->is('user/dashboard') ? 'active' : ''}}"> <i class="fas fa-th-large nav_icon"></i>
                             <span class="nav_name">Dashboard</span> </a> <a href="{{url('/user/orders')}}" class="nav_link {{ request()->is('user/orders') ? 'active' : ''}}"><i
-                                class="fas fa-money-check nav_icon"></i><span class="nav_name">History</span> </a> <a
+                                class="fas fa-money-check nav_icon"></i><span class="nav_name">Chat History</span> </a> <a
                             href="{{url('/user/wallets')}}" class="nav_link {{ request()->is('user/wallets') ? 'active' : ''}}"> <i class="fas fa-wallet nav_icon"></i> <span
                                 class="nav_name">Wallet</span> </a> </div>
                 </div>

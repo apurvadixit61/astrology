@@ -31,9 +31,9 @@
                         <form action="{{ route('free-kundli')}}" method="post">
                           @csrf
                             <div class="form-group"><input type="text" name="full_name" required class="form-control" placeholder="Name"></div>
-                            <div class="form-group"><input type="date" required name="birth_date"  class="form-control" placeholder="Birth of Date">
+                            <div class="form-group"><input  type="text" required name="birth_date"  class="form-control my_date_picker" placeholder="Birth of Date">
                             </div>
-                            <div class="form-group"><input type="time"  required name="birth_time" class="form-control" placeholder="Birth of Time">
+                            <div class="form-group"><input type="text"  required name="birth_time" class="form-control datetimepicker3" placeholder="Birth of Time">
                             </div>
                             <div class="form-group"><input type="text" class="form-control"
                                     placeholder="Birth of Place " required name="birth_place"  id="front-search-field"></div>
@@ -52,46 +52,12 @@
                 <h2>Our Astrologer</h2>
                 <p class="mt-2 mb-5">There are many variations of passages of Lorem Ipsum available, <br> but the
                     majority have suffered alteration in some form, by injected hummer.</p>
+                    <a href="#" class="viewAstro"><span aria-label="Next"></span></a>
             </div>
             <div class="astrologerList">
                 <div class="row">
-                @foreach($users as $key=>$user)
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="astrologerListBox">
-                            <div class="astroBoxTop">
-                                <div class="astroBoximg"><img width="50" height="120"
-                                @if($user->profile_image!='' ||
-                            $user->profile_image != NULL)
-                            src="{{url('/')}}/images/profile_image{{$user->profile_image}}" @else
-                            src="{{ asset('public/front_img/elem.png') }}" alt="{{$user->name}}" @endif alt=""
-                            >
-
-                            <span class="{{$user->user_status}}"></span>
-
-                                    <div class="reviewBox">
-                                        <i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i
-                                            class="fa fa-star text-primary"></i><i
-                                            class="fa fa-star text-primary"></i><i class="fa fa-star"></i> 4.5
-                                    </div>
-                                </div>
-                                <div class="astroBoxcont">
-                                    <span class="checkicon"><img
-                                            src="{{ asset('public/astrology_assets/images/check.png')}}"></span>
-                                    <h4>{{$user->name}}</h4>
-                                    <h5>@if($user->user_expertise == '')--@else{{$user->user_expertise}}@endif</h5>
-                                    <p>@if($user->user_language == '')--@else{{$user->user_language}}@endif <br> Exp: {{$user->user_experience}} @if($user->user_experience != '')Years @endif</p>
-                                    <div class="metaInfo">
-                                        <span class="text-primary fw-bold">₹ {{$user->per_minute}} /min</span>
-                                        <a  @if($user->is_busy == 1) style="border:2px solid red;border-radius:50%;padding:3%;" @endif @if($user->is_busy == 1) onclick="is_busy()" @else  onclick="send_request(this,{{$id}},{{$user->id}},'{{$user->user_status}}')" @endif class="ms-auto"><img
-                                                src="{{ asset('public/astrology_assets/images/msg.png')}}"></a>
-                                        <a  class="ms-2"><img
-                                                src="{{ asset('public/astrology_assets/images/tel.png')}}"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach                  
+                <div id="astrologers"></div>   
+                       
                 </div>
             </div>
         </div>
@@ -178,7 +144,7 @@
             <div class="row">
                 <div class="col-lg-2 col-md-4 ">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/aries')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/1.png')}}"></div>
                             <h4>Aries</h4>
                             <p>Mar 21- Apr 19</p>
@@ -187,7 +153,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/taurus')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/2.png')}}"></div>
                             <h4>Taurus</h4>
                             <p>Mar 21- Apr 19</p>
@@ -196,7 +162,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/gemini')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/3.png')}}"></div>
                             <h4>Gemini</h4>
                             <p>Mar 21- Apr 19</p>
@@ -205,7 +171,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/cancer')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/4.png')}}"></div>
                             <h4>Cancer</h4>
                             <p>Mar 21- Apr 19</p>
@@ -214,7 +180,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/leo')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/5.png')}}"></div>
                             <h4>Leo</h4>
                             <p>Mar 21- Apr 19</p>
@@ -223,7 +189,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/virgo')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/6.png')}}"></div>
                             <h4>Virgo</h4>
                             <p>Mar 21- Apr 19</p>
@@ -232,7 +198,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/libra')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/7.png')}}"></div>
                             <h4>Libra</h4>
                             <p>Mar 21- Apr 19</p>
@@ -241,7 +207,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/scorpio')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/8.png')}}"></div>
                             <h4>Scorpio</h4>
                             <p>Mar 21- Apr 19</p>
@@ -250,7 +216,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/sagittarius')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/9.png')}}"></div>
                             <h4>Sagittarius</h4>
                             <p>Mar 21- Apr 19</p>
@@ -259,7 +225,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/capricorn')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/10.png')}}"></div>
                             <h4>Capricorn</h4>
                             <p>Mar 21- Apr 19</p>
@@ -268,7 +234,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/aquarius')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/11.png')}}"></div>
                             <h4>Aquarius</h4>
                             <p>Mar 21- Apr 19</p>
@@ -277,7 +243,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <div class="rashibox">
-                        <a href="#">
+                        <a href="{{url('horoscope_details/pisces')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/12.png')}}"></div>
                             <h4>Pisces</h4>
                             <p>Mar 21- Apr 19</p>
@@ -360,54 +326,20 @@
                     majority have suffered alteration in some form, by injected hummer.</p>
             </div>
             <div class="row">
+                @foreach($blogs as $blog)
                 <div class="col-lg-3 col-sm-6">
                     <div class="blogBox">
                         <div class="blogImg"><a href="#"><img
-                                    src="{{ asset('public/astrology_assets/images/b1.png')}}"></a></div>
+                                    src="{{url('/images/blogs')}}/{{$blog->blog_image}}"></a></div>
                         <div class="blogCont">
-                            <h3><a href="#">A Detailed Guide to Your 2023-2024 Horoscope</a></h3>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                                voluptatum deleniti atque corrupti quos dolores.</p>
+                            <h3><a href="#">{{$blog->blog_title}}</a></h3>
+                            <p>{{substr($blog->blog_description,0,100)}}</p>
                             <a href="#">READ MORE</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="blogBox">
-                        <div class="blogImg"><a href="#"><img
-                                    src="{{ asset('public/astrology_assets/images/b2.png')}}"></a></div>
-                        <div class="blogCont">
-                            <h3><a href="#">A Detailed Guide to Your 2023-2024 Horoscope</a></h3>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                                voluptatum deleniti atque corrupti quos dolores.</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="blogBox">
-                        <div class="blogImg"><a href="#"><img
-                                    src="{{ asset('public/astrology_assets/images/b3.png')}}"></a></div>
-                        <div class="blogCont">
-                            <h3><a href="#">A Detailed Guide to Your 2023-2024 Horoscope</a></h3>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                                voluptatum deleniti atque corrupti quos dolores.</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="blogBox">
-                        <div class="blogImg"><a href="#"><img
-                                    src="{{ asset('public/astrology_assets/images/b4.png')}}"></a></div>
-                        <div class="blogCont">
-                            <h3><a href="#">A Detailed Guide to Your 2023-2024 Horoscope</a></h3>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                                voluptatum deleniti atque corrupti quos dolores.</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
@@ -417,28 +349,37 @@
                 <h2>Free Kundli Online</h2>
                 <p class="mt-2 mb-5">There are many variations of passages of Lorem Ipsum available, but the <br>
                     majority have suffered alteration in some form, by injected hummer.</p>
-            </div>
+            </div> 
+            <form action="{{ route('free-kundli')}}" method="post">
+                    @csrf
             <div class="kundliForm d-flex align-items-center justify-content-center">
+             
                 <div class="form-group">
                     <label>Full Name</label>
+
                     <input type="text"  required name="full_name" class="form-control" placeholder="Enter Name">
+                </div>               
+                
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="text" required name="birth_date" class="form-control my_date_picker" placeholder="Select Birth Date ">
                 </div>
                 <div class="form-group">
-                    <label>Birth of Date</label>
-                    <input type="date"  required name="birth_date" class="form-control" placeholder="Select Birth Date ">
+                <label>Time of Birth</label>
+
+                    <input type="text"  required name="birth_time" class="form-control datetimepicker3" placeholder="Select Birth Time ">
                 </div>
                 <div class="form-group">
-                    <label>Birth of Time</label>
-                    <input type="text"  required name="birth_time" class="form-control" placeholder="Select Birth Time ">
+                  <label>Place of Birth</label>
+
+                    <input type="text"  required name="birth_place" class="form-control" placeholder="Enter Birth Place " id="place_search">
                 </div>
                 <div class="form-group">
-                    <label>Birth of Place</label>
-                    <input type="text"  required name="birth_place" class="form-control" placeholder="Enter Birth Place ">
+                    <button type="submit" class="btn btn-primary">FIND KUNDLI</button>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-primary">FIND KUNDLI</button>
-                </div>
+             
             </div>
+            </form>
         </div>
     </section>
     @include('layouts.front_end.footer')
@@ -487,31 +428,32 @@ console.log(base_url)
                         // alert('Token stored.');
                     },
                     error: function (error) {
-                        alert(error);
+                        // alert(error);
                         console.log(error)
                     },
                 });
             }).catch(function (error) {
-                alert(error);
+                // alert(error);
                 console.log(error)
 
             });
     }
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script type="text/javascript"
-    src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="text/javascript">
+
+var id=0;
+<?php if(Auth::guard('users')->check()==true ){?>  id={{Auth::guard('users')->user()->id; }} <?php } ?>
 
 $(document).on('keyup', '#front-search-field', function() {
     autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field"));
 });
+
+$(document).on('keyup', '#place_search', function() {
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById("place_search"));
+});
+
     $(function() {
         // Owl Carousel
         var owl = $(".owl-carousel");
@@ -542,35 +484,7 @@ $(document).on('keyup', '#front-search-field', function() {
     ?>
 var user_type={{auth()->guard("users")->user()->user_type}}
 
-var intervalId = window.setInterval(function() {
-    get_notification_count()
-}, 5000);
 
-function get_notification_count(){
-
-    var url = base_url+'/user/get_notification_count/'+{{$loginId}}
-    
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: url,
-        type: 'GET',
-        dataType: 'json',
-        success: function(result) {
-         console.log(result)
-         $('#count').append('')
-         $('#count').append(result)
-
-         
-         var count = document.querySelector("#count");
-
-         count.innerHTML =result
-
-        }
-    });
-
-}
 function send_request(element, from_user_id, to_user_id,status) {
     console.log(from_user_id)
     console.log(to_user_id)
@@ -606,6 +520,12 @@ function send_request(element, from_user_id, to_user_id,status) {
                     icon: 'error',
                     title: 'Oops...',
                     text: result.message,
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                    location.href = base_url+'/user/recharge';
+
+                    }
+
                     })
 
             } else {
@@ -659,6 +579,114 @@ function send_request() {
    function is_busy()
    {
     Swal.fire('Astrologer is busy right now')
+
+   }
+   setInterval(get_astrologers, 1000);
+
+   function get_astrologers()
+   {
+    var html=''  
+   
+
+    var url = base_url+'/all_astro'
+    var data={limit:0,offset:6}
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(results) {
+            html +=`<div class="row">`
+             var result=results.users
+             console.log("count",results.count)
+            
+            for (var count = 0; count < 2; count++) {
+                console.log(result[count])
+                var user_expertise='--'
+                var user_language='--'
+                var user_experience='0'
+                var per_minute='0'
+                var style=''
+                var wait=''
+
+                var send_request="send_request(this,"+id+","+result[count].id+",'"+result[count].user_status+"')"
+                var image="{{ asset('public/front_img/elem.png') }}"
+                if(result[count].is_busy==1)
+                {
+                    wait=`<span style="color:red;">wait ~ `+(result[count].is_login/60)+` min</span>`
+
+
+                    style="style='border:2px solid red;border-radius:50%;padding:3%;'"
+
+                    send_request='is_busy()'
+
+                }
+
+                if(result[count].is_login!=0)
+                {
+                    style="style='border:2px solid red;border-radius:50%;padding:3%;'"
+
+                    send_request='is_engage()'
+
+                }
+
+                if(result[count].profile_image!=null)
+                {
+                    profile_image="{{url('/')}}/images/profile_image"+result[count].profile_image
+                }
+
+                if(result[count].user_expertise!=null)
+                {
+                    user_expertise=result[count].user_expertise
+                }
+                if(result[count].user_language!=null)
+                {
+                    user_language=result[count].user_language
+                }
+                if(result[count].user_experience!=null)
+                {
+                    user_experience=result[count].user_experience
+                }
+                if(result[count].per_minute!=null)
+                {
+                    per_minute=result[count].per_minute
+                }
+                html +=`<div class="col-lg-4 col-sm-6">
+                    <div class="astrologerListBox">
+                        <div class="astroBoxTop">
+                            <div class="astroBoximg"><img width="50" height="120" src="`+profile_image+`">
+                            <span class="`+result[count].user_status+`"></span>
+
+                                <div class="reviewBox">
+                                    <i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star"></i> 4.5
+                                </div>
+                            </div>
+                            <div class="astroBoxcont">
+                                <span class="checkicon"><img src="{{ asset('public/astrology_assets/images/check.png')}}"></span>
+                                <h4>`+result[count].name+`</h4>
+                                <h5>`+user_expertise+`</h5>
+                                <p>`+user_language+` <br> Exp: `+user_experience+` Year</p>`+wait+`
+                                <div class="metaInfo">
+                                    <span class="text-primary fw-bold">₹ `+per_minute+`/min</span>
+                                    <a href="#" `+style+` class="ms-auto" onclick="`+send_request+`"><img src="{{ asset('public/astrology_assets/images/msg.png')}}"></a>
+                                    <a href="#" class="ms-2"><img src="{{ asset('public/astrology_assets/images/tel.png')}}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+
+            }
+            html +=`</div>`
+            document.getElementById('astrologers').innerHTML =''; 
+            $('#astrologers').append(html)
+             
+
+        }
+    });
 
    }
     </script>

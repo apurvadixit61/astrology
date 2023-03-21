@@ -50,6 +50,17 @@ class BusinessController extends Controller
 
     }
 
+
+    public function astro_percentages()
+    {
+
+      $astro_percentage = DB::select('select * from astro_percentage');
+      return view('astro_percentage', ['astro_percentage' => $astro_percentage]);
+
+    }
+
+
+
 public function uploadgalleries(Request $request)
 {
 
@@ -122,6 +133,31 @@ public function gallery_delete($id)
 
          return view('billingViewinModal',['billing' => $billing]);
     }
+
+    
+
+
+    public function update_astro_percentage(Request $request){
+
+       $title = $request->title;
+       $percentage = $request->percentage;
+      $date= date('Y-m-d');
+      $changeStatus = DB::table('astro_percentage')->where('id',1)->update(['title' => $title ,'percentage' => $percentage]);
+
+      if($changeStatus){
+               $data['status'] = "true";
+               $data['message'] = "success";
+           }else{
+
+              $data['status'] = "false";
+              $data['message'] = "error";
+
+           }
+           $astro_percentage = DB::select('select * from astro_percentage');
+           return view('astro_percentage', ['astro_percentage' => $astro_percentage]);
+     
+    }
+
 
 
 

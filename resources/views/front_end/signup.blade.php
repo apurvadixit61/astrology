@@ -1,5 +1,18 @@
 @include('layouts.front_end.header')
-
+<style type="text/css">
+  .background-img {
+    animation: rotation 17s infinite linear;
+    left: 40px;
+    border-radius: 50%;
+}@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+</style>
   <section class=" new-kundli-matching">
     <div class="container">
       <div class="row">

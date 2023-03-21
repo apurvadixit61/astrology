@@ -115,7 +115,7 @@
                                             <th>Type</th>
                                             <th>Amount Type</th>
                                             <th>Date</th>
-                                            <th>Time</th>
+                                           
 
                                         </tr>
                                        @foreach($wallet_data as $key=> $wallet)
@@ -159,7 +159,7 @@
                                             <th>From</th>
                                             <th>Amount Type</th>
                                             <th>Date</th>
-                                            <th>Time</th>
+                                           
 
                                         </tr>
                                        @foreach($payments_data as $key=> $wallet)
@@ -170,7 +170,6 @@
                                             <td>{{$wallet->name}}</td>
                                             <td class="text-success">Received</td>
                                             <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{explode(' ',$wallet->created_at)[0]}}</span> </td>
-                                            <td>@if($wallet->created_at =='') @else{{explode(' ',$wallet->created_at)[1]}}@endif</td>
 
                                         </tr>
                                         @endforeach
@@ -214,8 +213,7 @@
 
                                         <tr>
                                             <td><a href="javascript:void(0)">{{$key+1}} </a></td>
-                                            <td>₹{{$wallet->wallet_amount}}</td>
-                                            <td>{{$wallet->name}}</td>
+                                            <td>₹{{$wallet->astro_earning_amount}}</td>
                                             <td class="text-danger">Deduct</td>
                                             <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{explode(' ',$wallet->created_at)[0]}}</span> </td>
                                             <td>@if($wallet->created_at =='') @else{{explode(' ',$wallet->created_at)[1]}}@endif</td>

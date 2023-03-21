@@ -84,7 +84,7 @@ p{
     border: 1px solid #fff;
 }
 </style>
-<div class="container">
+<div class="container mt-5" >
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#basic">Basic</a></li>
         <li><a data-toggle="pill" href="#kundli">Kundli</a></li>

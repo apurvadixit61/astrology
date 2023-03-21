@@ -19,14 +19,73 @@ class HomeController extends Controller
     public function index()
     {
 
-        $users = DB::table('users')->where('user_type', 2)->take(6)->get();
+        $users = DB::table('users')->where('user_type', 2)->inRandomOrder()->take(6)->get();
+        $blogs = DB::table('blog')->inRandomOrder()->take(4)->get();
         
-        return view('front_end.main', compact('users'));
+        return view('front_end.main', compact('users','blogs'));
     }
 
     public function signup()
     {
         return view('front_end.signup');
+
+    }
+
+    function sort_by_week($availability)
+    {
+        $result=[];$result[0]=[];$result[1]=[];$result[2]=[];$result[3]=[];$result[4]=[];$result[5]=[];$result[6]=[];
+        foreach($availability as $key=>$avail)
+        { 
+            
+            if($avail->days=='Monday'){ $result[0]=$avail; }
+            if($avail->days=='Tuesday'){ $result[1]=$avail; }
+            if($avail->days=='Wednesday'){ $result[2]=$avail; }
+            if($avail->days=='Thursday'){ $result[3]=$avail; }
+            if($avail->days=='Friday'){ $result[4]=$avail; }
+            if($avail->days=='Saturday'){ $result[5]=$avail; }
+            if($avail->days=='Sunday'){ $result[6]=$avail; }
+
+
+        }
+
+        return $result;
+          exit;
+
+    }
+
+    public function profile($id)
+    {
+
+    $astrologer=DB::table('users')->where('id',$id)->first();    
+    $availability=DB::table('astro_availability')->where('astro_id',$id)->get();    
+    $availability=$this->sort_by_week($availability);
+
+    return view('front_end.users.profile',compact('astrologer','availability'));
+         
+    }
+
+    public function blog()
+    {
+
+    $categories=DB::table('blog_category')->get();    
+    return view('front_end.blog', compact('categories'));
+
+    }
+
+    public function all_blog(Request $request)
+    {
+        $query='Select * from blog ';
+        if(!empty($request->input('category')))
+        {
+            $query.=' where blog_category='.$request->input('category');
+        }
+
+        $query .= ' order by RAND()';
+
+        $blogs = DB::select( DB::raw($query));
+        $data['blogs']=$blogs;
+        return $data;
+
 
     }
 
@@ -42,7 +101,16 @@ class HomeController extends Controller
             if(!empty($wallets)){$wallets=$wallets->wallet_amount;}else{$wallets=0;}
             
         }
+        if(Auth::guard('users')->check()==1 && Auth::guard('users')->user()->user_type == 2)
+        {
+            
+            $id=Auth::guard('users')->user()->id;
+            $wallets=DB::table('payments')->where('astro_id',$id)->sum('wallet_amount');
 
+
+            if($wallets>0){$wallets=$wallets;}else{$wallets=0;}
+            
+        }
         $users = User::where('user_type', 2)->get();
 
 
@@ -52,6 +120,82 @@ class HomeController extends Controller
         //     'data' => $users,
         //     'status' => 'true',
         // ], 200);
+    }
+
+    public function all_astro(Request $request)
+    {
+
+        $input=$request->all();
+        $limit= $request->input('limit');
+        $offset= $request->input('offset');
+        $query='Select * from users where user_type=2';
+        $count_query='Select count(*) from users where user_type=2';
+        // $where=['user_type', 2];
+
+        if(!empty($request->input('search')))
+        {
+           $query .=" and (name LIKE '%".$input['search']."%' or user_expertise LIKE '%".$input['search']."%' or user_language LIKE '%".$input['search']."%')";
+           $count_query .=" and (name LIKE '%".$input['search']."%' or user_expertise LIKE '%".$input['search']."%' or user_language LIKE '%".$input['search']."%')";
+        }
+
+        if(!empty($request->input('skill')))
+        {
+           $skills=$request->input('skill');
+           $query1=" and (";
+           foreach($skills as $key=>$skill){
+           $query1 .=" user_expertise LIKE '%".$skill."%'";
+          
+           if($key != count($skills)-1){
+            $query1 .=" or ";
+           }
+           }
+           $query1 .=" )";
+
+            $query.=$query1;
+            $count_query.=$query1;
+        }
+        if(!empty($request->input('language')))
+        {
+            $language=$request->input('language');
+            $query2=" and (";
+            foreach($language as $key=>$lang){
+            $query2 .=" user_language LIKE '%".$lang."%'";
+           
+            if($key != count($language)-1){
+             $query2 .=" or ";
+            }
+            }
+            $query2 .=" )";
+ 
+             $query.=$query2;
+             $count_query.=$query2;
+        }
+         
+        if(!empty($request->input('gender')))
+        {
+         
+           $gender=$request->input('gender');
+            $query3=" and (";
+            foreach($gender as $key=>$gen){
+            $query3 .=" gender LIKE '%".$gen."%'";
+           
+            if($key != count($gender)-1){
+             $query3 .=" or ";
+            }
+            }
+            $query3 .=" )";
+ 
+             $query.=$query3;
+             $count_query.=$query3;
+        }
+        // $query .= ' order by RAND() ';
+
+        $query .=' limit '.$input['limit'].' , '.$input['offset'];
+        $users = DB::select( DB::raw($query));
+        $users_count = DB::select( DB::raw($count_query));
+        $data['count']=$users_count;
+        $data['users']=$users;
+        return $data;
     }
 
     public function kundli()
@@ -79,8 +223,10 @@ class HomeController extends Controller
 
     public function getKundli(Request $request)
     {
-        $input = $request->all();
 
+        $input = $request->all();
+      
+      
         if(empty($input))
         {
             return redirect()->back();
@@ -100,8 +246,12 @@ class HomeController extends Controller
             $loc['long'] = 0;
         }
      
-        $userId = "621874";
-        $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+        // $userId = "621874";
+        // $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
+        
         $date = explode('-', $input['birth_date']);
         $time = explode(':', $input['birth_time']);
         $charts=[];
@@ -138,7 +288,8 @@ class HomeController extends Controller
 
         $astrologyApi = new AstrologyApiClient($userId, $apiKey);
         $responseData = json_decode($astrologyApi->getBirthDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
-       
+    //    print_r($responseData);
+    //    exit;
         $responseData1 = json_decode($astrologyApi->getAstroDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
         $responseData2 = json_decode($astrologyApi->getPlanetsExtendedDetails($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
         $responseData3 = json_decode($astrologyApi->getMajorVimDasha($data['date'], $data['month'], $data['year'], $data['hour'], $data['minute'], $data['latitude'], $data['longitude'], $data['timezone']));
@@ -224,8 +375,13 @@ class HomeController extends Controller
             $femaleBirthData['timezone']='5.5';
 
       
-    $userId = "621870";
-    $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+    // $userId = "621870";
+    // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+    $userId = "622655";
+    $apiKey = "4c458a80906be376706bfa5fd262936d";
+
+
+
 
     $astrologyApi = new AstrologyApiClient($userId, $apiKey);
     $responseData = json_decode($astrologyApi->matchBirthDetails($maleBirthData, $femaleBirthData));
@@ -265,8 +421,11 @@ class HomeController extends Controller
     public function getMahaDasha()
     {
 
-        $userId = "621870";
-        $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        // $userId = "621870";
+        // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
 
         $data = session('data');
         $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -277,8 +436,11 @@ class HomeController extends Controller
     }
    function getMajorYoginiDasha()
    {
-    $userId = "621870";
-    $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+    // $userId = "621870";
+    // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+    $userId = "622655";
+    $apiKey = "4c458a80906be376706bfa5fd262936d";
 
     $data = session('data');
     $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -308,8 +470,11 @@ class HomeController extends Controller
     public function getAntarDasha($major_dasha)
     {
 
-        $userId = "621870";
-        $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        // $userId = "621870";
+        // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
 
         $data = session('data');
         $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -322,8 +487,10 @@ class HomeController extends Controller
     public function getPratyantarDasha($major_dasha, $antar_dasha)
     {
 
-        $userId = "621870";
-        $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        // $userId = "621870";
+        // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
 
         $data = session('data');
         $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -336,8 +503,11 @@ class HomeController extends Controller
     public function getSookshmadasha($major_dasha, $antar_dasha, $prantar_dasha)
     {
 
-        $userId = "621870";
-        $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        // $userId = "621870";
+        // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
 
         $data = session('data');
         $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -351,8 +521,11 @@ class HomeController extends Controller
     {
 
       
-        $userId = "621870";
-        $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+        // $userId = "621870";
+        // $apiKey = "a17fb357bdfd9a9dce49236671912c66";
+
+        $userId = "622655";
+        $apiKey = "4c458a80906be376706bfa5fd262936d";
       
 
 switch ($id) {
@@ -489,8 +662,11 @@ public function getHoroChartChalit()
 {
 
 
-    $userId = "621874";
-    $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+    // $userId = "621874";
+    // $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+
+    $userId = "622655";
+    $apiKey = "4c458a80906be376706bfa5fd262936d";
   
 
 $chart_id='horo_chart_image/chalit';
@@ -512,16 +688,21 @@ public function change(Request $request)
 {
 App::setLocale($request->lang);
 session()->put('locale', $request->lang);
-
-return redirect()->back();
+return view('front_end.change');
+// return redirect()->back();
 }
 
 //horoscope search
 public function dailyHoroscope($zodiacSign,Request $request)
 {
     
-$userId = "621874";
-$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+// $userId = "621874";
+// $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+
+$userId = "622655";
+$apiKey = "4c458a80906be376706bfa5fd262936d";
+
+
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->getTodaysPrediction($zodiacSign,'5.5');
 print_r($responseData);
@@ -530,8 +711,11 @@ print_r($responseData);
 public function tomorrow_horoscope($zodiacSign,Request $request)
 {
     
-$userId = "621874";
-$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+// $userId = "621874";
+// $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$userId = "622655";
+$apiKey = "4c458a80906be376706bfa5fd262936d";
+
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->getTomorrowsPrediction($zodiacSign,'5.5');
 print_r($responseData);
@@ -541,8 +725,11 @@ print_r($responseData);
 public function weekly_horoscope($zodiacSign,Request $request)
 {
     
-$userId = "621874";
-$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+// $userId = "621874";
+// $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$userId = "622655";
+$apiKey = "4c458a80906be376706bfa5fd262936d";
+
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 //$responseData = $astrologyApi->getConsolidatedPrediction($zodiacSign,'5.5');
 $responseData = $astrologyApi->getYesterdaysPrediction($zodiacSign,'5.5');
@@ -553,8 +740,11 @@ print_r($responseData);
 public function monthly_horoscope($zodiacSign,Request $request)
 {
     
-$userId = "621874";
-$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+// $userId = "621874";
+// $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$userId = "622655";
+$apiKey = "4c458a80906be376706bfa5fd262936d";
+
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->gethoroscopeMonthly($zodiacSign,'5.5');
 print_r($responseData);die;
@@ -563,8 +753,11 @@ print_r($responseData);die;
 public function yearly_horoscope($zodiacSign,Request $request)
 {
     
-$userId = "621874";
-$apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+// $userId = "621874";
+// $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+$userId = "622655";
+$apiKey = "4c458a80906be376706bfa5fd262936d";
+
 $astrologyApi = new AstrologyApiClient($userId, $apiKey);
 $responseData = $astrologyApi->getConsolidatedPrediction($zodiacSign,'5.5');
 print_r($responseData);
@@ -606,8 +799,11 @@ public function confirmrequest($id)
 public function getPlanetaryReport()
 {
     
-    $userId = "621874";
-    $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+    // $userId = "621874";
+    // $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+    $userId = "622655";
+    $apiKey = "4c458a80906be376706bfa5fd262936d";
+
     $result=[];
     
     $data = session('data');
@@ -628,8 +824,10 @@ public function getPlanetaryReport()
 public function getRudhraksSuggest()
 {
 
-    $userId = "621874";
-    $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+    // $userId = "621874";
+    // $apiKey = "c2d2c9dc5fb9fac47890d43158bad0cd";
+    $userId = "622655";
+    $apiKey = "4c458a80906be376706bfa5fd262936d";
       
     $data = session('data');
     $astrologyApi = new AstrologyApiClient($userId, $apiKey);
@@ -708,7 +906,7 @@ public function razorPaySuccess(){
     }
 
   
-   return json_encode($data);
+   return $data;
 
     
 
@@ -725,6 +923,158 @@ public function kundli_detail($id)
     return view('front_end.users.chatIntake',compact('id'));
    
 }
+
+public function astro_details(Request $request,$id)
+{
+
+   
+    $data['astro'] = DB::select('select * from users where  user_type=2 and `id`='.$id);
+    $data['astro_availability'] = DB::select('select * from astro_availability where  astro_id='.$id);
+    $data['astro_review'] =DB::select('select users.*, astro_review.review_date,astro_review.id,astro_review.rating,astro_review.astro_id,astro_review.review from users 
+    inner join astro_review on astro_review.user_id = users.id where astro_review.astro_id=5');
+    return view('front_end.astro_details',$data);
+
+}
+
+
+
+
+public function wallet_deduct_amount(Request $request)
+{
+
+    $astro_wallet_amt='';
+   
+    $astro_charge= DB::select('select * from users where  user_type=2 and `id`='.$request->end_id);
+    $per_minute='';
+            foreach($astro_charge as  $astro_charges){
+            $per_minute= $astro_charges->per_minute;
+         }
+
+
+     $wallet_system = DB::table('wallet_system')->where('user_id',$request->from_user_id)->sum('wallet_amount');
+     if($wallet_system > 0 ){
+        $astro_percentage = DB::select('select * from astro_percentage');
+        $astro_percentage_final='';
+        foreach( $astro_percentage as  $astrs){
+        $astro_percentage_final= $astrs->percentage;
+      }
+
+// calculate 
+
+$get_time=$request->time;
+$current_used_bal=$get_time*$per_minute;
+
+
+
+        $astro_wallet_amt=  (($astro_percentage_final/ 100) * $current_used_bal);
+        if($wallet_system==0 || $wallet_system < $request->current_used_bal){
+            $data['status'] = "false";
+            $data['wallet_amount'] =$request->current_used_bal;
+            $data['message'] ='Invalid requested amount';
+         //   echo json_encode($data);
+
+
+         }else{
+
+
+         $avble_bal= $wallet_system;
+         $new_bal=$current_used_bal;
+         $total_bal=$avble_bal - $new_bal;
+         $setdata['wallet_amount']=  $total_bal;
+         $result = DB::table('wallet_system')->where('user_id',$request->from_user_id)->update($setdata);
+         $data['status'] = "true";
+         $data['user_id'] =$request->from_user_id;
+         $data['wallet_amount'] =$total_bal;
+         $data['wallet_amount_dected'] =$current_used_bal;
+         $data['message'] ='Your Wallet amount udapted sucessfully';
+
+
+$setdataWallet=array(
+'start_time'      => $request->start_time,
+'end_time'      =>  $request->end_time,
+'user_id'=>$request->from_user_id,
+'astro_id'=>$request->end_id,
+'duration'=>$request->time,
+'astro_earning_amount'=> $astro_wallet_amt,
+'deduction_amount'=>$current_used_bal
+);
+        $resultlastid = DB::table('chat_history')->insertGetId($setdataWallet);
+
+         }
+       
+       
+    }else{
+         $data['status'] = "true";
+         $data['user_id'] =$request->from_user_id;
+         $data['wallet_amount'] =0;
+         $data['message'] ='No credits in your wallet';
+    }
+    
+     return $data;
+
+
+}
+
+
+
+
+
+// public function wallet_deduct_amount(Request $request)
+// {
+
+   
+// $astro_charge= DB::select('select * from users where  user_type=2 and `id`='.$request->end_id);
+// $per_minute='';
+//             foreach($astro_charge as  $astro_charges){
+//             $per_minute= $astro_charges->per_minute;
+//          }
+
+
+//     // $data['data'] = '';
+//     // $data['status'] = false;
+//     // $data['message'] =$per_minute;
+
+
+//  $astro_percentage = DB::select('select * from astro_percentage');
+//             $astro_percentage_final='';
+//             foreach( $astro_percentage as  $astrs){
+//             $astro_percentage_final= $astrs->percentage;
+//           }
+
+
+//           $current_used_bal
+
+// $astro_wallet_amt=  (($astro_percentage_final/ 100) * $current_used_bal);         
+// $setdataWallet=array(
+//     'start_time'      => $request->start_time,
+//     'end_time'      =>  $request->end_time,
+//     'user_id'=>$request->user_id,
+//     'astro_id'=>$request->astro_id,
+//     'duration'=>$request->duration,
+//     'astro_earning_amount'=> $astro_wallet_amt,
+//     'deduction_amount'=>$request->current_used_bal
+// );
+//  $resultlastid = DB::table('chat_history')->insertGetId($setdataWallet);
+
+
+//  $avble_bal= $wallet_system;
+//  $new_bal=$request->current_used_bal;
+//  $total_bal=$avble_bal - $new_bal;
+//  $setdata['wallet_amount']=  $total_bal;
+//  $result = DB::table('wallet_system')->where('user_id',$request->user_id)->update($setdata);
+
+
+
+//  return $data;
+
+
+
+
+// }
+
+
+
+
 
 
 }

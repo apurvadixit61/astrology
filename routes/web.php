@@ -47,7 +47,11 @@ Route::get('/admin', function () {
 
 });
 
+Route::get('/wallet_deduct_amount', 'App\Http\Controllers\Front_end\HomeController@wallet_deduct_amount');
 Route::get('/all', 'App\Http\Controllers\Front_end\HomeController@all');
+Route::post('/all_astro', 'App\Http\Controllers\Front_end\HomeController@all_astro');
+Route::get('/astro_details/{id}', 'App\Http\Controllers\Front_end\HomeController@astro_details');
+Route::get('/all_blog', 'App\Http\Controllers\Front_end\HomeController@all_blog');
 Route::post('/paysuccess', 'App\Http\Controllers\Front_end\HomeController@razorPaySuccess');
 Route::get('/confirm-request/{id}', 'App\Http\Controllers\Front_end\HomeController@confirmrequest')->name('confirm-request');
 Route::get('/kundli-detail/{id}', 'App\Http\Controllers\Front_end\HomeController@kundli_detail')->name('kundli-detail');
@@ -82,13 +86,8 @@ Route::match(array('GET', 'POST'), 'match-making', 'App\Http\Controllers\Front_e
 Route::get('/getMajorYoginiDasha', 'App\Http\Controllers\Front_end\HomeController@getMajorYoginiDasha');
 Route::get('/getPlanetaryReport', 'App\Http\Controllers\Front_end\HomeController@getPlanetaryReport');
 Route::get('/getRudhraksSuggest', 'App\Http\Controllers\Front_end\HomeController@getRudhraksSuggest');
-
-
-
-
-Route::get('/blog', function () {
-    return view('front_end.blog');
-})->name('blog');
+Route::get('/blog', 'App\Http\Controllers\Front_end\HomeController@blog');
+Route::get('/profile/{id}', 'App\Http\Controllers\Front_end\HomeController@profile');
 
 Route::get('/services', function () {
     return view('front_end.services');
@@ -98,9 +97,7 @@ Route::get('/horoscope', function () {
     return view('front_end.horoscope');
 })->name('horoscope');
 
-Route::get('/profile', function () {
-    return view('front_end.users.profile');
-});
+
 
 Route::get('lang/change', 'App\Http\Controllers\Front_end\HomeController@change')->name('changeLang');
 
@@ -112,7 +109,6 @@ Route::post('/get_subcategory_list', 'App\Http\Controllers\Productcontroller@get
 Route::post('/get_subcategory_list', 'App\Http\Controllers\Productcontroller@get_subcategory_list');
 
 /*Route::get('/home', 'HomeController@index')->name('home');*/
-Route::get('/profile/{id}', [App\Http\Controllers\HomeController::class, 'view_profile'])->name('ashtro.profile');
 
 Route::get('clearall', 'App\Http\Controllers\HomeController@clearall');
 // Route::get('profile', 'App\Http\Controllers\HomeController@profile');
@@ -136,7 +132,9 @@ Route::post('/getbillingdata', 'App\Http\Controllers\BusinessController@getbilli
 
 Route::get('/astro_news', 'App\Http\Controllers\BusinessController@astro_news');
 Route::get('/gallery', 'App\Http\Controllers\BusinessController@gallery');
+Route::get('/astro_percentages', 'App\Http\Controllers\BusinessController@astro_percentages');
 Route::post('/uploadgalleries', 'App\Http\Controllers\BusinessController@uploadgalleries');
+Route::post('/update_astro_percentage', 'App\Http\Controllers\BusinessController@update_astro_percentage');
 Route::post('/edit_news', 'App\Http\Controllers\BusinessController@edit_news');
 Route::get('/client_testimonial', 'App\Http\Controllers\BusinessController@client_testimonial');
 Route::get('/live_events', 'App\Http\Controllers\BusinessController@live_events');
@@ -169,6 +167,7 @@ Route::get('/delete_users1/{id}', 'App\Http\Controllers\BusinessController@delet
 // Route::post('/adduser','Usercontroller@adduser');
 
 // Route::get('/edit_profile/{id}','Usercontroller@edit_profile');
+// Route::get('/users','Usercontroller@users');
 
 // Route::post('/post_edit_profile','Usercontroller@post_edit_profile');
 

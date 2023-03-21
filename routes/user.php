@@ -5,16 +5,21 @@ use App\Http\Controllers\Front_end\SampleController;
 use App\Http\Controllers\Front_end\UserController;
 
 
-Route::get('/','App\Http\Controllers\Front_end\UserController@index');
+// Route::get('/','App\Http\Controllers\Front_end\UserController@index');
+
+Route::get('/profile_page', 'App\Http\Controllers\Front_end\UserController@profile_page');
+Route::get('/delete_cover_img/{id}', 'App\Http\Controllers\Front_end\UserController@delete_cover_img');
 Route::get('/recharge','App\Http\Controllers\Front_end\UserController@recharge');
 Route::get('/delete_kundli/{id}','App\Http\Controllers\Front_end\UserController@delete_kundli');
 Route::get('/chat-history/{id}','App\Http\Controllers\Front_end\UserController@chat_history');
 Route::get('/logout','App\Http\Controllers\Front_end\UserController@logout');
 Route::get('/orders','App\Http\Controllers\Front_end\UserController@orders');
 Route::get('/wallets','App\Http\Controllers\Front_end\UserController@wallets');
-Route::get('/chat/{id}','App\Http\Controllers\Front_end\MessageController@chat');
+Route::get('/chat/{from}/{to}','App\Http\Controllers\Front_end\MessageController@chat');
 Route::get('/load_request_chat','App\Http\Controllers\Front_end\MessageController@load_request_chat');
 Route::post('/doLogin','App\Http\Controllers\Front_end\UserController@doLogin')->name('doLogin');
+
+Route::post('/profileupdate','App\Http\Controllers\Front_end\UserController@profileupdate')->name('profileupdate');
 Route::post('/doSignup','App\Http\Controllers\Front_end\UserController@doSignup')->name('doSignup');
 Route::post('/chat-intake','App\Http\Controllers\Front_end\UserController@chatintake')->name('chat-intake');
 
@@ -27,12 +32,12 @@ Route::get('/chat-accepted','App\Http\Controllers\Front_end\MessageController@ch
 Route::get('/chats/{from}/{to}','App\Http\Controllers\Front_end\MessageController@chats');
 Route::get('/get_notification_count/{id}','App\Http\Controllers\Front_end\MessageController@get_notification_count');
 
-    Route::get('dashboard', [UserController::class, 'dashboard'] )->name('dashboard');
+Route::get('dashboard', [UserController::class, 'dashboard'] )->name('dashboard');
 
-    Route::get('profile', [SampleController::class, 'profile'])->name('profile');
+Route::get('profile', [SampleController::class, 'profile'])->name('profile');
 
-    Route::post('profile_validation',[SampleController::class, 'profile_validation'] )->name('sample.profile_validation');
+Route::post('profile_validation',[SampleController::class, 'profile_validation'] )->name('sample.profile_validation');
 
-    Route::post('/store-token', [UserController::class, 'storeToken'])->name('store.token');
-    Route::get('/send-web-notification', [UserController::class, 'sendWebNotification'])->name('send.web-notification');
+Route::post('/store-token', [UserController::class, 'storeToken'])->name('store.token');
+Route::get('/send-web-notification', [UserController::class, 'sendWebNotification'])->name('send.web-notification');
 

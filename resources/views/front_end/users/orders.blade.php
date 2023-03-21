@@ -6,7 +6,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header with-border">
-                            <h4 class="card-title">Chat History<a href="#" class="pull-right">See All</a>
+                            <h4 class="card-title">Chat History<a href="#" class="pull-right"></a>
                             </h4>
 
                         </div>
@@ -16,32 +16,41 @@
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <th>Name</th>
+                                            <!-- <th>Name</th>
                                             <th>Message</th>
                                             <th>Date</th>
                                             <th>Time</th>
-                                            <th>Status</th>
+                                            <th>Status</th> -->
+
+                                            <th>Name</th>
+                                            <th>Duration[Min]</th>
+                                            <th>Start time</th>
+                                            <th>End Time</th>
+                                            <th>Amount</th>
 
 
                                         </tr>
 
-                                        <?php $id=Auth::guard('users')->user()->id; ?>
+                                        <?php $id=Auth::guard('users')->user()->id;   $user_type=Auth::guard('users')->user()->user_type; ?>
                                         @foreach($messages as $msg)
 
-                                         @if($msg->from_user_id ==$id || $msg->to_user_id ==$id)
+                                       
 
                                          
                                         <tr>
                                         
-                                            <td><a href="{{url('/user/chat-history/')}}/{{$msg->to}}">{{$msg->name}}</a></td>
-                                            <td>{!!$msg->chat_message!!}</td>
-                                            <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{$msg->message_date}}</span> </td>
-                                            <td>{{$msg->message_time}}</td>
-                                            <td>{{$msg->message_status}}</td>                                           
+                                            <td>@if($user_type==1)<a href="{{url('/user/chat-history/')}}/{{$msg->astro_id}}">{{$msg->name}}</a>@else <a href="{{url('/user/chat-history/')}}/{{$msg->user_id}}">{{$msg->name}}</a> @endif</td>
+                                            <td>{{$msg->duration}}</td>
+                                            <td>{{$msg->start_time}}</td>
+                                            <td>{{$msg->end_time}} </td>
+                                           <?php if($user_type==1) {?>
+                                            <td><span class="text-danger"> - {{$msg->deduction_amount}}</span></td>
+                                          <?php }  elseif($user_type==2){ ?>
+                                            <td><span class="text-success"> + {{$msg->astro_earning_amount}}</span></td>
+                                           <?php }?>
                                             
-
                                         </tr>
-                                        @endif
+                                       
                                         @endforeach
                                         
                                     </tbody>

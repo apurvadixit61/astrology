@@ -36,3 +36,82 @@
             </div>
         </div>
     </footer>
+    <style>
+    .footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+  </style>
+  <!-- <div class="footer">Your chat is still running cancel it otherwise your full amount will be deducted <button class="btn btn-primary">Back to Chat</button>.</div> -->
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script type="text/javascript"
+    src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+var base_url = location.protocol+'//'+location.host
+
+            <?php
+   if(Auth::guard('users')->check() == true){
+    $loginId = auth()->guard("users")->user()->id;
+    ?>
+var user_type={{auth()->guard("users")->user()->user_type}}
+
+var intervalId = window.setInterval(function() {
+    get_notification_count()
+}, 5000);
+
+function get_notification_count(){
+
+    var url = base_url+'/user/get_notification_count/'+{{$loginId}}
+    
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+         console.log(result)
+         $('#count').append('')
+         $('#count').append(result)
+
+         
+         var count = document.querySelector("#count");
+
+         count.innerHTML =result
+
+        }
+    });
+
+}
+
+<?php }?>
+
+$( ".my_date_picker" ).datepicker({dateFormat: 'yy-mm-dd',maxDate: new Date(),changeMonth: true,
+      changeYear: true});
+$('.datetimepicker3').datetimepicker({
+                    format: 'HH:mm',
+                    collapse:false,
+                    sideBySide: true,
+    icons: {
+        up: "fa fa-angle-up",
+        down: "fa fa-angle-down",
+        next: 'fa fa-angle-right',
+        previous: 'fa fa-angle-left'
+    }
+                });
+    </script>
+      

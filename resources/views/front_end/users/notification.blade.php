@@ -29,7 +29,7 @@
             </div>
 
             <div class="notification-list_feature-btn text-end">
-                 <p class="text-muted"><strong>{{ explode(' ',$message->created_at)[0]}}</strong> <small>10 mins ago</small></p>
+                 <p class="text-muted"><strong>{{ explode(' ',$message->request_date)[0]}}</strong> <small>{{$message->request_date}}</small></p>
                @if($message->status!='Close') <a href="#" onclick="approve_request({{$message->id}})" ><i class="fas fa-check"></i></a>@endif
                  <a href="#" onclick="reject_request({{$message->id}})"><i class="fas fa-trash"></i></a>
             </div>
@@ -42,10 +42,6 @@
 
 @include('layouts.front_end.footer')
       <!--  JS Files -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
       <script type="text/javascript">
          $(function() {
          // Owl Carousel

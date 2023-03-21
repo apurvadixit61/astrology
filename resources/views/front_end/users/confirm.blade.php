@@ -18,11 +18,6 @@
 @include('layouts.front_end.footer')
       <!--  JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
       <script type="text/javascript">
          $(function() {
          // Owl Carousel
@@ -118,7 +113,7 @@ function checkIsaccepted() {
 
                     if(result.status=='Close')
                     {
-                         Swal.fire('Your request is Rejected')
+                     Swal.fire('Your request is Rejected')
 
                       location.href = base_url
                     }

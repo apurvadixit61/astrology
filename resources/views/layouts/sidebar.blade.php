@@ -79,6 +79,17 @@
          </a>
         </li>
 
+
+		<li>
+         <a href="{{url('astro_percentages') }}">
+         <i class="fa fa-newspaper"><span class="path1"></span><span class="path2"></span></i>
+         <span>Astro Percentage</span>
+         </a>
+        </li>
+
+
+
+
 				 <li>
 				  <a href="{{url('generated_kundli') }}">
 					<i class="icon-Folder"><span class="path1"></span><span class="path2"></span></i>
@@ -96,7 +107,7 @@
 			 		 <ul class="treeview-menu">
 
 
-						<li><a  href="{{url('product') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
+						<li><a  href="{{url('#') }}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
 						<li><a href="{{url('view_category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Blog</a></li>
 						<!-- <li><a href="{{url('view_subcategory')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Sub Category</a></li> -->
 

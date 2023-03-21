@@ -731,6 +731,42 @@ $("#check_email").on("keyup change", function(e) {
 })
 
 
+
+
+$("#submit_precentage").on("submit", function(e) {
+	var email = $(this).val();
+	checkemail=isEmail(email)
+	console.log(checkemail)
+	if(checkemail == true) {
+          $.ajax({
+                url : '{{ route("checkEmailData") }}',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data:{email:email},
+                dataType:"json",
+                success: function(data) {
+									console.log(data)
+                  if(data.status=='true'){
+                    $('#emailmsg').html("<span style='color:red';>Email Already Exsists</span>");
+                    }else{
+                    $('#emailmsg').html("<span style='color:green';>Please Use this Email Id</span>");
+                }
+               },
+
+            });
+
+	}
+
+
+
+})
+
+
+
+
+
 // function phonenumber(inputtxt)
 // {
 //   //alert("fhbgjfg");

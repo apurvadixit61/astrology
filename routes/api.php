@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('deduct_amount','App\Http\Controllers\Apicontroller@deduct_amount');
+
+
 Route::post('sendNotification','App\Http\Controllers\Apicontroller@sendNotification');
 
 Route::post('logoutUpdate','App\Http\Controllers\Apicontroller@logoutUpdate');
@@ -137,3 +140,8 @@ Route::post('chat_accept','App\Http\Controllers\Apicontroller@chat_accept');
 Route::post('approve_request','App\Http\Controllers\Apicontroller@approve_request');
 Route::post('cancle_request','App\Http\Controllers\Apicontroller@cancle_request');
 Route::post('chat_histroy','App\Http\Controllers\Apicontroller@chat_histroy');
+Route::post('testing','App\Http\Controllers\Apicontroller@testing');
+
+Route::post('add_waiting_list','App\Http\Controllers\Apicontroller@add_waiting_list');
+Route::post('get_waiting_list','App\Http\Controllers\Apicontroller@get_waiting_list');
+Route::post('astrologer_send_request','App\Http\Controllers\Apicontroller@astrologer_send_request');

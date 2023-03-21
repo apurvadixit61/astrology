@@ -19,6 +19,7 @@ use Auth;
 use App;
 use Session;
 //use App\Models\users;
+date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
 
 
 
@@ -36,12 +37,94 @@ class MessageController extends Controller
         // return view('front_end.users.login');
     }
 
-    public function chat($id)
+    public function chat($from,$to,Request $request)
     {
-      return view('front_end.users.chats');
-    }
 
+        date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
+        // echo ;
+        // echo date('H:i');
+        // exit;
+        $key=$request->get('key');
+        $key_exists= DB::table('chat_requests')->where(['status'=>'Approve','key'=>$request->get('key')])->first();
+     
+          
+       $chat_id=$key_exists->id;       
+        $wallet_amount=[];
+        $kundli=[];
+        $astro_charge='';
+        $userid=0;
+        $from_user=DB::table('users')->where('users.id',$from)->first();
+        $to_user=DB::table('users')->where('users.id',$to)->first();
+
+        if($from_user->user_type==1){
+            $userid=$from_user->id;
+            $max_time=$from_user->is_login;
+            $wallet_amount=DB::table('wallet_system')->where('user_id',$from)->first();
+            $kundli=DB::table('kundli')->where('user_id',$from)->orderBy('id', 'DESC')->first();
+        }else{
+            $astroid=$from_user->id;
+            $astro_charge=$from_user->per_minute;
+
+        }
+        if($to_user->user_type==1){
+            $userid=$to_user->id;
+            $max_time=$to_user->is_login;
+            $wallet_amount=DB::table('wallet_system')->where('user_id',$to)->first();  
+            $kundli=DB::table('kundli')->where('user_id',$to)->orderBy('id', 'DESC')->first();
+
+        }else{
+            $astroid=$to_user->id;
+
+            $astro_charge=$to_user->per_minute;
+
+        }
+       
+        if($max_time==0)
+        {
+            $max_time=((int)($wallet_amount->wallet_amount)/(int)($astro_charge))*60; 
+            print_r($max_time);
+            exit;
+            $msg='<div>Name:'.$kundli->kundli_user_name.'<br/>Gender:'.$kundli->gender.'<br/>Date:'.$kundli->birth_date.'<br/>Time:'.$kundli->birth_time.'<br/>Place:'.$kundli->birth_place.'<br/>Marital Status:'.$kundli->marital_status.'<br/>Occupation:'.$kundli->occupation.'<br/>Topic of Concern:'.$kundli->topic_concern.'<br/></div>';
+        
+            $insert=[
+            ['from_user_id'=>$userid,'to_user_id'=>$astroid,'chat_message'=>'This is an automated message to confirm that chat has started.','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$astroid,'to_user_id'=>$userid,'chat_message'=>'Welcome to Our website.Consultant will take a minute to analyse your details.You may ask your question in the meanwhile.','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$userid,'to_user_id'=>$astroid,'chat_message'=>$msg,'message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')]];
+            DB::table('message')->insert($insert);
+           
+            DB::table('users')->where('id',$userid)->update(['is_login'=>$max_time]);
+        }
+      
+      
+        return view('front_end.users.chat',compact('from_user','to_user','wallet_amount','astro_charge','key','key_exists','chat_id','kundli','max_time'));
+       
+    //   return view('front_end.users.chats');
+    }
     public function chats($from,$to,Request $request)
+    {
+       
+        $from_user=DB::table('users')->where('id',$from)->first();
+        $to_user=DB::table('users')->where('id',$to)->first();
+        $user_type=$from_user->user_type;
+        if($from_user->user_type==1 ){ 
+            $user= $from_user;
+            $astro=$to_user;
+           }
+        if($to_user->user_type==1){           
+            $user= $to_user;
+            $astro=$from_user;
+        }
+        
+         $user_amount=DB::table('wallet_system')->where('user_id',$user->id)->first();
+         $astro_charge=DB::table('users')->where('id',$astro->id)->first();
+
+        // print_r($astroid);
+        print_r($user_amount->wallet_amount);
+        echo "<br>";
+        print_r($astro_charge->per_minute);
+        return view('front_end.users.chat',compact('user','astro','user_type','from_user','to_user'));
+    }
+    public function chatss($from,$to,Request $request)
     {
         date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
         // echo ;
@@ -89,17 +172,20 @@ class MessageController extends Controller
        
         if($max_time==0)
         {
-            $max_time=(int)($wallet_amount->wallet_amount)/(int)($astro_charge); 
+            $max_time=floor((int)($wallet_amount->wallet_amount)/(int)($astro_charge))*60; 
+           
             $msg='<div>Name:'.$kundli->kundli_user_name.'<br/>Gender:'.$kundli->gender.'<br/>Date:'.$kundli->birth_date.'<br/>Time:'.$kundli->birth_time.'<br/>Place:'.$kundli->birth_place.'<br/>Marital Status:'.$kundli->marital_status.'<br/>Occupation:'.$kundli->occupation.'<br/>Topic of Concern:'.$kundli->topic_concern.'<br/></div>';
         
-            $insert=['from_user_id'=>$userid,'to_user_id'=>$astroid,'chat_message'=>$msg,'message_status'=>'Not Send','message_time'=>date('H:i'),'message_date'=>date('Y-m-d')];
-            DB::table('message')->insert($insert);
-           
+            $insert=[['from_user_id'=>$userid,'to_user_id'=>$astroid,'chat_message'=>$msg,'message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$userid,'to_user_id'=>$astroid,'chat_message'=>'<b>This is an automated message to confirm that chat has started.</b>','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$astroid,'to_user_id'=>$userid,'chat_message'=>'<b>Welcome to Our website.Consultant will take a minute to analyse your details.You may ask your question in the meanwhile.</b>','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')]];
+            DB::table('message')->insert($insert);           
             DB::table('users')->where('id',$userid)->update(['is_login'=>$max_time]);
+            DB::table('users')->where('id',$astroid)->update(['is_login'=>$max_time]);
         }
       
       
-        return view('front_end.users.chats',compact('from_user','to_user','wallet_amount','astro_charge','key','key_exists','chat_id','kundli','max_time'));
+        return view('front_end.users.chat',compact('from_user','to_user','wallet_amount','astro_charge','key','key_exists','chat_id','kundli','max_time'));
        }
     }
 
@@ -218,16 +304,12 @@ class MessageController extends Controller
 
     public function approve_request($request)
     {
-        $update= ['status'=>'Approve'];
-
+        $update= ['status'=>'Approve','request_date'=>date('Y-m-d H:i:s')];
         $user= DB::table('chat_requests')->where('id',$request)->first();
-         DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
 
-        DB::table('chat_requests')->where(['id'=>$request])->update($update);
-      
-        // $url="http://134.209.229.112/astrology/user/chat/".$user->to_user_id."/".$user->from_user_id;
-        // $url="http://collabdoor.com/astrology/user/chat/".$user->from_user_id;
-
+        DB::table('chat_logs')->insert(['userid'=>$user->from_user_id,'astroid'=>$user->to_user_id,'approve_time'=>date('Y-m-d h:i:s a'),'start_time'=>date('h:i:s')]);
+        DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
+        DB::table('chat_requests')->where(['id'=>$request])->update($update);      
         return $user;
 
     }
@@ -237,7 +319,7 @@ class MessageController extends Controller
         $update= ['status'=>'Close'];
 
         $user= DB::table('chat_requests')->where('id',$request)->first();
-         DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
+        //  DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
 
         DB::table('chat_requests')->where(['id'=>$request])->update($update);
       

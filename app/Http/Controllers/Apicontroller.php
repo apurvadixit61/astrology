@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ResetPasswordRequest;
-
+use DateTime;
 use App\User;
 use url;
 use Validator;
@@ -29,14 +29,72 @@ class Apicontroller extends Controller{
 
 
 
-public function login_user_new(Request $request){
-echo "dsfdsf";die;
-
-
-}
-
-/*******************************Login**********************************************************************/
     public function login(Request $request){
+        $phone_no   = $request->phone_no;
+        $password   = $request->password;
+        $validator = Validator::make($request->all(), [
+        'phone_no'      =>  'required|numeric|digits_between:1,10',
+        'password'      =>  'required',  
+        ]);
+    
+            if ($validator->fails()) {
+            $error_msg = [];
+    
+            foreach ($validator->messages()->all() as $key => $value) {
+                array_push($error_msg, $value);
+            }
+    
+            if ($error_msg) {
+                return array(
+                    'status' => false,
+                    'code' => 201,
+                    'message' => $error_msg[0],
+                    'data' => $request->all()
+                );
+            }
+    
+        }else{
+        
+              $checkuser  = DB::table('users')->where('phone_no', $phone_no)->first();
+              if($checkuser){
+                if (!Hash::check($password, $checkuser->password)) {
+                 
+                    $data['status'] = "false";
+                    $data['message'] = "Login Failed, please check password";
+                 }else{
+
+                    $setdata['device_id']=$request->device_token;
+                    $setdata['token'] = md5(uniqid());
+                    $setdata['user_status']='Online';
+                    DB::table('users')->where('phone_no', $phone_no)->update($setdata);
+                    $userdata='';
+                    $userdata = DB::table('users')->where('phone_no', $phone_no)->first();
+                    $data['status'] = "true";
+                    $data['id'] = $userdata->id;
+                    $data['token'] = $userdata->token;
+                    $data['user_type'] = $userdata->user_type;
+                    $data['otp_verify'] = $userdata->otp_verify;
+                    $data['name'] = $userdata->name;
+                    $data['message'] = "success";
+                 
+
+                 }
+    
+        }
+    
+    else{
+    
+        $data['status'] = "false";
+        $data['message'] = "Login Failed, please check mobile number";
+    
+    
+    }
+                   echo json_encode($data);
+    
+    }
+    }
+/*******************************Login**********************************************************************/
+    public function login_user_new(Request $request){
         //echo "sdfd";die;
         $phone_no   = $request->phone_no;
         $password   = $request->password;
@@ -70,7 +128,7 @@ echo "dsfdsf";die;
              if($checkuser == null){
 
                 $data['status'] = "false";
-                $data['message'] = "Enter phone number";
+                $data['message'] = "Your crdentails does't matched";
             }else{
                 
                 // if($checkuser->status==1){
@@ -1947,8 +2005,18 @@ echo json_encode($data);
             // $setdatas['chat_id']          =  $request->user_id;
             // $setdatas['status']          =  1;
             // $resultlastid = DB::table('payments')->insertGetId($setdatas);
+            $astro_percentage = DB::select('select * from astro_percentage');
+           // print_r($astro_percentage );die;
+            //echo $astro_percentage->percentage;die;
 
-            $astro_wallet_amt=  ((10/ 100) * $request->current_used_bal);
+            $astro_percentage = DB::select('select * from astro_percentage');
+            $astro_percentage_final='';
+            foreach( $astro_percentage as  $astrs){
+            $astro_percentage_final= $astrs->percentage;
+          }
+
+
+            $astro_wallet_amt=  (($astro_percentage_final/ 100) * $request->current_used_bal);
             $setdatas['user_id']                  =  $request->user_id;
             $setdatas['astro_id']          =  $request->astro_id;
             $setdatas['wallet_amount']          =  $astro_wallet_amt;
@@ -1982,6 +2050,8 @@ $setdataWallet=array(
     'end_time'      =>  $request->end_time,
     'user_id'=>$request->user_id,
     'astro_id'=>$request->astro_id,
+    'duration'=>$request->duration,
+    'astro_earning_amount'=> $astro_wallet_amt,
     'deduction_amount'=>$request->current_used_bal
 );
             $resultlastid = DB::table('chat_history')->insertGetId($setdataWallet);
@@ -2282,7 +2352,14 @@ public function otp_verify(Request $request)
 }
 
 
+public function testing(Request $request){
+    $astro_percentage = DB::select('select * from astro_percentage');
+    $astro_percentage_final='';
+    foreach( $astro_percentage as  $astrs){
+    $astro_percentage_final= $astrs->percentage;
+  }
 
+}
 
 
 public function otp_mobile_verify(Request $request)
@@ -5838,14 +5915,14 @@ else{
 
    $chat_history=DB::table('chat_history')
     ->join('users','users.id','=','chat_history.astro_id')
-    ->where('user_id',$request->user_id)
+    ->where('user_id',$request->user_id)->orderBy('chat_history.id', 'DESC')
     ->get();
 
     }else{
 
         $chat_history=DB::table('chat_history')
         ->join('users','users.id','=','chat_history.user_id')
-        ->where('astro_id',$request->user_id)
+        ->where('astro_id',$request->user_id)->orderBy('chat_history.id', 'DESC')
         ->get();
   
     }
@@ -6339,6 +6416,144 @@ $data=array('data'=>$url,'status'=>true,'message'=>"Kundali Inserted successfull
 
 // chat accpet reqquest
 
+
+
+
+public function astrologer_send_request(Request $request)
+{
+ $current_user=$request->sender_id;
+ $receiver_id=$request->receiver_id; // login id user ki 
+ $sender_id=$request->sender_id;
+ $available_balance=DB::table('wallet_system')->where('user_id',$sender_id)->first();
+ $astrologer = DB::table('users')->where('id',$request->receiver_id)->first();
+ $user_name = DB::table('users')->where('id',$request->sender_id)->first();
+ $device_token=$astrologer->device_id;
+ $serverKey = 'AAAAzODils0:APA91bF0g4o4uOeS4wUpwpd2oKObETGn4HuKebWQUhLKVDEA9MyA8hS5MXdX-LMKsNJt6UsSnM6PBLtNfs_pS41wC5wrha2olFT7QOcaD5Nhvr_0G--8dgITuse4SXsIXsnt101eE7Om';
+ $url1 = 'https://fcm.googleapis.com/fcm/send';
+ if($astrologer)
+{
+    $astro_charge=$astrologer->per_minute * 5;
+    if($astro_charge <= $available_balance->wallet_amount )
+    {
+       
+        $insert= ['from_user_id'=>$request->receiver_id,'to_user_id'=>$request->sender_id,'status'=>'Pending'];
+        $response= DB::table('chat_requests')->insertGetId($insert);  
+
+        if(!defined( 'API_ACCESS_KEY')){
+            define( 'API_ACCESS_KEY',$serverKey );
+        }
+
+
+
+        $headers = array (
+            'Authorization:key=' . $serverKey,
+            'Content-Type:application/json'
+          );
+            // Add notification content to a variable for easy reference
+          $notifData = [
+            'title' => 'Incoming chat request from '. $user_name->name,
+            'body' =>'Incoming chat request from '. $user_name->name,
+            'priority' => "high",
+            'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           // 'click_action' => "activities.SinglePostActivity" //Action/Activity - Optional
+          ];
+          $dataPayload = [
+           'id'=> $response, 
+           'sender_id'=>$request->sender_id,
+           'receiver_id'=>$request->receiver_id,
+           'user_name'=> $user_name->name, 
+           'per_minute'=>$astrologer->per_minute,
+           'user_image'=>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           'type'=>'astrologer',
+           'notification_type'=>'astrologer_send_request',
+           "click_action"=> "FLUTTER_NOTIFICATION_CLICK",
+           'title' => 'Incoming chat request from '. $user_name->name,
+          'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+           'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+          'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+          ];
+         // echo $tokens;
+          $apiBody = array(
+            'notification' => $notifData,
+            'data' => $dataPayload,
+            'to' =>$device_token
+         
+          );
+          $ch = curl_init();
+          curl_setopt ($ch, CURLOPT_URL, $url1);
+          curl_setopt ($ch, CURLOPT_POST, true);
+          curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
+          curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt ($ch, CURLOPT_POSTFIELDS, json_encode($apiBody));
+          $result = curl_exec($ch);
+          return $result;
+
+
+        // $msg = array
+        //     (
+        //     'body'  =>'Chat request from ' . $user_name->name,
+        //     'title' => 'Incoming chat request from '. $user_name->name,
+        //     'icon'  => 'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+        //     'image' =>'https://collabdoor.com/public/front_img/Logo-removebg-preview%201.png',
+        //  //   'sound'=>'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3'
+
+        //     )
+
+
+
+        // $fields = array
+        // (
+        //      'to'=>$device_token,
+        //      'notification'    => $msg,
+        //      'priority' => 'high'
+        // );
+        // $headers = array
+        // (
+        // 'Authorization: key=' . API_ACCESS_KEY,
+        // 'Content-Type: application/json'
+        // );
+        // #Send Reponse To FireBase Server
+        // $ch = curl_init();
+        // curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+        // curl_setopt( $ch,CURLOPT_POST, true );
+        // curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        // curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        // curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        // curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode($fields));
+        // $result = curl_exec($ch);
+        // curl_close( $ch );
+   
+        $data['message'] = 'Send request successfully';
+        $data['status'] = true;
+        $data['did']=$device_token;
+        //     $data['message'] = "list";
+    
+    }else{
+
+   $message ='Minimum balance of 5 minutes (INR '.$astro_charge.') is required to start chat with '.$astrologer->name;
+ //  $response =['status'=>false,'message'=>$message];   
+   //return json_encode($response);
+
+        // $data['data'] =$response;
+        $data['status'] = false;
+        $data['message'] =$message;
+        $data['did']=$device_token;
+       // return json_encode($data);
+
+    }
+
+   return json_encode($data);
+
+
+
+
+}
+
+}
+
+
+
+
 public function send_request(Request $request)
 {
 
@@ -6470,8 +6685,6 @@ public function send_request(Request $request)
 
 }
 
-
-    
 }
 
 public function chat_accept(Request $request)
@@ -6618,6 +6831,78 @@ public function cancle_request(Request $request)
 }
 
 
+public function get_waiting_list(Request $request)
+{
+        $setdataWallet=array(
+        'user_id'=>$request->user_id,
+        'user_type'=>$request->user_type,
+      
+    );
+
+    if($request->user_type==1){
+        // $chat_history=DB::table('chat_history')->where('user_id',$request->user_id)->get();
+     
+        $waiting_history=DB::table('waiting_join_list')
+         ->join('users','users.id','=','waiting_join_list.astro_id')
+         ->where('user_id',$request->user_id)->orderBy('waiting_join_list.id', 'DESC')
+         ->get();
+     
+         }else{
+     
+             $waiting_history=DB::table('waiting_join_list')
+             ->join('users','users.id','=','waiting_join_list.user_id')
+             ->where('astro_id',$request->user_id)->orderBy('waiting_join_list.id', 'DESC')
+             ->get();
+       
+         }
+         if($waiting_history){
+     
+                                 $data['status'] = true;
+                                  $data['message'] = "Data send successfully";
+                                 $data['data'] =  $waiting_history;
+     
+     
+         }else{
+             $data['status'] = false;
+             $data['message'] = "Data does not found";
+             $data['data'] =  '';
+         }
+         echo json_encode($data);
+
+}
+
+
+public function add_waiting_list(Request $request)
+{
+        $setdataWallet=array(
+        'user_id'=>$request->user_id,
+        'astro_id'=>$request->astro_id,
+        'join_number'=>$request->join_number,
+        'user_type'=>$request->user_type,
+        'waiting_time'=>$request->waiting_time
+    );
+
+     $resultlastid = DB::table('waiting_join_list')->insertGetId($setdataWallet);
+     if($resultlastid){
+     $data['data'] = $resultlastid;
+     $data['status'] = true;
+     $data['message'] = "Customer added into Waiting list";
+
+     }else{
+        $data['data'] = $resultlastid;
+        $data['status'] = false;
+        $data['message'] = "Customer added into Waiting list";
+
+     }
+     echo json_encode($data);
+
+}
+
+
+
+
+
+
     public function approve_request(Request $request)
     {
 
@@ -6731,6 +7016,50 @@ public function cancle_request(Request $request)
 
 }
 
+
+
+public function deduct_amount(Request $request)
+{   $data=$request->data;
+
+    $astro_id=$data['end_id'];
+    $user_id=$data['from_user_id'];
+    $time=$data['time'];
+    $date=$data['end_date'];
+    $end_time = $data['end_time'];
+    $totalminute=floor($time/60);
+    $start_time = date('h:i A', strtotime(' -'.$time.' seconds'));
+    $end_time = $date.' '.$end_time;
+    $start_time = $date.' '.$start_time;
+
+    $astro_charge=DB::table('users')->select('per_minute')->where('id',$astro_id)->first();
+    $astro_percent=DB::table('astro_percentage')->select('percentage')->where('id',1)->first();
+
+    if($totalminute==0)
+    {
+        $deduction_amount=$astro_charge->per_minute;
+        $totalminute=$totalminute+1;
+
+    }else{
+        $deduction_amount=$astro_charge->per_minute*$totalminute;
+        $totalminute=$totalminute+1;
+
+    }
+
+    $astro_earning_amount=$deduction_amount*($astro_percent->percentage/100);
+    $insert=['start_time'=>$start_time,'end_time'=>$end_time,'user_id'=>$user_id,'astro_id'=>$astro_id,'deduction_amount'=>$deduction_amount,
+    'astro_earning_amount'=>$astro_earning_amount,'duration'=>$totalminute];
+    DB::table('chat_history')->insert($insert);
+
+
+        $wallets= DB::table('wallet_system')->where('user_id',$user_id)->first();
+
+        $wallets= DB::table('wallet_system')->where('user_id',$user_id)->update(array(
+            'wallet_amount' => DB::raw('wallet_amount -'.$deduction_amount)
+        ));
+ 
+ 
+
+}
 
 
 }

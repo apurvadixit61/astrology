@@ -1,301 +1,288 @@
-<!DOCTYPE html>
-<html lang="en">
+@include('layouts.front_end.header')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ asset('public/front_end/css/style.css') }}">
+<section id="profileOuter">
+    <div class="container">
+       <div class="row">
+            <div class="col-md-4">
+                <div class="miniProfile text-center">
+                    <div class="miniProfileImg"><img @if($astrologer->profile_image == '') src="images/Astrologer10.jpg" @else src="{{url('/')}}/images/profile_image{{$astrologer->profile_image}}"  @endif></div>
+                    <h2>{{$astrologer->name}}</h2>
+                    <p>{{$astrologer->user_expertise}}</p>
+                    <p>{{$astrologer->user_language}}</p>
+                    <p>Exp: {{$astrologer->user_experience}} Years</p>
+                    <p class="text-priamry">₹ {{$astrologer->per_minute}}/min</p>
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="#" class="btn btn-outline-primary">
+                            <img src="{{ asset('public/astrology_assets/images/msg.png')}}">
+                            Start Chat
+                            <span>50K mins</span>
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary">
+                            <img src="{{ asset('public/astrology_assets/images/tel.png')}}">
+                            Start Call
+                            <span class="text-danger">Currently offline</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="availabilityBox mt-4">
+                    <h3 class="text-center">Availability</h3>
+                    <ul>
+                         <li class="d-flex align-items-center">
+                            <div class="availTime">
+                                <?php $count=dayCount(date("l")); ?>
+                            Today <br> {{date("F j")}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}} </p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
 
-<body>
-<nav>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                                <?php $count=dayCount(date("l", strtotime("+ 1 day"))); ?>
+                            {{date("l", strtotime("+ 1 day"))}} <br> {{date("F j", strtotime("+ 1 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
 
-<a href="{{ url('/')}}"> <img src="{{ asset('public/front_img/Logo-removebg-preview 1.png') }}" alt=""></a>
- <div>
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}} </p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
 
- <ul>
-     <li style="color: black;"> <a href="{{ url('/')}}"> Home </a></li>
-     <li><a href="{{ url('/all')}}"> <b>Our Astrologer </b> </a>  </li>
-     <li><a href="{{ url('/services')}}"> Services </a></li>
-     <li><a href="{{ url('/kundli')}}"> Kundli </a></li>
-     <li><a href="{{ url('/horoscope')}}"> Horoscope </a>  </li>
-     <li><a href="{{ url('/blog')}}"> Blog </a>  </li>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                            <?php $count=dayCount(date("l", strtotime("+ 2 day"))); ?>
 
-   </ul>
- </div>
- <button style="height: 55px;  width: 170px;">Contact Us</button>
+                            {{date("l", strtotime("+ 2 day"))}} <br>{{date("F j", strtotime("+ 2 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
 
-</nav>
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}}</p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                            <?php $count=dayCount(date("l", strtotime("+ 3 day"))); ?>
 
-    <div class="div">
-        <div class="about">
-            <div class="profile-div">
-                <img class="profile-img" src="{{url('/')}}/images/profile_image{{$users->profile_image}}" alt="">
-                <h1>{{$users->name}}</h1>
-                <p>{{$users->user_expertise}}, Tarot, {{$users->user_education}}</p>
-                <p>{{$users->user_language}}</p>
-                <p>{{$users->user_experience}}</p>
-                <span style="color:
-           #FE870A;">
-                    ₹ {{$users->per_minute}} /min
-                </span>
-                <div class="icon-div">
-                    <button><img src="{{url('/')}}/images/call-icon.png" alt=""> Start Chat <p>50 mins</p></button>
-                    <button><img src="{{url('/')}}/images/message-icon.png" alt=""> Start Call <p>20 mins</p></button>
+                            {{date("l", strtotime("+ 3 day"))}} <br>{{date("F j", strtotime("+ 3 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
+
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}}</p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                            <?php $count=dayCount(date("l", strtotime("+ 4 day"))); ?>
+
+                            {{date("l", strtotime("+ 4 day"))}} <br>{{date("F j", strtotime("+ 4 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                                @if($availability[$count])
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}}</p>
+                                @else 
+                                <p class="text-danger">Not Available</p>
+                                @endif
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                            <?php $count=dayCount(date("l", strtotime("+ 5 day"))); ?>
+
+                            {{date("l", strtotime("+ 5 day"))}} <br>{{date("F j", strtotime("+ 5 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
+
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}}</p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
+                                
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="availTime">
+                            <?php $count=dayCount(date("l", strtotime("+ 6 day"))); ?>
+
+                            {{date("l", strtotime("+ 6 day"))}} <br>{{date("F j", strtotime("+ 6 day"))}}
+                            </div>
+                            <img src="{{ asset('public/astrology_assets/images/colon.png')}}">
+                            <div class="availcont">
+                            @if($availability[$count])
+
+                                <p>{{$availability[$count]->start_time}} to {{$availability[$count]->end_time}}</p>
+                            @else 
+                            <p class="text-danger">Not Available</p>
+                            @endif
+                                
+                            </div>
+                        </li>
+                
+                    </ul>
                 </div>
             </div>
+            <div class="col-md-8">
+                <div class="profileIntro">
+                    <h2>About Me</h2>
+                   <p>{!!$astrologer->user_aboutus!!}</p>
+                </div>
 
-            <div class="about-paragraph">
-                <h1>About Me</h1>
-                @php $about = ($users->user_aboutus == NULL)?"Astrologer has no About Us details":$users->user_aboutus
-                @endphp
-                <p>{{$about}}
-                </p>
-                <div class="about-img-div">
-                    <button><img src="{{url('/')}}/images/Vector (1).png" alt=""></button>
-                    <img src="{{url('/')}}/images/about-img.png" alt="">
-                    <img src="{{url('/')}}/images/about-img.png" alt="">
-                    <img src="{{url('/')}}/images/about-img.png" alt="">
-                    <img src="{{url('/')}}/images/about-img.png" alt="">
-                    <button style="background: #FE870A;"><img src="{{url('/')}}/images/Vector (1)btn.png" alt=""></button>
+                @if($astrologer->image_url != '')
+                <div class="owl-carousel text-center">
+                    @foreach(explode('|',$astrologer->image_url) as $cover)
+                    <div class="item"> <img src="{{url('/')}}/images/profile_image/cover_img{{$cover}}"></div>
+                    @endforeach
+              </div>
+                @endif
+              <div class="ratingOuter">
+                     <div class="card mt-5">
+                <div class="card-body">
+                       <h3 class="text-center mb-4">Rating & Reviews</h3>
+                       <div class="ratingBox">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-4  text-center">
+                                 
+                                    <h1 class="rating_circle">4.1</h1>
+                                    <div>
+                                        <div class="rate">
+                                            <i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="far fa-star"></i> <i class="far fa-star"></i>
+                                          </div>
+                                          <h5>From 3.5K reviews</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                   <div class="progressBox d-flex align-items-center">
+                                         5
+                                       <div class="progress" style="height:4px">
+                                          <div class="progress-bar dark" style="width:70%;height:4px"></div>
+                                        </div>
+                                        2.8k
+                                    </div>
+                                     <div class="progressBox d-flex align-items-center">
+                                        4
+                                            <div class="progress" style="height:4px">
+                                                <div class="progress-bar dark" style="width:10%;height:4px"></div>
+                                            </div>
+                                            2.8k
+                                        </div>
+                                     <div class="progressBox d-flex align-items-center">
+                                         3
+                                            <div class="progress" style="height:4px">
+                                                <div class="progress-bar dark" style="width:10%;height:4px"></div>
+                                            </div>
+                                            2.8k
+                                        </div>
+                                     <div class="progressBox d-flex align-items-center">
+                                         2
+                                            <div class="progress" style="height:4px">
+                                                <div class="progress-bar dark" style="width:5%;height:4px"></div>
+                                            </div>
+                                            2.8k
+                                        </div>
+                                     <div class="progressBox d-flex align-items-center">
+                                         1
+                                            <div class="progress" style="height:4px">
+                                                <div class="progress-bar dark" style="width:5%;height:4px"></div>
+                                            </div>                
+                                            2.8k
+                                        </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    <div class="ratingComment">
+                        <div class="ratingCommentBox">
+                            <div class="ratingCommentBoxTop d-flex">
+                                <img src="images/zYxDCQT.jpg" width="50px">
+                                <div class="ratingUserInfo">
+                                    <h4>Carlie Harvey</h4>
+                                    <div class="ratingStar"><i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="far fa-star"></i> <i class="far fa-star"></i></div>
+                                </div>
+                                <span class="rateDate ms-auto">30 Jan 2022</span>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                         </div>
+                         <div class="ratingCommentBox">
+                            <div class="ratingCommentBoxTop d-flex">
+                                <img src="images/zYxDCQT.jpg" width="50px">
+                                <div class="ratingUserInfo">
+                                    <h4>Carlie Harvey</h4>
+                                    <div class="ratingStar"><i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="far fa-star"></i> <i class="far fa-star"></i></div>
+                                </div>
+                                <span class="rateDate ms-auto">30 Jan 2022</span>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                         </div>
+
+                         <div class="ratingCommentBox">
+                            <div class="ratingCommentBoxTop d-flex">
+                                <img src="images/zYxDCQT.jpg" width="50px">
+                                <div class="ratingUserInfo">
+                                    <h4>Carlie Harvey</h4>
+                                    <div class="ratingStar"><i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="fas fa-star text-priamry"></i> <i class="far fa-star"></i> <i class="far fa-star"></i></div>
+                                </div>
+                                <span class="rateDate ms-auto">30 Jan 2022</span>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                         </div>
                 </div>
             </div>
-        </div>
-        <div class="rating">
-            <div class="availability">
-                <h4>Availability</h4>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
-                <div class="monday">
-                    <h6>Monday <br> Jan 09 </h6>
-                    <p>07:00 AM - 12:30 PM <br> 04:00 PM - 12:00 AM</p>
-                </div>
+              </div>
 
             </div>
-            <div class="rating-reviews">
-                <h4>Rating & Reviews</h4>
-                <div class="number-rating">
-                    <div class="nuber-rating-first">
-                        <h1>4.7</h1>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <p>From 3.5K reviews</p>
-                    </div>
-                    <div class="number-raating-second">
-                        <div class="row">
-                            <div class="side">
-                                <div>5 star</div>
-                            </div>
-                            <div class="middle">
-                                <div class="bar-container">
-                                    <div class="bar-5"></div>
-                                </div>
-                            </div>
-                            <div class="side right">
-                                <div>150</div>
-                            </div>
-                            <div class="side">
-                                <div>4 star</div>
-                            </div>
-                            <div class="middle">
-                                <div class="bar-container">
-                                    <div class="bar-4"></div>
-                                </div>
-                            </div>
-                            <div class="side right">
-                                <div>63</div>
-                            </div>
-                            <div class="side">
-                                <div>3 star</div>
-                            </div>
-                            <div class="middle">
-                                <div class="bar-container">
-                                    <div class="bar-3"></div>
-                                </div>
-                            </div>
-                            <div class="side right">
-                                <div>15</div>
-                            </div>
-                            <div class="side">
-                                <div>2 star</div>
-                            </div>
-                            <div class="middle">
-                                <div class="bar-container">
-                                    <div class="bar-2"></div>
-                                </div>
-                            </div>
-                            <div class="side right">
-                                <div>6</div>
-                            </div>
-                            <div class="side">
-                                <div>1 star</div>
-                            </div>
-                            <div class="middle">
-                                <div class="bar-container">
-                                    <div class="bar-1"></div>
-                                </div>
-                            </div>
-                            <div class="side right">
-                                <div>20</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border"></div>
-                <div class="peoples-rating">
-                    <div class="peop">
-                        <img src="./images/Ellipse 4.png" alt="">
-                        <div class="people-start">
-                            <h1>Carlie Harvey</h1>
-                            <div class="star">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum <br> has
-                        been
-                        the industry's standard.</p>
-                </div>
-                <div class="peoples-rating">
-                    <div class="peop">
-                        <img src="./images/Ellipse 4.png" alt="">
-                        <div class="people-start">
-                            <h1>Carlie Harvey</h1>
-                            <div class="star">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum <br> has
-                        been
-                        the industry's standard.</p>
-                </div>
-                <div class="peoples-rating">
-                    <div class="peop">
-                        <img src="./images/Ellipse 4.png" alt="">
-                        <div class="people-start">
-                            <h1>Carlie Harvey</h1>
-                            <div class="star">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum <br> has
-                        been
-                        the industry's standard.</p>
-                </div>
-                <div class="peoples-rating">
-                    <div class="peop">
-                        <img src="./images/Ellipse 4.png" alt="">
-                        <div class="people-start">
-                            <h1>Carlie Harvey</h1>
-                            <div class="star">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum <br> has
-                        been
-                        the industry's standard.</p>
-                </div>
-            </div>
-
-
-        </div>
+       </div>
     </div>
-    </div>
-    <section class="footers">
-        <img src="./images/Logo-removebg-preview 1.png" alt="">
-        <div class="footer-first-div">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing <br> elit ut aliquam, purus sit amet
-                luctus venenatis,
-                lectus <br> magna fringilla urna, porttitor rhoncus dolor purus <br> non enim praesent
-                elem</p>
-        </div>
-        <div class="footer-second-div">
+</section>
+@include('layouts.front_end.footer')
 
-            <ul>
+<script type="text/javascript">
+         $(function() {
+         // Owl Carousel
+         var owl = $(".owl-carousel");
+         owl.owlCarousel({
+         items: 4,
+         margin: 20,
+         loop: true,
+         nav: true,
+          responsiveClass: true,
+                responsive: {
+                    0:{
+                      items: 1
+                    },
+                    480:{
+                      items: 1
+                    },
+                    769:{
+                      items: 4
+                    }
+                }
+         });
 
-                <li style="font-family: 'Lato'sans-serif;
-       font-style: normal;
-       font-weight: 700;
-       font-size: 20px;"> Our Service</li>
-                <div class="our-ul"> </div>
-                <li>Horoscope</li>
-                <li>Gemstones</li>
-                <li>Numerology</li>
-                <li>Tarot Cards</li>
-                <li>Birth Journal</li>
-            </ul>
-        </div>
-        <div class="footer-third-div">
-            <ul>
-                <li style="font-family: 'Lato'sans-serif;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;"> Quick Links</li>
-                <div class="our-ul"> </div>
-                <li>About Us</li>
-                <li>Blog</li>
-                <li>Services</li>
-                <li>Contact US</li>
-            </ul>
-        </div>
-        <div class="footer-four-div">
-            <ul>
-                <li style="font-family: 'Lato'sans-serif;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;"> Contact</li>
-                <div class="our-ul"> </div>
-                <li>(406) 555-0120</li>
-                <li>mangcoding123@gmail.com</li>
-                <li>2972 Westheimer Rd.</li>
-                <li> Santa Ana, Illinois 85486 </li>
-            </ul>
-        </div>
-    </section>
-</body>
-
+         });
+          
+      </script> 
+   </body>
 </html>

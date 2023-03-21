@@ -52,7 +52,7 @@
                              <div class="form-group">
                                 <label>Marital Status</label>
                                 <select name="marital_status" required class="form-select" aria-label="Default select example">
-                                  <option selected>Select Marital Status</option>
+                                  <option value="" selected>Select Marital Status</option>
                                   <option value="Married">Married</option>
                                   <option value="Single">Single</option>
                                   <option value="Widowed">Widowed</option>
@@ -65,7 +65,7 @@
                              <div class="form-group">
                                 <label>Occupation</label>
                                 <select name="occupation" required class="form-select" aria-label="Default select example">
-                                  <option selected>Select Occupation</option>
+                                  <option value="" selected>Select Occupation</option>
                                   <option value="Private">Private</option>
                                   <option value="Business">Business</option>
                                   <option value="Government">Government</option>
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label>Topic of concern</label>
                                 <select name="topic_concern" required class="form-select" aria-label="Default select example">
-                                  <option selected>Topic of concern</option>
+                                  <option value="" selected>Topic of concern</option>
                                   <option value="Marriage">Marriage</option>
                                   <option value="Business">Business</option>
                                   <option value="Job">Job</option>
@@ -144,6 +144,19 @@ $(document).on('keyup', '#front-search-field', function() {
     console.log(from_user_id)
     console.log(to_user_id)
          }
+
+         jQuery(document).ready(function($) {
+
+if (window.history && window.history.pushState) {
+
+// window.history.pushState('forward', null, './#forward');
+
+$(window).on('popstate', function() {
+    alert('Back button was pressed.');
+});
+
+}
+});
       </script>
      
    </body>

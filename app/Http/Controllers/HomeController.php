@@ -1446,4 +1446,15 @@ class HomeController extends Controller
 
     }
 
+
+    public function astro_details(Request $request,$id)
+    {
+
+        echo $id;die; 
+       // $data['astro_data'] = DB::select('select * from users where `user_type`=1');
+      //  return view('front_end.astro_details',$data);
+
+    }
+
+
 }

@@ -59,6 +59,8 @@ class HoroscopeController extends Controller
         return view('front_end.horoscope_details',$data);
 
     }
+   
+    
 
   
 }

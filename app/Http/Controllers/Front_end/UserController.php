@@ -42,11 +42,34 @@ class UserController extends Controller
     {
         if(Auth::guard('users')->user())
         {
-            return view('front_end.users.dashboard');
+
+            $user_type=Auth::guard('users')->user()->user_type;
+            $id=Auth::guard('users')->user()->id;
+            if($user_type==1){
+            $total_call=DB::table('chat_history')->where('user_id',$id)->orderBy('id', 'DESC')->get();
+            $sum_total_call=count($total_call);
+            $total_chat=DB::table('call_details')->where('user_id',$id)->orderBy('id', 'DESC')->get();
+            $sum_total_chat=count($total_chat);
+            $call_chat=DB::table('users')->where('id',$id)->orderBy('id', 'DESC')->get();
+            $sum_call_chat=count($call_chat);
+            
+            }else{
+
+            $total_call=DB::table('chat_history')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
+            $sum_total_call=count($total_call);
+            $total_chat=DB::table('call_details')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
+            $sum_total_chat=count($total_chat);
+            $call_chat=DB::table('users')->where('id',$id)->orderBy('id', 'DESC')->get();
+            $sum_call_chat=count($call_chat);
+            }
+
+            return view('front_end.users.dashboard',compact('sum_total_call','sum_total_chat','sum_call_chat'));
+
         }
 
-        return redirect('login')->with('success', 'you are not allowed to access');
+       // return redirect('login')->with('success', 'you are not allowed to access');
     }
+
     public function storeToken(Request $request)
     {
         if(Auth::guard('users')->check() == true){
@@ -58,6 +81,104 @@ class UserController extends Controller
 
         }
     }
+
+    public function profile_page()
+    {
+        $kundlis=[];
+        if(Auth::guard('users')->check()==1)
+        {
+        $id=Auth::guard('users')->user()->id;
+        $profile_update=DB::table('users')->where('id',$id)->orderBy('id', 'DESC')->get();
+        $astro_availability=DB::table('astro_availability')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
+
+        return view('front_end.users.profile_update',compact('profile_update','astro_availability'));
+        
+        }
+        return redirect()->back();
+    }
+    
+    public function edit_user(Request $request)
+    {
+
+        $id=Auth::guard('users')->user()->id;
+          $coverimg_name = '';
+          $validator = Validator::make($request->all(), [
+            'user_id'          =>  'required',
+           // 'device_id'     =>  'required',
+
+        ]);
+
+
+        if ($validator->fails()) {
+            $error_msg = [];
+            foreach ($validator->messages()->all() as $key => $value) {
+                array_push($error_msg, $value);
+            }
+            if ($error_msg) {
+                return array(
+                    'status' 	=> false,
+                    'code' 		=> 201,
+                    'message' 	=> $error_msg[0],
+                    'data' 		=> $request->all()
+                );
+            }
+
+        }
+        else{
+
+
+       $checkuser = DB::table('users')->where('id',$id)->first();
+
+        if($checkuser)
+        {
+
+                 if($request->profile_image!=''){
+                    $coverfile = $request->profile_image;
+                    $coverpath = base_path() . '/images/profile_image/';
+                    $coverfile->move($coverpath,  '/'.time().$coverfile->getClientOriginalName());
+                    $coverimg_name = '/'.time().$coverfile->getClientOriginalName();
+                }
+                $setdata['name']                  =  $request->name?:'Enter Name';
+                $setdata['phone_no']          =  $request->phone_no?:'Enter Phone';
+                $setdata['dob']          =  $request->dob?:'Enter DOB';
+                $setdata['address']          =  $request->address?:'Enter Address';
+                $setdata['blood_group']          =  $request->blood_group?:'Enter Blood Group';
+                $setdata['gender']          =  $request->gender?:'Enter Gender';
+                $setdata['country']          =  $request->country?:'Enter Country';
+                $setdata['zipcode']          =  $request->zipcode?:'Enter Zipcode';
+                $setdata['city']          =  $request->city?:'Enter City';
+                $setdata['birth_time']          =  $request->birth_time?:'Enter BirthTime';
+                $setdata['user_expertise']          =  $request->user_expertise;
+                $setdata['user_experience']          =  $request->user_experience;
+                $setdata['user_language']          =  $request->user_language;
+                $setdata['user_rating']          =  $request->user_rating;
+                $setdata['user_aboutus']          =  $request->user_aboutus;
+                $setdata['user_avability']          =  $request->user_avability;
+                $setdata['user_education']          =  $request->user_education;
+                 if($coverimg_name){
+                    $setdata['profile_image']              =  $coverimg_name;
+                    $setdata['image_url']              =      $coverpath;
+                }
+                $result = DB::table('users')->where('id',$request->user_id)->update($setdata);;
+                $data['data'] = '';
+				$data['status'] = true;
+				$data['message'] = "Data Update successfully";
+
+        }else
+        {
+            	$data['data'] = '';
+				$data['status'] = false;
+				$data['message'] = "Data does not found!!!!!!!!!!!!";
+
+        }
+
+        echo json_encode($data);
+        }
+
+    }
+
+
+    
 
     public function sendWebNotification(Request $request)
     {
@@ -219,27 +340,85 @@ class UserController extends Controller
         if(Auth::guard('users')->user())
         {
             $id=Auth::guard('users')->user()->id;
-            $messages=[];
-            $result = DB::select( DB::raw("select m.*
-            from message m
-            where m.id in (select max(m.id) as max_id
-                           from message m
-                           group by least(m.to_user_id, m.from_user_id), greatest(m.to_user_id, m.from_user_id)
-                          ) order by m.id desc") );
+            $user_type=Auth::guard('users')->user()->user_type;
+            $chat_history=[];
 
-                foreach($result as $msg) 
-                {
-                    if($msg->from_user_id ==$id || $msg->to_user_id ==$id)
-                    {
-                        if($msg->from_user_id ==$id) {$msg->name=$this->get_user_name($msg->to_user_id); $msg->to =$msg->to_user_id; }
-                        else {$msg->name=$this->get_user_name($msg->from_user_id); $msg->to =$msg->from_user_id; }
-                       array_push($messages,$msg);
-                    }
-                }     
+            if($user_type==1){
+             
+                $messages=DB::table('chat_history')
+                 ->join('users','users.id','=','chat_history.astro_id')
+                 ->where('user_id',$id)->orderBy('chat_history.id', 'DESC')
+                 ->get();
+             
+                 }else{
+             
+                     $messages=DB::table('chat_history')
+                     ->join('users','users.id','=','chat_history.user_id')
+                     ->where('astro_id',$id)->orderBy('chat_history.id', 'DESC')
+                     ->get();
+               
+                 }
+
+            // $result = DB::select( DB::raw("select m.*
+            // from message m
+            // where m.id in (select max(m.id) as max_id
+            //                from message m
+            //                group by least(m.to_user_id, m.from_user_id), greatest(m.to_user_id, m.from_user_id)
+            //               ) order by m.id desc") );
+
+            //     foreach($result as $msg) 
+            //     {
+            //         if($msg->from_user_id ==$id || $msg->to_user_id ==$id)
+            //         {
+            //             if($msg->from_user_id ==$id) {$msg->name=$this->get_user_name($msg->to_user_id); $msg->to =$msg->to_user_id; }
+            //             else {$msg->name=$this->get_user_name($msg->from_user_id); $msg->to =$msg->from_user_id; }
+            //            array_push($messages,$msg);
+            //         }
+            //     }     
 
             return view('front_end.users.orders',compact('messages'));
         }
         return redirect('/'); 
+
+    }
+
+    public function wallets_new()
+    {
+        if(Auth::guard('users')->user())
+        {
+            $wallet_data=[];
+            $payments_data=[];
+            $deduction_data=[];$wallets=0;
+        $id=Auth::guard('users')->user()->id;
+        $user_type=Auth::guard('users')->user()->user_type;
+        $chat_history=[];
+        if(!empty($wallets)){$wallets=$wallets->wallet_amount;}
+                
+        $wallet_data=DB::table('trancation_histroy')->where('user_id',$id)->get();
+
+        $wallets=DB::table('payments')->where('astro_id',$id)->sum('wallet_amount');
+        $payments_data=DB::table('payments')->leftJoin('users', 'users.id', '=', 'payments.user_id')->where('astro_id',$id)->orderBy('payments.id', 'DESC')->get();
+
+        if($user_type==1){
+         
+            $messages=DB::table('chat_history')
+             ->join('users','users.id','=','chat_history.astro_id')
+             ->where('user_id',$id)->orderBy('chat_history.id', 'DESC')
+             ->get();
+         
+             }else{
+         
+                 $messages=DB::table('chat_history')
+                 ->join('users','users.id','=','chat_history.user_id')
+                 ->where('astro_id',$id)->orderBy('chat_history.id', 'DESC')
+                 ->get();
+           
+             }
+
+           
+             return view('front_end.users.wallets',compact('messages','wallet_data','payments_data','deduction_data'));
+
+            }
 
     }
 
@@ -268,8 +447,9 @@ class UserController extends Controller
             }else
             {
 
-                $wallets=DB::table('payments')->where('astro_id',$id)->sum('wallet_amount');
-                $payments_data=DB::table('payments')->leftJoin('users', 'users.id', '=', 'payments.user_id')->where('astro_id',$id)->orderBy('payments.id', 'DESC')->get();
+                //$wallets=DB::table('payments')->where('astro_id',$id)->sum('wallet_amount');
+                $wallets=DB::table('chat_history')->where('astro_id',$id)->sum('astro_earning_amount');
+                // $payments_data=DB::table('payments')->leftJoin('users', 'users.id', '=', 'payments.user_id')->where('astro_id',$id)->orderBy('payments.id', 'DESC')->get();
 
             }
 
@@ -314,7 +494,7 @@ class UserController extends Controller
     public function logout(Request $request) {
         $id=Auth::guard('users')->user()->id;
          
-        $update=['token' => 0,'user_status'=>'Offline'];
+        $update=['token' => 0,'user_status'=>'Offline','is_busy'=>0];
 
         DB::table('users')->where('id',$id)->update($update);
 
@@ -441,9 +621,92 @@ class UserController extends Controller
       {
         $to_user= DB::table('users')->where('id',$userid)->first();
         $id=Auth::guard('users')->user()->id;
+        DB::enableQueryLog();
         $chats=DB::select( DB::raw("select * from message where (from_user_id=".$userid." and to_user_id=".$id.") or(from_user_id=".$id." and to_user_id=".$userid.")") );
-      
-        return view('front_end.users.chat',compact('to_user','chats'));
+     
+        // $query = DB::getQueryLog();
+        // print_r($query);   //  echo "<pre>";
+       
+        return view('front_end.users.chats',compact('to_user','chats'));
       }
+
+      public function profileupdate(Request $request)
+      {
+        $input=$request->all();
+        $id=Auth::guard('users')->user()->id;
+        $user_type=Auth::guard('users')->user()->user_type;
+         $update=['name'=>empty($input['name'])?'':$input['name'],'dob'=>empty($input['dob'])?'':$input['dob'],'birth_time'=>empty($input['birth_time'])?'':$input['birth_time'],'birth_place'=>empty($input['birth_place'])?'':$input['birth_place'],'user_language'=>empty($input['user_language'])?'':$input['user_language'],
+         'user_expertise'=>empty($input['user_expertise'])?'':$input['user_expertise'],
+         'user_experience'=>empty($input['user_experience'])?'':$input['user_experience'],'gender'=>empty($input['gender'])?'':$input['gender'],
+         'user_aboutus'=>empty($input['user_aboutus'])?'':$input['user_aboutus'],'per_minute'=>empty($input['per_minute'])?'':$input['per_minute']];
+        if(!empty($request->file('image_url')))
+         {
+            $files_arr=[];
+            $files=$request->file('image_url');
+            foreach($files as $file)
+            {
+             $coverfile = $file;
+             $coverpath = base_path() . '/images/profile_image/cover_img';
+             $file->move($coverpath,  '/'.time().$coverfile->getClientOriginalName());
+             $coverimg_name = '/'.time().$coverfile->getClientOriginalName();     
+             array_push($files_arr,$coverimg_name);
+
+            }
+
+            $update['image_url']=implode('|',$files_arr);
+         }
+         if(!empty($request->file('profile_image')))
+         {
+            $coverfile = $request->profile_image;
+            $coverpath = base_path() . '/images/profile_image';
+            $request->profile_image->move($coverpath,  '/'.time().$coverfile->getClientOriginalName());
+
+            $coverimg_name = '/'.time().$coverfile->getClientOriginalName();
+            $update['profile_image']=$coverimg_name;         
+
+         }
+
+         if(!empty($request->password))
+         {
+            $update['password']=Hash::make($request->password);
+         }
+
+       
+        DB::table('users')->where('id',$id)->update($update);
+
+         if($user_type==2)
+        {
+        foreach($input['week_day'] as $key=> $week)
+        {
+        $where=['astro_id'=>$id,'days'=>$week];
+
+          $weeks_available =  DB::table('astro_availability')->where($where)->first();
+          if(empty($weeks_available))
+          {
+            $insert=['astro_id'=>$id,'days'=>$input['week_day'][$key],'start_time'=>$input['week_start_time'][$key],'end_time'=>$input['week_end_time'][$key]];
+            $weeks_available =  DB::table('astro_availability')->insert($insert);
+          }else{
+            $update=['start_time'=>$input['week_start_time'][$key],'end_time'=>$input['week_end_time'][$key]];
+            $weeks_available =  DB::table('astro_availability')->where($where)->update($update);
+          }
+
+        }
+
+       }
+        return redirect()->back()->with('success', 'Profile Updated successfully');
+
+      }
+
+      public function delete_cover_img($key)
+      {
+        $id=Auth::guard('users')->user()->id;
+
+        $data=DB::table('users')->select('image_url')->where('id',$id)->first();
+        $data=explode('|',$data->image_url);
+        unset($data[$key]);
+        DB::table('users')->where('id',$id)->update(['image_url'=>implode('|',$data)]);
+        return $key;
+      }
+
      
 }
