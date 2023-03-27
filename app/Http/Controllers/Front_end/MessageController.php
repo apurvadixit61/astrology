@@ -102,7 +102,19 @@ class MessageController extends Controller
     }
     public function chats($from,$to,Request $request)
     {
-       
+        $key=$request->get('key');
+        
+        $is_valid_chat=DB::table('chat_requests')->where(['status'=>'Approve','key'=>$key,'status'=>'Approve'])->first();
+        if(empty($is_valid_chat)){
+
+            return view('front_end.notfound');
+
+
+
+        }else{
+
+
+        
         $from_user=DB::table('users')->where('id',$from)->first();
         $to_user=DB::table('users')->where('id',$to)->first();
         $user_type=$from_user->user_type;
@@ -114,15 +126,25 @@ class MessageController extends Controller
             $user= $to_user;
             $astro=$from_user;
         }
+        $kundli=DB::table('kundli')->where('user_id',$user->id)->orderBy('id', 'DESC')->first();
+
+        if($astro->is_busy==0)
+        {
+
+            $msg='<div>Name:'.$kundli->kundli_user_name.'<br/>Gender:'.$kundli->gender.'<br/>Date:'.$kundli->birth_date.'<br/>Time:'.$kundli->birth_time.'<br/>Place:'.$kundli->birth_place.'<br/>Marital Status:'.$kundli->marital_status.'<br/>Occupation:'.$kundli->occupation.'<br/>Topic of Concern:'.$kundli->topic_concern.'<br/></div>';        
+            $insert=[['from_user_id'=>$user->id,'to_user_id'=>$astro->id,'chat_message'=>$msg,'message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$user->id,'to_user_id'=>$astro->id,'chat_message'=>'<b>This is an automated message to confirm that chat has started.</b>','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')],
+            ['from_user_id'=>$astro->id,'to_user_id'=>$user->id,'chat_message'=>'<b>Welcome to Our website.Consultant will take a minute to analyse your details.You may ask your question in the meanwhile.</b>','message_status'=>'Not Send','message_time'=>date('H:i a'),'message_date'=>date('Y-m-d')]];
+            DB::table('message')->insert($insert);  
+
+        }
         
          $user_amount=DB::table('wallet_system')->where('user_id',$user->id)->first();
          $astro_charge=DB::table('users')->where('id',$astro->id)->first();
-
-        // print_r($astroid);
-        print_r($user_amount->wallet_amount);
-        echo "<br>";
-        print_r($astro_charge->per_minute);
-        return view('front_end.users.chat',compact('user','astro','user_type','from_user','to_user'));
+         $user_amount=$user_amount->wallet_amount;
+         $astro_charge=$astro_charge->per_minute;
+         return view('front_end.users.chat',compact('user','astro','user_type','from_user','to_user','user_amount','astro_charge'));
+    }
     }
     public function chatss($from,$to,Request $request)
     {
@@ -206,6 +228,49 @@ class MessageController extends Controller
 
     }
 
+
+    public function call_request(Request $request)
+    {
+     $current_user=Auth::guard('users')->user();
+     $id=Auth::guard('users')->user()->id;
+
+     $available_balance=DB::table('wallet_system')->where('user_id',$id)->first();
+    $astrologer = DB::table('users')->where('id',$request->to_user_id)->first();
+
+    if($astrologer)
+    {
+        $astro_charge=$astrologer->per_minute * 1;
+        if(!empty($available_balance)){
+        if($astro_charge <= $available_balance->wallet_amount )
+        {
+
+      
+        return 1; 
+
+        
+        }else{
+
+       $message ='Minimum balance of 1 minutes (INR '.$astro_charge.') is required to start call with '.$astrologer->name;
+       $response =['status'=>0,'message'=>$message];   
+       return json_encode($response);
+        }
+
+        }else{
+
+            $message ='Minimum balance of 1 minutes (INR '.$astro_charge.') is required to start call with '.$astrologer->name;
+            $response =['status'=>0,'message'=>$message];   
+            return json_encode($response);
+
+        }
+    }
+     exit;
+
+
+
+
+
+    }
+
     public function send_request(Request $request)
     {
 
@@ -237,7 +302,7 @@ class MessageController extends Controller
 
         }else{
 
-            $message ='Minimum balance of 5 minutes (INR '.$astro_charge.') is required to start chat with '.$astrologer->name;
+            $message ='Minimum balance of 1 minutes (INR '.$astro_charge.') is required to start chat with '.$astrologer->name;
             $response =['status'=>0,'message'=>$message];   
             return json_encode($response);
 
@@ -306,9 +371,10 @@ class MessageController extends Controller
     {
         $update= ['status'=>'Approve','request_date'=>date('Y-m-d H:i:s')];
         $user= DB::table('chat_requests')->where('id',$request)->first();
+        DB::table('chat_requests')->where(['to_user_id'=>$user->to_user_id])->update(['status'=>'Close']);
 
-        DB::table('chat_logs')->insert(['userid'=>$user->from_user_id,'astroid'=>$user->to_user_id,'approve_time'=>date('Y-m-d h:i:s a'),'start_time'=>date('h:i:s')]);
-        DB::table('chat_requests')->where('id','<',$request)->update(['status'=>'Close']);
+
+        DB::table('chat_logs')->insert(['userid'=>$user->from_user_id,'astroid'=>$user->to_user_id,'approve_time'=>date('Y-m-d H:i:s a'),'start_time'=>date('H:i:s')]);
         DB::table('chat_requests')->where(['id'=>$request])->update($update);      
         return $user;
 

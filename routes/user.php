@@ -7,6 +7,8 @@ use App\Http\Controllers\Front_end\UserController;
 
 // Route::get('/','App\Http\Controllers\Front_end\UserController@index');
 
+Route::get('/call_status', 'App\Http\Controllers\Front_end\UserController@call_status');
+Route::get('/call-history', 'App\Http\Controllers\Front_end\UserController@call_history');
 Route::get('/profile_page', 'App\Http\Controllers\Front_end\UserController@profile_page');
 Route::get('/delete_cover_img/{id}', 'App\Http\Controllers\Front_end\UserController@delete_cover_img');
 Route::get('/recharge','App\Http\Controllers\Front_end\UserController@recharge');
@@ -22,8 +24,12 @@ Route::post('/doLogin','App\Http\Controllers\Front_end\UserController@doLogin')-
 Route::post('/profileupdate','App\Http\Controllers\Front_end\UserController@profileupdate')->name('profileupdate');
 Route::post('/doSignup','App\Http\Controllers\Front_end\UserController@doSignup')->name('doSignup');
 Route::post('/chat-intake','App\Http\Controllers\Front_end\UserController@chatintake')->name('chat-intake');
+Route::post('/call-intake','App\Http\Controllers\Front_end\UserController@callintake')->name('call-intake');
+Route::get('/call/{id}','App\Http\Controllers\Front_end\UserController@makecall');
+Route::get('/in-progress/{id}','App\Http\Controllers\Front_end\UserController@in_progress');
 
 Route::get('/send_request','App\Http\Controllers\Front_end\MessageController@send_request')->name('users.send_request');
+Route::get('/call_request','App\Http\Controllers\Front_end\MessageController@call_request')->name('users.call_request');
 Route::get('/approve_request/{request_id}','App\Http\Controllers\Front_end\MessageController@approve_request')->name('users.approve_request');
 Route::get('/reject_request/{request_id}','App\Http\Controllers\Front_end\MessageController@reject_request')->name('users.reject_request');
 Route::get('/notification','App\Http\Controllers\Front_end\MessageController@notification')->name('users.notification');

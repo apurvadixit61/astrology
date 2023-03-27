@@ -10,7 +10,11 @@
 </section>
 <section id="notification">
     <div class="container">
-
+    @if (\Session::has('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong> {!! \Session::get('error') !!}</strong> 
+    </div>
+    @endif
     @foreach($messages as $key=>$message)
 
         <div class="notification-list d-flex align-items-center justify-content-between">
@@ -22,15 +26,15 @@
                             src="{{ asset('public/front_img/elem.png') }}" alt="" @endif  alt="user" width="50px">
                 </div>
                 <div class="notification-list_detail">
-                    <p><b>{{$message->user_name}}</b> send you chat request</p>
-                    <p class="text-muted">You have new chat request confirm to chat with {{$message->user_name}}</p>
+                    <p><b>{{$message->user_name}}</b> send you {{$message->msg}} request</p>
+                    <p class="text-muted">You have new {{$message->msg}} request confirm to {{$message->msg}} with {{$message->user_name}}</p>
                    
                 </div>
             </div>
 
             <div class="notification-list_feature-btn text-end">
-                 <p class="text-muted"><strong>{{ explode(' ',$message->request_date)[0]}}</strong> <small>{{$message->request_date}}</small></p>
-               @if($message->status!='Close') <a href="#" onclick="approve_request({{$message->id}})" ><i class="fas fa-check"></i></a>@endif
+                 <p class="text-muted"><strong>{{ explode(' ',$message->request_date)[0]}}</strong> <small>{{timeAgo($message->request_date)}}</small></p>
+               @if($message->status!='Close')  @if($message->msg =='Chat') <a href="#" onclick="approve_request({{$message->id}})" ><i class="fas fa-envelope"></i></a> @else <a href="{{url('user/call/')}}/{{$message->id}}?key={{$message->key}}"  ><i class="fas fa-phone"></i></a> @endif @endif
                  <a href="#" onclick="reject_request({{$message->id}})"><i class="fas fa-trash"></i></a>
             </div>
         </div>
@@ -113,6 +117,26 @@ function reject_request(request_id)
                   console.log(result)
 
                 }
+        }
+    });
+}
+
+
+function make_call(request_id)
+{
+
+    var url = base_url+'/user/call/'+request_id
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+         console.log(result)
+        
         }
     });
 }

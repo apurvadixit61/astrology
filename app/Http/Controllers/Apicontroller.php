@@ -7016,9 +7016,17 @@ public function add_waiting_list(Request $request)
 
 }
 
-
-
 public function deduct_amount(Request $request)
+{  
+    $input=$request->all();
+    $logsid= DB::table('chat_logs')->where(['userid'=>$input['data']['userid'],'astroid'=>$input['data']['astroid']])->orderBy('id', 'DESC')->first();
+    DB::table('chat_logs')->where('id',$logsid->id)->update(['end_time'=>$input['data']['end_time'],'comment'=>$input['data']['comment']]);
+    // DB::table('chat_requests')->where(['from_user_id'=>$input['data']['userid'],'to_user_id'=>$input['data']['astroid']])->update(['status'=>'Close']);
+
+
+}
+
+public function deduct_amounts(Request $request)
 {   $data=$request->data;
 
     $astro_id=$data['end_id'];
@@ -7048,7 +7056,7 @@ public function deduct_amount(Request $request)
     $astro_earning_amount=$deduction_amount*($astro_percent->percentage/100);
     $insert=['start_time'=>$start_time,'end_time'=>$end_time,'user_id'=>$user_id,'astro_id'=>$astro_id,'deduction_amount'=>$deduction_amount,
     'astro_earning_amount'=>$astro_earning_amount,'duration'=>$totalminute];
-    DB::table('chat_history')->insert($insert);
+     DB::table('chat_history')->insert($insert);
 
 
         $wallets= DB::table('wallet_system')->where('user_id',$user_id)->first();
@@ -7056,6 +7064,8 @@ public function deduct_amount(Request $request)
         $wallets= DB::table('wallet_system')->where('user_id',$user_id)->update(array(
             'wallet_amount' => DB::raw('wallet_amount -'.$deduction_amount)
         ));
+
+        DB::table('chat_requests')->where(['from_user_id'=>$user_id,'to_user_id'=>$astro_id])->update(['status'=>'Close']);
  
  
 

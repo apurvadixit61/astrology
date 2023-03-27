@@ -76,4 +76,8 @@ switch ($day) {
 }
 }
 
+
+function random_key(){
+  return  random_bytes(6);
+}
 ?>

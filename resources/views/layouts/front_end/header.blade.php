@@ -32,7 +32,7 @@
                 </button>
                 <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : ''}}{{ request()->is('user/notification') ? 'active' : ''}} " aria-current="page" href="{{ url('/')}}">Home</a> </li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : ''}}{{ request()->is('user/notification') ? 'active' : ''}} {{ request()->is('user/recharge') ? 'active' : ''}} " aria-current="page" href="{{ url('/')}}">Home</a> </li>
                         <li class="nav-item"><a class="nav-link {{ request()->is('all') ? 'active' : ''}} {{ request()->is('profile/*') ? 'active' : ''}}" href="{{ url('/all')}}">Our Astrologer</a></li>
                         <li class="nav-item"><a class="nav-link {{ request()->is('kundli') ? 'active' : ''}}" href="{{ url('/kundli')}}">Kundli</a></li>
                   

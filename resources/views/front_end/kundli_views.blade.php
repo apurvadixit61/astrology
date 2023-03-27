@@ -890,7 +890,7 @@ p{
                                     <td>Type</td>
                                 </tr>
                                 @foreach($responseData11 as $key=>$report)
-                                  @if($key < 20)
+                                  @if($key < count($responseData11)-1)
                                  <tr @if($key % 2==0) class="td_style" @endif >
                                     <td>{{$report->date}}</td>
                                     <td>{{$responseData11[$key+1]->date}}</td>

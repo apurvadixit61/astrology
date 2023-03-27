@@ -7,11 +7,17 @@
     <strong> {!! \Session::get('error') !!}</strong> You should check in on some time.    
     </div>
     @endif
-        <div class="title text-center"><h2>Chat Start</h2></div>
+
+    @if (\Session::has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {!! \Session::get('success') !!}</strong> wait for a while.    
+    </div>
+    @endif
+
+        <div class="title text-center"><h2>Call Start</h2></div>
         <div class="chatMsg_inner mt-5">
-            <form action="{{route('chat-intake')}}" method="post">
+            <form action="{{route('call-intake')}}" method="post">
                 @csrf
-                    
                     <label> Gender * </label>
                     <input type="hidden" name="to_user" value="{{$id}}">
                     <div class="d-flex">
@@ -97,7 +103,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                         <button class="btn btn-primary" type="submit">Start Chat with Astrologer</button>
+                         <button class="btn btn-primary" type="submit">Start Call with Astrologer</button>
                      </div>
                  </div>
             </form>
@@ -141,23 +147,7 @@ $(document).on('keyup', '#front-search-field', function() {
 
          });
           
-         function send_request(element, from_user_id, to_user_id) {
-    console.log(from_user_id)
-    console.log(to_user_id)
-         }
-
-         jQuery(document).ready(function($) {
-
-if (window.history && window.history.pushState) {
-
-// window.history.pushState('forward', null, './#forward');
-
-$(window).on('popstate', function() {
-    alert('Back button was pressed.');
-});
-
-}
-});
+ 
       </script>
      
    </body>

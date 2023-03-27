@@ -522,17 +522,16 @@ span.attachment input {
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                <img @if(($user_type==1 && ($astro->profile_image==' ' || $astro->profile_image==NULL ) ) || ($user_type==2 && ($user->profile_image==' ' || $user->profile_image==NULL) ) )   src="{{url('/')}}/images/user.jpg" @else  src="{{url('/')}}/images/profile_image/@if($user_type==1){{$astro->profile_image}}@else {{$user->profile_image}} @endif" @endif alt="avatar">
+                                <img @if($user_type==1) src="{{url('/')}}/images/profile_image/{{$astro->profile_image}}"  @endif @if($user_type==2) src="{{url('/')}}/images/profile_image/{{$user->profile_image}}" @endif alt="avatar">
                             </a>
                             <div class="chat-about">
                                 <h6 class="m-b-0">@if($user_type==1){{$astro->name}}@else {{$user->name}} @endif</h6>
                                 <p>Balance : (<span id="timer"></span> mins)</p>
-                                <strong>Chat in progress</strong>
+                                <strong id="typing">Chat in progress</strong>
                             </div>
                         </div>
                         @if($user_type==1)
-                        <div class="col-lg-6 hidden-sm text-end">
-                            
+                        <div class="col-lg-6 hidden-sm text-end">                            
                             <a href="javascript:void(0);" onclick="end()" class="btn btn-outline-warning">End</a>
                         </div>
                         @endif
@@ -540,34 +539,12 @@ span.attachment input {
                 </div>
                 <div class="chat-history" id="chat-history">
                     <ul class="m-b-0">
-                        <li class="clearfix">
-                           
-                            <div class="message other-message pull-right"> Hi Aiden, how are you? How is the project coming along? <span class="message-data-time">10:12 AM <span class="check read"><i class="fa fa-check" aria-hidden="true"></i></span></span> </div>
-                        </li>
-                        <li class="clearfix">
-                           
-                            <div class="message my-message">Are we meetin?   <span class="message-data-time">10:12 AM</span></div>                                    
-                        </li>                               
-                         <li class="clearfix">
-                            
-                            <div class="message my-message">Project has been already finished and I have results to show you.Project has been already finished and I have results to show you.Project has been already finished and I have results to show you.  <span class="message-data-time">10:12 AM</span></div>
-                        </li>
-                        <li class="clearfix">
-                            
-                            <div class="message my-message">Project has been already finished and I have results to show you.Project has been already finished and I have results to show you.Project has been already finished and I have results to show you.  <span class="message-data-time">10:12 AM</span></div>
-                        </li>
-                        <li class="clearfix">
-                           
-                            <div class="message other-message pull-right"> Hi Aiden, how are you? How is the project coming along?  <span class="message-data-time">10:12 AM <span class="check unread"><i class="fa fa-check" aria-hidden="true"></i></span></span> </div>
-                        </li>
+                       <div  id="chat" > </div>
                     </ul>
                 </div>
                 <div class="chat-message clearfix">
                    <div class="chatInput"> <input type="text" id="message_area" class="form-control" placeholder="Enter text here...">
-                         <span class="attachment">
-                              <input type="file"><i class="fas fa-link"></i></span></div>                          
-
-                          <span class="micke mx-5"><i class="fas fa-microphone"></i></span> 
+                         </div>                                                   
                           <span class="micke" onclick="send_chat_message()"><i class="fas fa-paper-plane fa-2x"></i></span> 
                 </div>
             </div>
@@ -582,6 +559,7 @@ span.attachment input {
          <!--Container Main end-->
          <!--  JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
          <script src="{{asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
@@ -591,6 +569,8 @@ span.attachment input {
          <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js" integrity="sha512-rwu37NnL8piEGiFhe2c5j4GahN+gFsIn9k/0hkRY44iz0pc81tBNaUN56qF8X4fy+5pgAAgYi2C9FXdetne5sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
          <script>
+
+
         ScrollToBottom()
         function ScrollToBottom() {
                 var d = document.getElementById("chat-history");
@@ -606,25 +586,25 @@ span.attachment input {
                 }
             });
 
-            function send_chat_message()
-            {
-                alert('ok')
-                document.querySelector('#message_area').value = '';
-
-            }
+           
      </script>
      <script>
-        var from_user={{$from_user->id}}
-        var to_user={{$to_user->id}}
+        var from_user_id={{$from_user->id}}
+        var to_user_id={{$to_user->id}}
         var userid={{$user->id}}
+        var user_amount={{$user_amount}}
         var astroid={{$astro->id}}
+        var astro_charge={{$astro_charge}}
+
         var urlString='http://134.209.229.112:8090';   
         var socket = io(urlString, {secure: false});
         socket.on('connect', function() {
         console.log("Connected to WS server");
-        var user_data={user:from_user,socket_id:socket.id}   
-        socket.emit("user_data",user_data)  
-        setInterval(timer, 1000);
+        var user_data={from_user_id:from_user_id,to_user_id:to_user_id,socket_id:socket.id,userid:userid,astroid:astroid,astro_charge:astro_charge,user_amount:user_amount}   
+        socket.emit("user_data",user_data) 
+        socket.emit("chat_history",user_data)
+
+        setInterval(timer, 1300);
 
         })
 
@@ -632,17 +612,65 @@ span.attachment input {
         console.log('my user data status',data)
         })
 
-        
+        socket.on('chat_data', function(datas) {
+       if(datas.from_user_id ==from_user_id && datas.to_user_id==to_user_id)
+       {
+        var data =datas.data
+        var html=''
+        var icon=''
+        console.log('Chat History',data)
+        for (var count = 0; count < data.length; count++) {
+            if (data[count].message_status == 'Not Send') {
+                icon=`<i class="fa fa-check" aria-hidden="true"></i>`
+            }
+            if (data[count].message_status == 'Send') {
+                icon=`<i class="fas fa-check-double" aria-hidden="true"></i>`
+            }
+            if (data[count].message_status == 'Read') {
+                icon=`<i class="fas fa-check-double" style="color:#09c9de;" aria-hidden="true"></i>`
+            }
+            if (data[count].from_user_id == from_user_id) {
+                html +=`<li class="clearfix">
+                           
+                           <div class="message other-message pull-right"> ` + data[count].chat_message + ` <span id="`+data[count].id+`" class="message-data-time">`+data[count].message_time+`<span class="check">`+icon+`</span></span> </div>
+                       </li>`
+            }
+            else{
+
+                var status={id:data[count].id,action:'Read'}  
+    
+                 socket.emit('update_message_status',status)
+
+                html +=`<li class="clearfix">
+                           
+                           <div class="message my-message">` + data[count].chat_message + `   <span id="`+data[count].id+`" class="message-data-time">`+data[count].message_time+`</span></div>                                    
+                       </li>`
+
+            }
+        }
+
+      
+        $('#chat').append(html)
+                ScrollToBottom()
+
+       } 
+
+      })
         
         function timer()
         {
-            socket.emit("timer",{id:from_user,userid:userid,astroid:astroid})  
+            socket.emit("timer",{id:from_user_id,userid:userid,astroid:astroid})  
         }
 
         socket.on('timer_value', function(data) {
 
-            if(data.id==from_user)
+            if(data.id==from_user_id)
             {
+                if(data.time.split(':')[0] >=(Math.floor(user_amount/astro_charge)-1) )
+                {
+                    document.getElementById("timer").style.color = 'red';
+
+                }
                 document.getElementById("timer").innerHTML = data.time;
 
             }
@@ -654,8 +682,9 @@ span.attachment input {
 
         socket.on('end_chat', function(data) {
             console.log('chat end',data)
-            if(data.to_user==from_user)
+            if(data.to_user==from_user_id && data.from_user==to_user_id)
             {
+                Swal.fire('Chat is ended by User')
                 clearInterval(timer)
                 location.href = 'https://collabdoor.com/user/orders';                
 
@@ -664,19 +693,130 @@ span.attachment input {
 
         function end()
         {
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, End it!'
+            }).then((result) => {
+             if (result.isConfirmed) {
             clearInterval(timer)
-            var data={from_user:from_user,to_user:to_user}
+            var data={from_user:from_user_id,to_user:to_user_id}
 
 
-            socket.emit("forceDisconnect",data)  
+            socket.emit("forceDisconnects",data)  
 
             location.href = 'https://collabdoor.com/user/orders';                
 
             console.log(data)
+             }
+            })
         }
 
         
- 
+        history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+    function send_chat_message()
+            {
+                var message = $('#message_area').val().trim();
+                if(message !=''){
+                    var messages={from_user_id:from_user_id,to_user_id:to_user_id,message:message};
+                    socket.emit("message",messages)
+                    document.querySelector('#message_area').value = '';
+
+                }
+
+            }
+
+            socket.on('message_data', function(data) {
+            console.log("message_data",data)
+            var html=''
+
+            if(data.from_user_id ==from_user_id && data.to_user_id==to_user_id)
+            {
+                var status={id:data.id,action:'Send'}  
+                socket.emit('update_message_status',status)
+
+                html =`<li class="clearfix">
+                           
+                           <div class="message other-message pull-right"> ` + data.message + ` <span id="`+data.id+`" class="message-data-time">`+data.message_time+`<span id="`+data.id+`" class="check read"><img src="{{asset('public/astrology_assets/images/checks.png')}}" width="13px"></span></span> </div>
+                       </li>`
+            }
+
+            if(data.from_user_id ==to_user_id && data.to_user_id==from_user_id)
+            {
+                var status={id:data.id,action:'Read'}  
+    
+                socket.emit('update_message_status',status)
+                html =`<li class="clearfix">
+                           
+                           <div class="message my-message">` + data.message + `   <span class="message-data-time">`+data.message_time+`</span></div>                                    
+                       </li>`
+            }
+
+            if (html != '') {
+                var previous_chat_element = document.querySelector("#chat");
+                var chat_history_element = document.querySelector("#chat");
+
+                chat_history_element.innerHTML = previous_chat_element.innerHTML + html
+
+                var user_data={from_user_id:from_user_id,to_user_id:to_user_id,socket_id:socket.id,userid:userid,astroid:astroid,astro_charge:astro_charge,user_amount:user_amount}   
+                socket.emit("user_data",user_data) 
+                setInterval(timer, 1300);
+                ScrollToBottom()
+            }
+        })
+
+        $( "#message_area" ).focus(function() {
+            var data={from_user_id:from_user_id,to_user_id:to_user_id,is_type:1}
+            console.log(data)
+            socket.emit('typing',data)
+
+        // alert( "Handler for .focus() called." );
+        });
+
+        $( "#message_area" ).blur(function() {
+            var data={from_user_id:from_user_id,to_user_id:to_user_id,is_type:0}
+            console.log(data)
+            socket.emit('typing',data)
+
+        // alert( "Handler for .focus() called." );
+        });
+        socket.on('time_up', function(data) {
+           console.log('time_up',data)
+
+           if(data.userid==from_user_id || data.astroid==from_user_id)
+           {
+            Swal.fire('Chat is ended due to insufficient balance')
+
+            clearInterval(timer)
+            var data={from_user:from_user_id,to_user:to_user_id}
+            socket.emit("forceDisconnects",data)  
+            location.href = 'https://collabdoor.com/user/orders';  
+
+
+           }
+        }) 
+
+        socket.on('typingResponse', function(data) {
+            console.log(data)
+            if(data.from_user_id ==to_user_id && data.to_user_id==from_user_id && data.is_type==1)
+            {
+               document.getElementById('typing').innerHTML ='typing....'; 
+            }else{
+               document.getElementById('typing').innerHTML ='Chat in Progress'; 
+            }
+        })
+
+        socket.on('update_message_data', function(data) {
+            console.log('update_message_data',data)
+        })
 
      </script>
          

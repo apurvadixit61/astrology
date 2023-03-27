@@ -924,6 +924,12 @@ public function kundli_detail($id)
    
 }
 
+public function kundli_details($id)
+{
+    return view('front_end.users.callIntake',compact('id'));
+   
+}
+
 public function astro_details(Request $request,$id)
 {
 
@@ -1015,7 +1021,12 @@ $setdataWallet=array(
 
 }
 
+public function blog_id($id)
+{
+  $blog= DB::table('blog')->where('id',$id)->first();
+  return view('front_end.blog_details',$blog);
 
+}
 
 
 

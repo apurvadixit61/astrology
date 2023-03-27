@@ -141,8 +141,8 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Birth Date</label>
-                                    <input type="text" required name="f_birth_date" class="form-control my_date_picker"
-                                        id="inputPassword4" placeholder="Birth Date">
+                                    <input type="text" required name="f_birth_date" class="form-control my_date_picker1"
+                                         placeholder="Birth Date">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -181,8 +181,8 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="inputPassword4">Birth Date</label>
-                                    <input type="text"  required name="m_birth_date" class="form-control my_date_picker"
-                                        id="inputPassword4" placeholder="Birth Date">
+                                    <input type="text"  required name="m_birth_date" class="form-control my_date_picker2"
+                                       placeholder="Birth Date">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -223,7 +223,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 <script>

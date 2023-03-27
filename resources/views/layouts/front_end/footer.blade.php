@@ -38,17 +38,19 @@
     </footer>
     <style>
     .footer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left:0;
+    padding: 1rem;   
+    text-align: center;
+
 }
   </style>
-  <!-- <div class="footer">Your chat is still running cancel it otherwise your full amount will be deducted <button class="btn btn-primary">Back to Chat</button>.</div> -->
-   
+
+  <div id="inprogress"></div>
+  
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{ asset('public/astrology_assets/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -60,6 +62,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
     <script>
+
+        
 var base_url = location.protocol+'//'+location.host
 
             <?php
@@ -70,7 +74,85 @@ var user_type={{auth()->guard("users")->user()->user_type}}
 
 var intervalId = window.setInterval(function() {
     get_notification_count()
-}, 5000);
+    in_progress()
+}, 3000);
+
+function in_progress()
+{
+    var url = base_url+'/user/in-progress/'+{{$loginId}}
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+            console.log(result)
+            if(result.is_busy==1 )
+            {
+                if(result.type=='Chat'){
+                    document.getElementById('inprogress').innerHTML =`<div class="footer">     
+                            <div class="row mx-5" style="justify-content: center; background-color: #efefef;padding-top:2rem;padding-bottom:2rem;">
+                                <div class="col-md-2">
+                                <img src="{{url('/')}}/images/profile_image`+result.profile_image+`" width="50px">
+                                </div>
+                                <div class="col-md-2"> <h5>`+result.name+`</h5> <p>₹ 70/mins</p><p class="text-success">Chat is in progress </p> </div>
+                                <div class="col-md-1"><a href="`+result.link+`"class="btn btn-primary">Chat</a></div>
+                            </div>
+                            </div>`; 
+                }
+                if(result.type=='Call'){
+                    document.getElementById('inprogress').innerHTML =`<div class="footer">     
+                            <div class="row mx-5" style="justify-content: center; background-color: #efefef;padding-top:2rem;padding-bottom:2rem;">
+                                <div class="col-md-2">
+                                <img src="{{url('/')}}/images/profile_image`+result.profile_image+`" width="50px">
+                                </div>
+                                <div class="col-md-2"> <h5>`+result.name+`</h5> <p>₹ 70/mins</p><p class="text-success">Call is in progress </p> <span id="call_status"></span> </div>
+                                <div class="col-md-1"><a href="#"class="btn btn-primary">Call</a></div>
+                            </div>
+                            </div>`; 
+                    get_call_details()        
+                }
+
+          
+
+
+            }else{
+            document.getElementById('inprogress').innerHTML =''; 
+
+            }
+
+        }
+    });
+
+}
+
+function get_call_details()
+{
+    var url = base_url+'/user/call_status/'
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(result) {
+         console.log('call status',result) 
+         document.getElementById('call_status').innerHTML =result; 
+
+         if(result=='completed')
+         {
+            location.href = base_url+'/user/call-history';
+
+         }    
+
+        }
+    });
+}
 
 function get_notification_count(){
 
@@ -86,11 +168,8 @@ function get_notification_count(){
         success: function(result) {
          console.log(result)
          $('#count').append('')
-         $('#count').append(result)
-
-         
+         $('#count').append(result)         
          var count = document.querySelector("#count");
-
          count.innerHTML =result
 
         }
@@ -100,8 +179,17 @@ function get_notification_count(){
 
 <?php }?>
 
-$( ".my_date_picker" ).datepicker({dateFormat: 'yy-mm-dd',maxDate: new Date(),changeMonth: true,
+$( ".my_date_picker" ).datepicker({dateFormat: 'yy-mm-dd',maxDate: '0',showButtonPanel: true,
+            changeMonth: true,
       changeYear: true});
+      $( ".my_date_picker1" ).datepicker({dateFormat: 'yy-mm-dd',showButtonPanel: true,
+            changeMonth: true,
+      changeYear: true});
+      $( ".my_date_picker2" ).datepicker({dateFormat: 'yy-mm-dd',showButtonPanel: true,
+            changeMonth: true,
+      changeYear: true});
+
+           
 $('.datetimepicker3').datetimepicker({
                     format: 'HH:mm',
                     collapse:false,

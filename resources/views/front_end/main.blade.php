@@ -2,7 +2,7 @@
     <section class="banner_outer">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6">
+                <div class="col-xl-6 col-md-7">
                     <h2>Services For You <span>Company Name</span></h2>
                     <p class="mt-3 mb-5">Consectetur adipiscing elit, sed do eiusmod tempor incididuesdeentiut labore
                         etesde dolore magna aliquapspendisse and the gravida.</p>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 ms-auto">
+                <div class="col-xl-5 col-md-5 ms-auto">
                     <div class="freeKundliForm">
                         <h3>Free Kundli</h3>
                         <p class="mt-2 mb-2">At vero eos et accusamus et iusto odio dignissimos.</p>
@@ -142,7 +142,7 @@
                     majority have suffered alteration in some form, by injected hummer.</p>
             </div>
             <div class="row">
-                <div class="col-lg-2 col-md-4 ">
+                <div class="col-lg-2 col-md-4 col-sm-6 ">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/aries')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/1.png')}}"></div>
@@ -151,7 +151,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/taurus')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/2.png')}}"></div>
@@ -160,7 +160,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/gemini')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/3.png')}}"></div>
@@ -169,7 +169,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/cancer')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/4.png')}}"></div>
@@ -178,7 +178,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/leo')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/5.png')}}"></div>
@@ -187,7 +187,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/virgo')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/6.png')}}"></div>
@@ -196,7 +196,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/libra')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/7.png')}}"></div>
@@ -205,7 +205,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/scorpio')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/8.png')}}"></div>
@@ -214,7 +214,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/sagittarius')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/9.png')}}"></div>
@@ -223,7 +223,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/capricorn')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/10.png')}}"></div>
@@ -232,7 +232,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/aquarius')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/11.png')}}"></div>
@@ -241,7 +241,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="rashibox">
                         <a href="{{url('horoscope_details/pisces')}}">
                             <div class="rashiImg"><img src="{{ asset('public/astrology_assets/images/12.png')}}"></div>
@@ -477,12 +477,13 @@ $(document).on('keyup', '#place_search', function() {
         });
 
     });
+    var user_type=0;
 
     <?php
    if(Auth::guard('users')->check() == true){
     $loginId = auth()->guard("users")->user()->id;
     ?>
-var user_type={{auth()->guard("users")->user()->user_type}}
+ user_type={{auth()->guard("users")->user()->user_type}}
 
 
 function send_request(element, from_user_id, to_user_id,status) {
@@ -491,7 +492,7 @@ function send_request(element, from_user_id, to_user_id,status) {
     console.log(status)
 
   if(user_type == 2){
-    Swal.fire('Login with User')
+    // Swal.fire('Login with User')
   }else{
 
     if(status=='Offline')
@@ -565,6 +566,61 @@ function approve_request() {
 
 }
 
+
+function call_request(element, from_user_id, to_user_id,status)
+{
+    if(user_type == 2){
+    // Swal.fire('Login with User')
+  }else{
+if(status=='Offline')
+    {
+    Swal.fire('Astrologer is not available for now')
+
+    }
+    else{
+
+        var url = base_url+'/user/call_request'
+        var data = {
+            from_user_id: from_user_id,
+            to_user_id: to_user_id
+        }
+
+        $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        data: data,
+        dataType: 'json',
+        success: function(result) {
+            if (result.status == 0) {
+                // alert(result.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    })
+                    .then((result) => {
+                    if (result.isConfirmed) {
+                    location.href = base_url+'/user/recharge';
+
+                    }
+
+                    })
+                    // location.href = base_url+'/user/recharge';
+
+            } else {
+                location.href = base_url+'/call-detail/'+ to_user_id;
+
+               
+            }
+
+        }
+    });
+    }
+  }
+}
 <?php
    }else{
     ?>
@@ -582,7 +638,7 @@ function send_request() {
 
    }
    setInterval(get_astrologers, 1000);
-
+//    get_astrologers()
    function get_astrologers()
    {
     var html=''  
@@ -603,7 +659,7 @@ function send_request() {
              var result=results.users
              console.log("count",results.count)
             
-            for (var count = 0; count < 2; count++) {
+            for (var count = 0; count < 3; count++) {
                 console.log(result[count])
                 var user_expertise='--'
                 var user_language='--'
@@ -611,9 +667,12 @@ function send_request() {
                 var per_minute='0'
                 var style=''
                 var wait=''
-
+                var tel="{{ asset('public/astrology_assets/images/tel.png') }}"
+                var msg="{{ asset('public/astrology_assets/images/msg.png') }}"
                 var send_request="send_request(this,"+id+","+result[count].id+",'"+result[count].user_status+"')"
                 var image="{{ asset('public/front_img/elem.png') }}"
+                var call_request="call_request(this,"+id+","+result[count].id+",'"+result[count].user_status+"')"
+               
                 if(result[count].is_busy==1)
                 {
                     wait=`<span style="color:red;">wait ~ `+(result[count].is_login/60)+` min</span>`
@@ -622,8 +681,19 @@ function send_request() {
                     style="style='border:2px solid red;border-radius:50%;padding:3%;'"
 
                     send_request='is_busy()'
+                    call_request='is_busy()'
+
 
                 }
+
+                if(user_type==2){ 
+                    msg ="{{ asset('public/astrology_assets/images/msg_disable.png') }}"  
+                    tel ="{{ asset('public/astrology_assets/images/tel_disable.png') }}"
+                    wait=``
+                    style=""
+                    send_request=''
+                    call_request=''
+                 }
 
                 if(result[count].is_login!=0)
                 {
@@ -671,8 +741,8 @@ function send_request() {
                                 <p>`+user_language+` <br> Exp: `+user_experience+` Year</p>`+wait+`
                                 <div class="metaInfo">
                                     <span class="text-primary fw-bold">₹ `+per_minute+`/min</span>
-                                    <a href="#" `+style+` class="ms-auto" onclick="`+send_request+`"><img src="{{ asset('public/astrology_assets/images/msg.png')}}"></a>
-                                    <a href="#" class="ms-2"><img src="{{ asset('public/astrology_assets/images/tel.png')}}"></a>
+                                    <a  `+style+` class="ms-auto" onclick="`+send_request+`"><img src=" `+msg+`" width="20" ></a>
+                                    <a `+style+` class="ms-2" onclick="`+call_request+`"><img src="`+tel+`" width="20" ></a>
                                 </div>
                             </div>
                         </div>

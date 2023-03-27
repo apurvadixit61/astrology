@@ -60,13 +60,13 @@
                                 <div class="col-md-6">
                                    <div class="form-group">
                                     <label>Birth Date</label>
-                                      <input placeholder="Birth Date" required value="{{ old('dob') }}"  name="dob" type="date" class="form-control">
+                                      <input placeholder="Birth Date" required value="{{ old('dob') }}"  name="dob" type="text" class="form-control my_date_picker ">
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label> Birth Time</label>
-                                   <input placeholder="Birth Time" required value="{{ old('birth_time') }}"  name="birth_time" type="time" class="form-control">
+                                   <input placeholder="Birth Time" required value="{{ old('birth_time') }}"  name="birth_time" type="text" class="form-control datetimepicker3">
                                   </div>
                                 </div>
                          <div class="form-group">
@@ -81,7 +81,7 @@
                 </form>
                
 
-                <p class="mt-4">Already have an Account? <a href="{{url('/signin')}}">Sign Up</a></p>
+                <p class="mt-4">Already have an Account? <a href="{{url('/signin')}}">Sign In</a></p>
 
               </div>
             </div>
@@ -93,12 +93,29 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript"
     src='https://maps.google.com/maps/api/js?key=AIzaSyDUJQc9RLnJreksMp5OOXTOtsIX7G4bZw8&libraries=places'></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
   <script src="{{ asset('public/front_end/js/login.js') }}"></script>
   <script>
     $(document).on('keyup', '#front-search-field', function() {
     autocomplete = new google.maps.places.Autocomplete(document.getElementById("front-search-field"));
 });
+$( ".my_date_picker" ).datepicker({dateFormat: 'yy-mm-dd',maxDate: '0',showButtonPanel: true,
+            changeMonth: true,
+      changeYear: true});
+$('.datetimepicker3').datetimepicker({
+                    format: 'HH:mm',
+                    collapse:false,
+                    sideBySide: true,
+    icons: {
+        up: "fa fa-angle-up",
+        down: "fa fa-angle-down",
+        next: 'fa fa-angle-right',
+        previous: 'fa fa-angle-left'
+    }
+                });
   </script>
 </body>
 

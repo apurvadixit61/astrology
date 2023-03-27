@@ -34,7 +34,6 @@
                 <li><a href="{{ url('/blog')}}"> Blog </a> </li>
       </ul>
     </div>
-    <button style="height: 55px;  width: 170px;">Contact Us</button>
   </nav>
 
   <section class=" new-kundli-matching">

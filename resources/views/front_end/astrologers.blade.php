@@ -586,7 +586,12 @@
                 var per_minute='0'
                 var style=''
                 var wait=''
+                
+                var tel="{{ asset('public/astrology_assets/images/tel.png') }}"
+                var msg="{{ asset('public/astrology_assets/images/msg.png') }}"
+
                 var send_request="send_request(this,"+id+","+result[count].id+",'"+result[count].user_status+"')"
+                var call_request="call_request(this,"+id+","+result[count].id+",'"+result[count].user_status+"')"
                 var image="{{ asset('public/front_img/elem.png') }}"
                 if(result[count].is_busy==1)
                 {
@@ -594,9 +599,20 @@
                     style="style='border:2px solid red;border-radius:50%;padding:3%;'"
 
                     send_request='is_busy()'
+                    call_request='is_busy()'
 
                 }
+               
+                if(user_type==2){ 
+                    msg ="{{ asset('public/astrology_assets/images/msg_disable.png') }}"  
+                    tel ="{{ asset('public/astrology_assets/images/tel_disable.png') }}"
+                    
+                    wait=``
+                    style=""
 
+                    send_request=''
+                    call_request=''
+                 }
                
 
                 if(result[count].profile_image!=null)
@@ -637,8 +653,8 @@
                                 <p>`+user_language+` <br> Exp: `+user_experience+` Year</p>`+wait+`
                                 <div class="metaInfo">
                                     <span class="text-primary fw-bold">₹ `+per_minute+`/min</span>
-                                    <a href="#" `+style+` class="ms-auto" onclick="`+send_request+`"><img src="{{ asset('public/astrology_assets/images/msg.png')}}"></a> 
-                                    <a href="#" class="ms-2"><img src="{{ asset('public/astrology_assets/images/tel.png')}}"></a>
+                                    <a `+style+` class="ms-auto" onclick="`+send_request+`"><img src="`+msg+`" width="20" ></a> 
+                                    <a `+style+` class="ms-2" onclick="`+call_request+`"><img src="`+tel+`" width="20" ></a>
                                 </div>
                             </div>
                         </div>
@@ -677,12 +693,12 @@
 
    }
 
-   
+   var user_type=0;
    <?php
    if(Auth::guard('users')->check() == true){
     $loginId = auth()->guard("users")->user()->id;
     ?>
-var user_type={{auth()->guard("users")->user()->user_type}}
+ user_type={{auth()->guard("users")->user()->user_type}}
 
 
 function send_request(element, from_user_id, to_user_id,status) {
@@ -691,7 +707,7 @@ function send_request(element, from_user_id, to_user_id,status) {
     console.log(status)
 
   if(user_type == 2){
-    Swal.fire('Login with User')
+    // Swal.fire('Login with User')
   }else{
 
     if(status=='Offline')
@@ -744,6 +760,60 @@ function send_request(element, from_user_id, to_user_id,status) {
   }
 }
 
+function call_request(element, from_user_id, to_user_id,status)
+{
+    if(user_type == 2){
+    // Swal.fire('Login with User')
+  }else{
+if(status=='Offline')
+    {
+    Swal.fire('Astrologer is not available for now')
+
+    }
+    else{
+
+        var url = base_url+'/user/call_request'
+        var data = {
+            from_user_id: from_user_id,
+            to_user_id: to_user_id
+        }
+
+        $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        type: 'GET',
+        data: data,
+        dataType: 'json',
+        success: function(result) {
+            if (result.status == 0) {
+                // alert(result.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: result.message,
+                    })
+                    .then((result) => {
+                    if (result.isConfirmed) {
+                    location.href = base_url+'/user/recharge';
+
+                    }
+
+                    })
+                    // location.href = base_url+'/user/recharge';
+
+            } else {
+                location.href = base_url+'/call-detail/'+ to_user_id;
+
+               
+            }
+
+        }
+    });
+    }
+  }
+}
 
 function approve_request() {
 
@@ -773,6 +843,11 @@ function approve_request() {
 
 function send_request() {
     console.log(base_url+'/signin')
+    location.href = base_url+'/signin'
+}
+
+function call_request()
+{
     location.href = base_url+'/signin'
 }
 <?php

@@ -55,6 +55,7 @@ Route::get('/all_blog', 'App\Http\Controllers\Front_end\HomeController@all_blog'
 Route::post('/paysuccess', 'App\Http\Controllers\Front_end\HomeController@razorPaySuccess');
 Route::get('/confirm-request/{id}', 'App\Http\Controllers\Front_end\HomeController@confirmrequest')->name('confirm-request');
 Route::get('/kundli-detail/{id}', 'App\Http\Controllers\Front_end\HomeController@kundli_detail')->name('kundli-detail');
+Route::get('/call-detail/{id}', 'App\Http\Controllers\Front_end\HomeController@kundli_details')->name('call-detail');
 
 
 Route::get('/signin', 'App\Http\Controllers\Front_end\HomeController@login')->name('signin');
@@ -87,6 +88,7 @@ Route::get('/getMajorYoginiDasha', 'App\Http\Controllers\Front_end\HomeControlle
 Route::get('/getPlanetaryReport', 'App\Http\Controllers\Front_end\HomeController@getPlanetaryReport');
 Route::get('/getRudhraksSuggest', 'App\Http\Controllers\Front_end\HomeController@getRudhraksSuggest');
 Route::get('/blog', 'App\Http\Controllers\Front_end\HomeController@blog');
+Route::get('/blog/{id}', 'App\Http\Controllers\Front_end\HomeController@blog_id');
 Route::get('/profile/{id}', 'App\Http\Controllers\Front_end\HomeController@profile');
 
 Route::get('/services', function () {

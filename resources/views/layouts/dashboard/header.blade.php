@@ -63,7 +63,9 @@
                             src="{{ asset('public/astrology_assets/dashboard/images/logo.png') }}"></a>
                     <div class="nav_list"> <a href="{{url('/user/dashboard')}}" class="nav_link {{ request()->is('user/dashboard') ? 'active' : ''}}"> <i class="fas fa-th-large nav_icon"></i>
                             <span class="nav_name">Dashboard</span> </a> <a href="{{url('/user/orders')}}" class="nav_link {{ request()->is('user/orders') ? 'active' : ''}}"><i
-                                class="fas fa-money-check nav_icon"></i><span class="nav_name">Chat History</span> </a> <a
+                                class="fas fa-money-check nav_icon"></i><span class="nav_name">Chat History</span> </a> <a href="{{url('/user/call-history')}}" class="nav_link {{ request()->is('user/call-history') ? 'active' : ''}}"><i
+                                class="fas fa-money-check nav_icon"></i><span class="nav_name">Call History</span> </a>
+                                <a
                             href="{{url('/user/wallets')}}" class="nav_link {{ request()->is('user/wallets') ? 'active' : ''}}"> <i class="fas fa-wallet nav_icon"></i> <span
                                 class="nav_name">Wallet</span> </a> </div>
                 </div>
