@@ -220,7 +220,7 @@ section {
   position: relative;
 }
 .astroBoximg img {
-  width: 100%;
+  width: 100px; height: 100px; object-fit: cover;
   border-radius: 10px;
 }
 .astroBoximg {
@@ -1317,6 +1317,10 @@ span.Offline {
   }
 }
 @media (max-width: 990px) {
+  button.btn.btn-primary.daily_event_call_desc {
+    padding: 5px 10px !important;
+    font-size: 13px; margin: 0 0 5px;
+}
   .miniProfile .btn {
     font-size: 11px;
   }
@@ -1379,4 +1383,16 @@ section {    padding: 20px 0;}
   .banner_outer p.mt-3.mb-5{margin-bottom: 0 !important}
   .main_featureBox{max-width: 100% !important;     margin: 5px auto;}
   .btnPanel {  display: flex;}
+  .filterBar .col-sm-8, .filterBar .col-sm-4 {   width: auto;}
+}
+@media (max-width: 450px) {
+  .filterBar .btn{font-size: 12px}
+  .seachBox .form-control{font-size: 12px;border-radius: 5px;}
+  button.btn.btn-outline-secondary.ms-3 {   margin: 0 0 0 5px !important;}
+  .filterBar .col-sm-4 {    padding-left: 0;}
+  .filterBar .col-sm-8 {    padding-right: 5px;}
+}
+@media (max-width: 400px) {
+  .seachBox .form-control{ width:140px }
+  .seachBox button{right: 0;    top: 5px;}
 }

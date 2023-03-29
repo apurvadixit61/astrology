@@ -1,7 +1,11 @@
 <?php   use App\Http\Controllers\Front_end\UserController; ?>
 @include('layouts.dashboard.header')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.css" integrity="sha512-MpdEaY2YQ3EokN6lCD6bnWMl5Gwk7RjBbpKLovlrH6X+DRokrPRAF3zQJl1hZUiLXfo2e9MrOt+udOnHCAmi5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    @if (\Session::has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {!! \Session::get('success') !!}</strong> 
+    </div>
+    @endif
 <div class="dashboard_cont">
 <form action="{{route('profileupdate')}}" method="post" id=""  enctype="multipart/form-data" class="">
 

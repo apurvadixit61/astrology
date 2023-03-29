@@ -15,6 +15,8 @@
     <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>  <!-- Template Main CSS File -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
      <link href="{{ asset('public/astrology_assets/css/style.css?v=').time()}}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('public/astrology_assets/css/owl.carousel.min.css?v=').time()}}">
+
     <title>Welcome to Our Astrologer</title>
 </head>
 
@@ -32,13 +34,13 @@
                 </button>
                 <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : ''}}{{ request()->is('user/notification') ? 'active' : ''}} {{ request()->is('user/recharge') ? 'active' : ''}} " aria-current="page" href="{{ url('/')}}">Home</a> </li>
-                        <li class="nav-item"><a class="nav-link {{ request()->is('all') ? 'active' : ''}} {{ request()->is('profile/*') ? 'active' : ''}}" href="{{ url('/all')}}">Our Astrologer</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->is('kundli') ? 'active' : ''}}" href="{{ url('/kundli')}}">Kundli</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : ''}}{{ request()->is('user/notification') ? 'active' : ''}} {{ request()->is('user/recharge') ? 'active' : ''}} " aria-current="page" href="{{ url('/')}}">{{ __('message.home') }}</a> </li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('all') ? 'active' : ''}} {{ request()->is('profile/*') ? 'active' : ''}}" href="{{ url('/all')}}">{{ __('message.our_astrologer') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('kundli') ? 'active' : ''}}" href="{{ url('/kundli')}}">{{ __('message.kundli') }}</a></li>
                   
-                        <li class="nav-item"><a class="nav-link  {{ request()->is('services') ? 'active' : ''}} " href="{{ url('/services')}}">Services</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->is('horoscope') ? 'active' : ''}}" href="{{ url('/horoscope')}}">Horoscope</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->is('blog') ? 'active' : ''}}" href="{{ url('/blog')}}">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link  {{ request()->is('services') ? 'active' : ''}} " href="{{ url('/services')}}">{{ __('message.services') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('horoscope') ? 'active' : ''}} {{ request()->is('horoscope_details/*') ? 'active' : ''}} " href="{{ url('/horoscope')}}">{{ __('message.horoscope') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('blog') ? 'active' : ''}} {{ request()->is('blog/*') ? 'active' : ''}} " href="{{ url('/blog')}}">{{ __('message.blog') }}</a></li>
                         <?php  if(Auth::guard('users')->check() == true){ $id=Auth::guard('users')->user()->id;?>
 
                             <li class="nav-item dropdown userDropDown">
@@ -51,18 +53,32 @@
                                 <li><a class="dropdown-item" href="{{url('/user/notification')}}">Notification</a></li>
                                 <li><a class="dropdown-item" href="{{url('/user/wallets')}}">Wallet</a></li>
                                 <li><a class="dropdown-item" href="{{url('/user/orders')}}">Order History</a></li>
-                                <li><a class="dropdown-item" href="{{url('user/logout')}}">Logout</a></li>
+                                <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#exampleModal">Logout</a></li>
                             </ul>
                         </li>
                         <?php } else{ ?>
 
                             <li class="nav-item "><a class="nav-link btn  btn-primary" href="{{url('/signin')}}">Sign In</a></li>
 
-                     <?php } ?>      
-
+                     <?php } ?>   
+                     <li class="mx-1 dropdown">
+                        <a href="" class="dropdown-toggle"  role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-language fa-2x" aria-hidden="true"></i> </a>
+                        <ul  class="dropdown-menu" style="width:5px;" >
+                            <li>
+                <select class="changeLang" style="width:150px;margin:5px;" >
+                    <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
+                    <option value="hi" {{ session()->get('locale') == 'hi' ? 'selected' : '' }}>Hindi</option>
+                </select></li>
+                        </ul>
+                     </li>  
+                     
+                     
 
                     </ul>
                 </div>
+
+              
             
         </nav></div>
     </div>

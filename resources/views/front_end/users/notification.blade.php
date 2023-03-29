@@ -15,6 +15,12 @@
     <strong> {!! \Session::get('error') !!}</strong> 
     </div>
     @endif
+
+    @if (\Session::has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {!! \Session::get('success') !!}</strong> 
+    </div>
+    @endif
     @foreach($messages as $key=>$message)
 
         <div class="notification-list d-flex align-items-center justify-content-between">
@@ -34,8 +40,9 @@
 
             <div class="notification-list_feature-btn text-end">
                  <p class="text-muted"><strong>{{ explode(' ',$message->request_date)[0]}}</strong> <small>{{timeAgo($message->request_date)}}</small></p>
-               @if($message->status!='Close')  @if($message->msg =='Chat') <a href="#" onclick="approve_request({{$message->id}})" ><i class="fas fa-envelope"></i></a> @else <a href="{{url('user/call/')}}/{{$message->id}}?key={{$message->key}}"  ><i class="fas fa-phone"></i></a> @endif @endif
-                 <a href="#" onclick="reject_request({{$message->id}})"><i class="fas fa-trash"></i></a>
+               @if($message->status=='Pending' )  @if($message->msg =='Chat') <a href="#" onclick="approve_request({{$message->id}})" ><i class="fas fa-comment-dots"></i></a> @else <a href="{{url('user/call/')}}/{{$message->id}}?key={{$message->key}}"  ><i class="fas fa-phone"></i></a> @endif <a href="#" onclick="reject_request({{$message->id}})"><i class="fas fa-trash"></i></a> @endif
+               @if($message->status=='Approve' ) <span class="text-success"> <i class="fa fa-check" aria-hidden="true"></i> Completed</span> @endif
+               @if($message->status=='Close' ) <span class="text-danger"> <i class="fa fa-times" aria-hidden="true"></i> Rejected</span> @endif
             </div>
         </div>
 

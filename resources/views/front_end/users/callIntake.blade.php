@@ -44,13 +44,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input name="birth_date" required type="date" class="form-control" value="{{Auth::guard('users')->user()->dob}}" placeholder="DD/MM/YYYY">
+                                <input name="birth_date" required type="text" class="form-control my_date_picker " value="{{Auth::guard('users')->user()->dob}}" placeholder="DD/MM/YYYY">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Time of Birth</label>
-                                <input name="birth_time" required type="time" class="form-control" value="{{Auth::guard('users')->user()->birth_time}}" placeholder="Time of Birth">
+                                <input name="birth_time" required type="text" class="form-control datetimepicker3" value="{{Auth::guard('users')->user()->birth_time}}" placeholder="Time of Birth">
                             </div>
                         </div>
                         <div class="col-md-6">

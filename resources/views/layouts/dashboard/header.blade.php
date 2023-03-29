@@ -25,7 +25,7 @@
     height: 20px;
     text-align: center;
     border-radius: 50%;
-    left: 15px;
+    left: 35px;
     top: 10px;
     color: #fff;
     font-size: 13px;
@@ -50,8 +50,8 @@
                     <li><a class="dropdown-item" href="{{url('user/profile_page')}}">Profile</a></li>
                     <li><a class="dropdown-item" href="{{url('/user/notification')}}">Notification</a></li>
 
-                    <li><a class="dropdown-item" href="{{url('user/recharge')}}">Recharge</a></li>
-                    <li><a class="dropdown-item" href="{{url('/user/logout')}}">Logout</a></li>
+                    <?php  if(Auth::guard('users')->user()->user_type == 1){?>      <li><a class="dropdown-item" href="{{url('user/recharge')}}">Recharge</a></li> <?php } ?>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Logout</a></li>
                 </ul>
             </div>
 

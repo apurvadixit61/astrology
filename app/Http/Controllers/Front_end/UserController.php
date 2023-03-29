@@ -47,24 +47,29 @@ class UserController extends Controller
             $user_type=Auth::guard('users')->user()->user_type;
             $id=Auth::guard('users')->user()->id;
             if($user_type==1){
-            $total_call=DB::table('chat_history')->where('user_id',$id)->orderBy('id', 'DESC')->get();
+            $total_call=DB::table('call_details')->where('user_id',$id)->orderBy('id', 'DESC')->get();
             $sum_total_call=count($total_call);
-            $total_chat=DB::table('call_details')->where('user_id',$id)->orderBy('id', 'DESC')->get();
+            $total_chat=DB::table('chat_history')->where('user_id',$id)->orderBy('id', 'DESC')->get();
             $sum_total_chat=count($total_chat);
-            $call_chat=DB::table('users')->where('id',$id)->orderBy('id', 'DESC')->get();
-            $sum_call_chat=count($call_chat);
+            $call_sum=DB::table('call_details')->where('user_id',$id)->sum('deduction_amount');
+            $chat_sum=DB::table('chat_history')->where('user_id',$id)->sum('deduction_amount');
+            $sum_call_chat=($call_sum+$chat_sum);
             
             }else{
 
-            $total_call=DB::table('chat_history')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
+            $total_call=DB::table('call_details')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
             $sum_total_call=count($total_call);
-            $total_chat=DB::table('call_details')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
+            $total_chat=DB::table('chat_history')->where('astro_id',$id)->orderBy('id', 'DESC')->get();
             $sum_total_chat=count($total_chat);
-            $call_chat=DB::table('users')->where('id',$id)->orderBy('id', 'DESC')->get();
-            $sum_call_chat=count($call_chat);
+           
+            $call_sum=DB::table('call_details')->where('astro_id',$id)->sum('astro_earning_amount');
+            $chat_sum=DB::table('chat_history')->where('astro_id',$id)->sum('astro_earning_amount');
+
+            $sum_call_chat=($call_sum+$chat_sum);
+
             }
 
-            return view('front_end.users.dashboard',compact('sum_total_call','sum_total_chat','sum_call_chat'));
+            return view('front_end.users.dashboard',compact('sum_total_call','sum_total_chat','sum_call_chat','call_sum','chat_sum'));
 
         }
 
@@ -296,6 +301,14 @@ class UserController extends Controller
 
                       return redirect()->back()->with('error', 'User not Exists')->withInput(); 
                   }else{
+
+                    if($checkuser->user_status == 'Online')
+                    {
+                        return redirect()->back()->with('error', 'User is already Login in another System')->withInput(); 
+
+                    }else{
+
+                    
           
           
                     if (Hash::check($input['password'], $checkuser->password)) {
@@ -320,7 +333,7 @@ class UserController extends Controller
                     }else{
                         return redirect()->back()->with('error', 'Password Not Matched')->withInput(); 
                     }
-                
+                  }
                 
                   }
 
@@ -344,16 +357,26 @@ class UserController extends Controller
           
         // Calculating the difference between DateTime objects
         $interval = date_diff($dateTimeObject1, $dateTimeObject2);          
-    
         $minutes = $interval->days * 24 * 60;
-        $minutes += $interval->h * 60;
-        $minutes += $interval->i;
 
+        $minutes += $interval->h * 60;
+
+        $minutes += $interval->i;
+        if($interval->s >= 5)
+        {
+        return $minutes+1;         
+            
+        }else{
         return $minutes;         
+
+        }
+
     
     }
     public function orders()
     {
+        $this->amount_update();
+
         // Creating DateTime objects
 
         if(Auth::guard('users')->user())
@@ -364,35 +387,7 @@ class UserController extends Controller
             if($user_type==1)
             {
 
-                $logs=DB::table('chat_logs')->where(['userid'=>$id,'status'=>0])->get();
-                foreach($logs as $log)
-                {
-                    
-                   $diff= $this->diff_time($log->start_time,$log->end_time);
-                   $astro_charge=DB::table('users')->where('id',$log->astroid)->first();
-
-                   $astro_percent=DB::table('astro_percentage')->select('percentage')->where('id',1)->first();
-                  
-                    if($diff==0)
-                    {
-                    $charge=$astro_charge->per_minute;
-                    }else{
-                    $charge=($astro_charge->per_minute*($diff+1));
-                    }
-              
-                    $astro_earning_amount=$charge*($astro_percent->percentage/100);               
-
-                    $insert=['start_time'=>$log->start_time,'end_time'=>$log->end_time,'user_id'=>$id,'astro_id'=>$log->astroid,'deduction_amount'=>$charge,
-                    'astro_earning_amount'=>$astro_earning_amount,'duration'=>($diff+1)];
-                    DB::table('chat_history')->insert($insert);
-
-                    $wallets= DB::table('wallet_system')->where('user_id',$id)->update(array(
-                        'wallet_amount' => DB::raw('wallet_amount -'.$charge)
-                    ));
-
-                    DB::table('chat_logs')->where(['id'=>$log->id])->update(['status'=>1]);
-
-                }
+               
 
                
             }
@@ -479,6 +474,7 @@ class UserController extends Controller
 
     public function wallets()
     {
+        $this->amount_update();
         if(Auth::guard('users')->user())
         {
             $id=Auth::guard('users')->user()->id;
@@ -503,7 +499,9 @@ class UserController extends Controller
             {
 
                 //$wallets=DB::table('payments')->where('astro_id',$id)->sum('wallet_amount');
-                $wallets=DB::table('chat_history')->where('astro_id',$id)->sum('astro_earning_amount');
+                $chat_wallet=DB::table('chat_history')->where('astro_id',$id)->sum('astro_earning_amount');
+                $call_wallet=DB::table('call_details')->where('astro_id',$id)->sum('astro_earning_amount');
+                $wallets=$chat_wallet+$call_wallet;
                 // $payments_data=DB::table('payments')->leftJoin('users', 'users.id', '=', 'payments.user_id')->where('astro_id',$id)->orderBy('payments.id', 'DESC')->get();
 
             }
@@ -681,7 +679,7 @@ class UserController extends Controller
         // print_r($result);
 
         DB::table('users')->where('id',Auth::guard('users')->user()->id)->update(['kundli_id'=>$kundli_id,'is_busy'=>1]);
-        return redirect()->back()->with('success', 'You will receive a call when Astrologer accept your request');
+        return redirect()->back()->with('success', 'You will receive a call on '.Auth::guard('users')->user()->phone_no.' when Astrologer accept your request');
        
         // return view('front_end.users.callconfirm',compact('id','user','TimeLimit'));
        }
@@ -913,6 +911,9 @@ class UserController extends Controller
         $from=$astro_charge->phone_no;
         $to=  $user->phone_no;
         
+        DB::table('users')->where('id',$chat_requests->to_user_id)->update(['is_busy'=>1]);
+        DB::table('users')->where('id',$chat_requests->from_user_id)->update(['is_busy'=>1]);
+
         $TimeLimit=floor($wallet_system->wallet_amount/$astro_charge->per_minute);
         
         if($astro_charge->is_busy==1)
@@ -927,7 +928,14 @@ class UserController extends Controller
             "TimeLimit"=>$TimeLimit*60
 
             );
+ 
 
+            $cat_details = DB::table('call_details')->orderBy('id', 'DESC')->first();
+
+            DB::table('users')->where('id',$chat_requests->to_user_id)->update(['is_busy'=>1]);
+            DB::table('users')->where('id',$chat_requests->from_user_id)->update(['is_busy'=>1]);
+      
+ 
            
     //    Generated by curl-to-PHP: http://incarnate.github.io/curl-to-php/
             $ch = curl_init();
@@ -947,23 +955,17 @@ class UserController extends Controller
             if (curl_errno($ch)) {
                 echo 'Error:' . curl_error($ch);
             }
-
-            curl_close($ch);
-
-     
-
-        $cat_details = DB::table('call_details')->orderBy('id', 'DESC')->first();
-
-           DB::table('users')->where('id',$chat_requests->to_user_id)->update(['is_busy'=>1]);
-           DB::table('users')->where('id',$chat_requests->from_user_id)->update(['is_busy'=>1]);
-     
-
             $insert=['astro_id'=>$chat_requests->to_user_id,'user_id'=>$chat_requests->from_user_id,'call_sid'=>json_decode($result)->Call->Sid,'last_id'=>1,'call_data'=>''];
+
+
             $result = DB::table('call_details')->insert($insert);
+
+    
         
         }
+        return redirect()->back()->with('success', 'Please Accept call to connect with user');
 
-            return view('front_end.users.callconfirm',compact('user','TimeLimit'));
+            // return view('front_end.users.callconfirm',compact('user','TimeLimit'));
         }else{
 
         return redirect()->back()->with('error', 'No Access to approve');
@@ -1039,7 +1041,7 @@ class UserController extends Controller
           {
            $data= DB::table('call_details')->where(['astro_id'=>$user->id])->orderBy('id', 'DESC')->first();
           }
-           if(!empty($data)){
+          
            $url = 'https://api.exotel.com/v1/Accounts/connectaastro1/Calls/'.$data->call_sid.'.json';
 
             $ch = curl_init();
@@ -1056,6 +1058,7 @@ class UserController extends Controller
                 echo 'Error:' . curl_error($ch);
             }               
           
+       
             if(json_decode($result)->Call->Status=='completed')
             {
                 $update=['call_data'=>curl_exec($ch),'start_time'=>json_decode($result)->Call->StartTime,'end_time'=>json_decode($result)->Call->EndTime];
@@ -1064,6 +1067,7 @@ class UserController extends Controller
                 DB::statement($sql);             
             }
 
+
             if(json_decode($result)->Call->Status=='no-answer')
             {
                 $update=['call_data'=>'No Answer'];
@@ -1071,64 +1075,173 @@ class UserController extends Controller
                 $sql="Update users set is_busy=0 where id=".$data->astro_id." or id= ".$data->user_id;
                 DB::statement($sql);
             }
+            if(json_decode($result)->Call->Status=='busy')
+            {
+                $update=['call_data'=>'Busy'];
+                DB::table('call_details')->where('id',$data->id)->update($update);
+                $sql="Update users set is_busy=0 where id=".$data->astro_id." or id= ".$data->user_id;
+                DB::statement($sql);
+            }
+            if(json_decode($result)->Call->Status=='failed')
+            {
+                $update=['call_data'=>'Failed'];
+                DB::table('call_details')->where('id',$data->id)->update($update);
+                $sql="Update users set is_busy=0 where id=".$data->astro_id." or id= ".$data->user_id;
+                DB::statement($sql);
+            }
 
-            return (json_decode($result)->Call->Status);
-           }else{
-            return 0;
-           } 
+            if(json_decode($result)->Call->Status=='queued')
+            {
+                $update=['call_data'=>'On Other Call'];
+                DB::table('call_details')->where('id',$data->id)->update($update);
+                $sql="Update users set is_busy=0 where id=".$data->astro_id." or id= ".$data->user_id;
+                DB::statement($sql);
+            }
+         
+             
+            return $result;
+            // return (json_decode($result)->Call->Status);
+           
             curl_close($ch);
       }
 
 
       public function call_history()
       {
+        $this->amount_update();
+
         $user=Auth::guard('users')->user();
-        if($user->user_type==1)
-        {
-            $details=DB::table('call_details')->where(['user_id'=>$user->id,'status'=>0])->get();
-
-            foreach($details as $data)
-            {
-            $diff=$this->diff_time($data->start_time,$data->end_time);
-
-            $astro_charge=DB::table('users')->where('id',$data->astro_id)->first();
-
-            $astro_percent=DB::table('astro_percentage')->select('percentage')->where('id',1)->first();
-           
-             if($diff==0)
-             {
-             $charge=$astro_charge->per_minute;
-             $diff=1;
-             }else{
-             $charge=($astro_charge->per_minute*($diff));
-             }
-       
-             $astro_earning_amount=$charge*($astro_percent->percentage/100);               
-
-             $update=['deduction_amount'=>$charge,
-             'astro_earning_amount'=>$astro_earning_amount,'duration'=>($diff)];
-             DB::table('call_details')->where('id',$data->id)->update($update);
-
-             $wallets= DB::table('wallet_system')->where('user_id',$data->user_id)->update(array(
-                 'wallet_amount' => DB::raw('wallet_amount -'.$charge)
-             ));
-
-             DB::table('call_details')->where(['id'=>$data->id])->update(['status'=>1]);
-
-            }
-        }
-        
+             
         if($user->user_type==1){
-            $details=DB::table('call_details')->join('users','users.id','=','call_details.astro_id')->where('user_id',$user->id)->orderBy('call_details.id', 'ASC')->get();
+            $details=DB::table('call_details')->join('users','users.id','=','call_details.astro_id')->where('user_id',$user->id)->orderBy('call_details.id', 'DESC')->get();
 
         }
         else{
             $details=DB::table('call_details')  ->join('users','users.id','=','call_details.user_id')
-            ->where('astro_id',$user->id)->orderBy('call_details.id', 'ASC')->get();
+            ->where('astro_id',$user->id)->orderBy('call_details.id', 'DESC')->get();
 
         }
 
         return view('front_end.users.call_history',compact('details'));
+      }
+
+      function user_busy()
+      {
+
+      }
+
+      function amount_update()
+      {
+        $details=DB::table('call_details')->where(['status'=>0])->get();
+
+        foreach($details as $data)
+        {
+        $diff=$this->diff_time($data->start_time,$data->end_time);
+
+        $astro_charge=DB::table('users')->where('id',$data->astro_id)->first();
+
+        $astro_percent=DB::table('astro_percentage')->select('percentage')->where('id',1)->first();
+        if($data->call_data == '' || $data->call_data == 'No Answer' || $data->call_data == 'Busy' || $data->call_data == 'Failed')
+        {
+            $diff==0;        
+          
+            $charge=$data->call_data;          
+      
+            $astro_earning_amount=$data->call_data;      
+            if($data->call_data == '')
+            {
+            $charge='No Answer';
+            $astro_earning_amount='No Answer';        
+
+            }  
+        }
+        else{
+            if($diff==0)
+            {
+            $charge=$astro_charge->per_minute;
+            $diff=1;
+            }else{
+            $charge=($astro_charge->per_minute*($diff));
+            }
+      
+            $astro_earning_amount=$charge*($astro_percent->percentage/100);       
+            $wallets= DB::table('wallet_system')->where('user_id',$data->user_id)->update(array(
+                'wallet_amount' => DB::raw('wallet_amount -'.$charge)
+            )); 
+        }
+       
+             
+
+         $update=['deduction_amount'=>$charge,
+         'astro_earning_amount'=>$astro_earning_amount,'duration'=>($diff)];
+         DB::table('call_details')->where('id',$data->id)->update($update);
+
+       
+
+         DB::table('call_details')->where(['id'=>$data->id])->update(['status'=>1]);
+
+        }
+
+
+        $logs=DB::table('chat_logs')->where(['status'=>0])->get();
+        foreach($logs as $log)
+        {
+            
+           $diff= $this->diff_time($log->start_time,$log->end_time);
+        
+           $astro_charge=DB::table('users')->where('id',$log->astroid)->first();
+
+           $astro_percent=DB::table('astro_percentage')->select('percentage')->where('id',1)->first();
+          
+            if($diff==0)
+            {
+            $charge=$astro_charge->per_minute;
+            }else{
+            $charge=($astro_charge->per_minute*($diff));
+            }
+      
+            $astro_earning_amount=$charge*($astro_percent->percentage/100);               
+
+            $insert=['start_time'=>$log->approve_time,'end_time'=>$log->end_time,'user_id'=>$log->userid,'astro_id'=>$log->astroid,'deduction_amount'=>$charge,
+            'astro_earning_amount'=>$astro_earning_amount,'duration'=>($diff)];
+            DB::table('chat_history')->insert($insert);
+
+            $wallets= DB::table('wallet_system')->where('user_id',$log->userid)->update(array(
+                'wallet_amount' => DB::raw('wallet_amount -'.$charge)
+            ));
+
+            DB::table('chat_logs')->where(['id'=>$log->id])->update(['status'=>1]);
+
+        }
+
+      }
+
+
+      function incoming_Request($id)
+      {
+        $result['status']=0;
+        $result['data']=[];
+       $notify= DB::table('chat_requests')->where(['to_user_id'=>$id,'notify'=>0])->orderBy('id', 'DESC')->first();
+      if(!empty($notify))
+      {
+        if($notify->notify ==0)
+        {
+          DB::table('chat_requests')->where(['id'=>$notify->id])->update(['notify'=>1]);
+         $users= DB::table('users')->where(['id'=>$notify->from_user_id])->first();
+         $result['status']=1;
+         $result['data']=$users;
+         $result['type']=$notify->msg;
+
+          return $result;
+          
+        } else{
+         return $result;
+ 
+        }
+      } else{
+        return $result;
+
+      }
       }
 
      

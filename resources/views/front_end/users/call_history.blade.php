@@ -13,8 +13,8 @@
                         <!-- /.box-header -->
                         <div class="card-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tbody>
+                                <table   class="table table-hover">
+                                    <thead>
                                         <tr>
                                             <!-- <th>Name</th>
                                             <th>Message</th>
@@ -22,31 +22,45 @@
                                             <th>Time</th>
                                             <th>Status</th> -->
 
+                                            <th>S No.</th>
                                             <th>Name</th>
                                             <th>Duration[Min]</th>
                                             <th>Start time</th>
                                             <th>End Time</th>
+                                            <th>Status</th>
                                             <th>Amount</th>
 
 
-                                        </tr>
+                                        </thead>
+                                        <tbody>
 
                                         <?php $id=Auth::guard('users')->user()->id;   $user_type=Auth::guard('users')->user()->user_type; ?>
-                                        @foreach($details as $msg)
+                                        @foreach($details as $key=>$msg)                                     
 
-                                       
-
-                                         
                                         <tr>
-                                            <td> <a href="#">{{$msg->name}}</a></td>
+                                        @if($msg->duration != 0)
+                                            <td>{{$key+1}}</td>
+
+                                            <td> <a  href="#">{{$msg->name}}</a></td>
                                             <td>{{$msg->duration}}</td>
                                             <td>{{$msg->start_time}}</td>
                                             <td>{{$msg->end_time}} </td>
+                                            <td class="text-success">Completed</td>
+
                                            <?php if($user_type==1) {?>
-                                            <td><span class="text-danger"> - {{$msg->deduction_amount}}</span></td>
+                                            <td><span class="text-danger"> -  {{$msg->deduction_amount}}</span></td>
                                           <?php }  elseif($user_type==2){ ?>
                                             <td><span class="text-success"> + {{$msg->astro_earning_amount}}</span></td>
                                            <?php }?>
+                                           <td></td>
+
+                                           @else 
+                                           <td>{{$key+1}}</td>
+
+                                            <td> <a  href="#">{{$msg->name}}</a></td>
+                                            <td class="text-danger"  style="text-align: center;" colspan="6">{{$msg->call_data}}</td>                                           
+
+                                           @endif
                                             
                                         </tr>
                                        

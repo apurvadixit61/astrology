@@ -13,14 +13,10 @@
                         <!-- /.box-header -->
                         <div class="card-body no-padding">
                             <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        <tr>
-                                            <!-- <th>Name</th>
-                                            <th>Message</th>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th>Status</th> -->
+                                <table  class="table table-hover">
+                                 
+                                        <thead>                                         
+                                            <th>S No.</th>
 
                                             <th>Name</th>
                                             <th>Duration[Min]</th>
@@ -29,27 +25,22 @@
                                             <th>Amount</th>
 
 
-                                        </tr>
-
+                                        </thead>
+                                        <tbody>
                                         <?php $id=Auth::guard('users')->user()->id;   $user_type=Auth::guard('users')->user()->user_type; ?>
-                                        @foreach($messages as $msg)
+                                        @foreach($messages as $key=>$msg)
 
                                        
 
                                          
                                         <tr>
-                                        
+                                           <td>{{$key+1}}</td>
                                             <td>@if($user_type==1)<a href="{{url('/user/chat-history/')}}/{{$msg->astro_id}}">{{$msg->name}}</a>@else <a href="{{url('/user/chat-history/')}}/{{$msg->user_id}}">{{$msg->name}}</a> @endif</td>
                                             <td>{{$msg->duration}}</td>
                                             <td>{{$msg->start_time}}</td>
-                                            <td>{{$msg->end_time}} </td>
-                                           <?php if($user_type==1) {?>
-                                            <td><span class="text-danger"> - {{$msg->deduction_amount}}</span></td>
-                                          <?php }  elseif($user_type==2){ ?>
-                                            <td><span class="text-success"> + {{$msg->astro_earning_amount}}</span></td>
-                                           <?php }?>
-                                            
-                                        </tr>
+                                            <td>{{$msg->end_time}} </td>                                           
+                                            <td><?php if($user_type==1) {?><span class="text-danger"> - {{$msg->deduction_amount}}</span><?php }  elseif($user_type==2){ ?><span class="text-success"> + {{$msg->astro_earning_amount}}</span><?php }?></td>
+                                         </tr>
                                        
                                         @endforeach
                                         

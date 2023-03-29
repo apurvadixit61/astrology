@@ -371,10 +371,10 @@ class MessageController extends Controller
     {
         $update= ['status'=>'Approve','request_date'=>date('Y-m-d H:i:s')];
         $user= DB::table('chat_requests')->where('id',$request)->first();
-        DB::table('chat_requests')->where(['to_user_id'=>$user->to_user_id])->update(['status'=>'Close']);
+        // DB::table('chat_requests')->where(['to_user_id'=>$user->to_user_id])->update(['status'=>'Close']);
 
 
-        DB::table('chat_logs')->insert(['userid'=>$user->from_user_id,'astroid'=>$user->to_user_id,'approve_time'=>date('Y-m-d H:i:s a'),'start_time'=>date('H:i:s')]);
+        DB::table('chat_logs')->insert(['userid'=>$user->from_user_id,'astroid'=>$user->to_user_id,'approve_time'=>date('Y-m-d H:i:s'),'start_time'=>date('H:i:s')]);
         DB::table('chat_requests')->where(['id'=>$request])->update($update);      
         return $user;
 

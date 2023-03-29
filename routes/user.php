@@ -8,6 +8,7 @@ use App\Http\Controllers\Front_end\UserController;
 // Route::get('/','App\Http\Controllers\Front_end\UserController@index');
 
 Route::get('/call_status', 'App\Http\Controllers\Front_end\UserController@call_status');
+Route::get('/incoming_Request/{id}', 'App\Http\Controllers\Front_end\UserController@incoming_Request');
 Route::get('/call-history', 'App\Http\Controllers\Front_end\UserController@call_history');
 Route::get('/profile_page', 'App\Http\Controllers\Front_end\UserController@profile_page');
 Route::get('/delete_cover_img/{id}', 'App\Http\Controllers\Front_end\UserController@delete_cover_img');

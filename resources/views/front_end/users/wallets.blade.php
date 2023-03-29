@@ -115,6 +115,7 @@
                                             <th>Type</th>
                                             <th>Amount Type</th>
                                             <th>Date</th>
+                                            <th>Time</th>
                                            
 
                                         </tr>

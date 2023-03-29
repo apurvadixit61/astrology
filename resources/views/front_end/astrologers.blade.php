@@ -2,16 +2,16 @@
 
 <section id="page-title">
     <div class="container">
-            <h1>Our Astrologer</h1>
+            <h1>{{ __('message.our_astrologer') }}</h1>
             <ul>
-                    <li><a href="#"> Home </a></li>
-                    <li>Our Astrologer</li>
+                    <li><a href="#"> {{ __('message.home') }} </a></li>
+                    <li>{{ __('message.our_astrologer') }}</li>
             </ul>
     </div>
 </section>
 <section id="filter">
     <div class="container">
-        <div class="row">
+        <div class="row filterBar">
             <div class="col-md-3">
                  <?php if(Auth::guard('users')->check()==1){if(Auth::guard('users')->user()->user_type==1 ){?>
                 <div class="d-flex align-items-center">
@@ -21,13 +21,13 @@
                 <?php }} ?>
             </div>
             
-             <div class="col-md-6">
+             <div class="col-md-6 col-sm-8">
                  <div class="d-flex align-items-center justify-content-center">
                     <div class="seachBox"><input type="text" class="form-control" onkeyup="get_astrologers()" id="search" placeholder="Search Name"><button><i class="fas fa-search"></i></button></div>
                     <button class="btn btn-outline-secondary ms-3" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="fas fa-filter"></i> Filter</button>
                  </div>
              </div>
-              <div class="col-md-3 text-end">
+              <div class="col-md-3 text-end col-sm-4">
                   <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#sortModal"><i class="fas fa-sort-amount-down"></i> Sort by</button>
               </div>
         </div>
@@ -47,7 +47,7 @@
     color: #fff;
     border: none;
     background: #fe870a;
-}"  id="UpButton" onclick="UpAstrologers()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Up</button>
+}"  id="UpButton" onclick="UpAstrologers()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Previous</button>
         <button style=" float:right;
     padding: 1%;
     border-radius: 10px 10px 10px 10px;
@@ -72,7 +72,7 @@
             <ul class="sort-list">
                 <li>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="sorting" id="s1">
+                      <input class="form-check-input" type="radio" name="sorting" value="1" id="high_low">
                       <label class="form-check-label" for="s1">
                       Price : High to Low
                       </label>
@@ -80,7 +80,7 @@
                 </li>
                 <li>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="sorting" id="s2" checked>
+                      <input class="form-check-input" type="radio" value="-1" name="sorting" id="low_high" >
                       <label class="form-check-label" for="s2">
                       Price : Low to High
                       </label>
@@ -504,6 +504,7 @@
          var Telugu=0;
          var female=0;
          var male=0;
+         var price=0;
     if($("#Bengali").is(':checked')) { Bengali = $("#Bengali").val();
         limit=0 
         languagecheck.push(Bengali)} 
@@ -548,8 +549,19 @@
         limit=0 
         gender.push(male)} 
 
+
+        if ($("#low_high").prop("checked")) {
+        // do something
+        price =$("#low_high").val();
+        }
+
+        if ($("#high_low").prop("checked")) {
+        // do something
+        price =$("#high_low").val();
+        }
+
     var url = base_url+'/all_astro'
-    var data={limit:limit,offset:offset,search:search,skill:skill,language:languagecheck,gender:gender}
+    var data={limit:limit,offset:offset,search:search,skill:skill,language:languagecheck,gender:gender,price:price}
     console.log(data)
     $.ajax({
         headers: {

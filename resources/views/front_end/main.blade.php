@@ -10,17 +10,17 @@
                         <div class="main_featureBox">
                             <div class="featureBoxImg"><img
                                     src="{{ asset('public/astrology_assets/images/serv1.png')}}"></div>
-                            <h5>Chat with Astrologer</h5>
+                            <h5>{{ __('message.chat_with_astrologer') }}</h5>
                         </div>
                         <div class="main_featureBox">
                             <div class="featureBoxImg"><img
                                     src="{{ asset('public/astrology_assets/images/serv2.png')}}"></div>
-                            <h5>Talk to Astrologer</h5>
+                            <h5>{{ __('message.talk_to_astrologer') }}</h5>
                         </div>
                         <div class="main_featureBox">
                             <div class="featureBoxImg"><img
                                     src="{{ asset('public/astrology_assets/images/serv3.png')}}"></div>
-                            <h5>Astrotalk Blog</h5>
+                            <h5>{{ __('message.blog') }}</h5>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,8 @@
     <section id="ourAstrologer">
         <div class="container">
             <div class="title text-center">
-                <h2>Our Astrologer</h2>
-                <p class="mt-2 mb-5">There are many variations of passages of Lorem Ipsum available, <br> but the
-                    majority have suffered alteration in some form, by injected hummer.</p>
+                <h2>{{ __('message.our_astrologer') }}</h2>
+                <p class="mt-2 mb-5">{{ __('message.astrology_desc') }}.</p>
                     <a href="#" class="viewAstro"><span aria-label="Next"></span></a>
             </div>
             <div class="astrologerList">

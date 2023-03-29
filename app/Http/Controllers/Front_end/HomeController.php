@@ -188,9 +188,23 @@ class HomeController extends Controller
              $query.=$query3;
              $count_query.=$query3;
         }
+
+        if($request->input('price')==1)
+        {
+            $query.=" order by per_minute DESC";
+        }
+
+        
+        if($request->input('price')==-1)
+        {
+            $query.="  order by per_minute ASC";
+        }
         // $query .= ' order by RAND() ';
 
         $query .=' limit '.$input['limit'].' , '.$input['offset'];
+
+        
+      
         $users = DB::select( DB::raw($query));
         $users_count = DB::select( DB::raw($count_query));
         $data['count']=$users_count;
@@ -688,8 +702,8 @@ public function change(Request $request)
 {
 App::setLocale($request->lang);
 session()->put('locale', $request->lang);
-return view('front_end.change');
-// return redirect()->back();
+// return view('front_end.change');
+return redirect()->back();
 }
 
 //horoscope search
@@ -1024,7 +1038,9 @@ $setdataWallet=array(
 public function blog_id($id)
 {
   $blog= DB::table('blog')->where('id',$id)->first();
-  return view('front_end.blog_details',$blog);
+  $categories= DB::table('blog_category')->get();
+  $populars= DB::table('blog')->inRandomOrder()->take(4)->get();
+  return view('front_end.blog_details',compact('blog','categories','populars'));
 
 }
 

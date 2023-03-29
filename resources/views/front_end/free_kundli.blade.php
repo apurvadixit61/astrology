@@ -4,10 +4,10 @@
 </style>
 <section id="page-title">
     <div class="container">
-            <h1>Kundli</h1>
+            <h1>{{ __('message.kundli') }}</h1>
             <ul>
-                    <li><a href="#"> Home </a></li>
-                    <li>Kundli</li>
+                    <li><a href="#"> {{ __('message.home') }} </a></li>
+                    <li>{{ __('message.kundli') }}</li>
             </ul>
     </div>
 </section>
